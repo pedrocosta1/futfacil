@@ -1,0 +1,102 @@
+.search {
+  display: flex;
+  align-items: center;
+  background-color: #e5e5e5;
+  border-radius: 100px;
+  padding: 8px 15px;
+  max-width: 400px;
+  margin: 0 auto;
+
+  input {
+    flex-grow: 1;
+    background-color: transparent;
+    border: none;
+    outline: none;
+  }
+
+  svg {
+    width: 15px;
+    height: 15px;
+    color: #333;
+  }
+}
+
+.search-content{
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  flex-direction: row;
+}
+.search-fields{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  visibility: hidden;
+  opacity: 0;
+  max-height: 0;
+  transition: max-height 0.8s, opacity 0.5s;
+  select {
+    cursor: pointer;
+    font-family: 'Roboto', sans-serif;
+    background: #fff url("data:image/svg+xml;charset=utf8,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%204%205'%3E%3Cpath%20fill='%23667189'%20d='M2%200L0%202h4zm0%205L0%203h4z'/%3E%3C/svg%3E") no-repeat right .35rem center / .4rem .5rem;
+  }
+  .form-value {
+    margin: 4px;
+  }
+}
+
+.display-filter-actions{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.group-search {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+  .form-label{
+    width: 100%;
+  }
+  .error {
+    width: 100%;
+  }
+}
+
+.filter-height {
+  opacity: 1;
+  max-height: 1000px;
+  visibility: visible;
+}
+
+.hover-search {
+  padding-left: 5px;
+  cursor: pointer;
+  svg {
+    width: 15px;
+    height: 15px;
+  }
+}
+
+
+@media screen and (min-width: $width-desktop) {
+  .search-fields{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    padding: 20px;
+    transition: max-height 0.8s, opacity 0.5s;
+    select {
+      cursor: pointer;
+      background: #fff url("data:image/svg+xml;charset=utf8,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%204%205'%3E%3Cpath%20fill='%23667189'%20d='M2%200L0%202h4zm0%205L0%203h4z'/%3E%3C/svg%3E") no-repeat right .35rem center / .4rem .5rem;
+    }
+    .form-value {
+      max-width: 30%;
+      margin-bottom: 4px;
+    }
+  }
+}
+

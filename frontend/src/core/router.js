@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 import Main from './component/Main.vue'
+import FrontPage from './component/FrontPage'
 import SignIn from './component/SignIn.vue'
 import SignOn from './component/SignOn.vue'
 
@@ -18,7 +19,7 @@ const router = new Router({
     {
       path: '/',
       name: 'main',
-      component: Main
+      component: FrontPage
     },
     {
       path: '/signin',

@@ -1,0 +1,167 @@
+.button-group {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: $padding-mobile-y;
+}
+.button-group-search {
+  position: fixed;
+  bottom: $padding-mobile-y;
+  right: $padding-mobile-x;
+  display: flex !important;
+  justify-content: flex-end;
+  height: $desktop-search-height;
+  width: auto;
+  align-items: center;
+}
+
+.button-group-right {
+  justify-content: flex-end;
+}
+
+.button-group-fixed {
+  justify-content: flex-end;
+  position: fixed;
+  bottom: $padding-mobile-y;
+  right: $padding-mobile-x;
+}
+
+.btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1em;
+  background-color: #ced0d3;
+  color: black;
+  border: none;
+  outline: none;
+  border-radius: 5px;
+  padding: 8px 15px;
+  font-size: 1em;
+  cursor: pointer;
+
+  .btn-icon {
+    width: 15px;
+    height: 15px;
+  }
+
+  &:hover {
+    background-color: #1289bcc5;
+  }
+
+  &:active {
+    transform: translate(1px, 1px);
+  } 
+}
+
+.btn-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  padding: 0;
+
+  span {
+    display: none;
+  }
+
+  .btn-icon {
+    width: 15px;
+    height: 15px;
+  }
+}
+
+.btn-secundary {
+  background-color: transparent;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+  }
+}
+
+.btn-action {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1em;
+  background-color: #ddd;
+  color: #555;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+
+  .btn-icon {
+    width: 15px;
+    height: 15px;
+  }
+
+  &:hover {
+    background-color:  #ccc;
+  }
+}
+
+.button-action-list {
+  display: flex !important;
+  background-color: #128abc;
+  height: 35px;
+  width: 35px;
+  color:#ebe7e7;
+  border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  span {
+    display: none;
+    margin: 0 20px;
+  }
+  svg {
+    width: 15px;
+    height: 15px;
+  }
+}
+
+@media screen and (min-width: $width-desktop) {
+
+  .button-group {
+    margin-top: $padding-desktop-y;
+  }
+    .button-group-search {
+      margin-left: 15px;
+      justify-content: center;
+      position: relative;
+      bottom: auto;
+    }
+  
+  .button-group-fixed {
+    justify-content: flex-start;
+    position: static;
+
+    button {
+      margin-right: 5px;
+    }
+
+    button:nth-child(1) {
+      order: 0;
+    }
+
+  }
+
+  .btn-circle {
+    width: auto;
+    height: auto;
+    border-radius: 5px;
+    padding: 8px 15px;
+
+    span {
+      display: block;
+    }
+  
+    .btn-icon {
+      display: none;
+    }
+  }
+  
+}
+
+
+  

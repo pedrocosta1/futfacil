@@ -1,0 +1,13 @@
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: $padding-mobile-y $padding-mobile-x;
+}
+
+@media screen and (min-width: $width-desktop) {
+
+  .container {
+    padding: $padding-desktop-y $padding-desktop-x !important;
+  }
+
+}

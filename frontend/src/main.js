@@ -5,6 +5,8 @@ import './registerServiceWorker'
 import logger from './logger'
 import { getToken, setToken, removeToken, loadModule } from './util'
 
+import './_asset/scss/app.scss'
+
 Vue.config.productionTip = false
 
 // Error handler

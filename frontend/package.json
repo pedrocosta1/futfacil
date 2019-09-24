@@ -1,5 +1,5 @@
 {
-  "name": "template-frontend",
+  "name": "whorus-frontend",
   "version": "1.0.0",
   "private": true,
   "scripts": {
@@ -12,10 +12,13 @@
     "build-ios": "vue-cli-service cordova-build-ios"
   },
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.18.1",
+    "chart.js": "^2.8.0",
+    "chartjs-plugin-piechart-outlabels": "^0.1.4",
     "register-service-worker": "^1.0.0",
     "vue": "^2.5.17",
     "vue-router": "^3.0.1",
+    "vue-the-mask": "^0.11.1",
     "vuex": "^3.0.1"
   },
   "devDependencies": {
