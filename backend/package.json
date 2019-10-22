@@ -1,7 +1,7 @@
 {
-  "name": "whorus-backend",
+  "name": "fut-backend",
   "version": "1.0.0",
-  "description": "Whorus",
+  "description": "Futfacil",
   "main": "src/server.js",
   "scripts": {
     "dev": "nodemon --exec babel-node src/server.js",

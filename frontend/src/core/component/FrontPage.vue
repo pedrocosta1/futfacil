@@ -255,7 +255,7 @@
 
 <script>
 import logger from '../../logger'
-import { setToken, loadModule } from '../../util'
+import { setToken } from '../../util'
 import { signin } from '../api/auth'
 
 export default {

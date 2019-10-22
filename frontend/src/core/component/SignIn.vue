@@ -37,7 +37,7 @@ import { signin } from '../api/auth'
 export default {
   data () {
     return {
-      login: 'julio@risistemas.com.br',
+      login: 'pedro@dev.com.br',
       password: '123456',
       error: [],
       open: false
@@ -51,14 +51,15 @@ export default {
         // Sign in on frontend
         const data = await signin(this.login, this.password)
         // Set token on axios header
-        setToken(data.token)
+        setToken(data.data.token)
         this.$root.$destroy()
-        if (data.user.role === 'admin') {
+        console.log(data)
+        if (data.data.user.role === 'admin') {
           // Start admin module
-          loadModule('admin', data.user)
+          loadModule('admin', data.data.user)
         } else {
           // Start user module
-          loadModule('user', data.user)
+          loadModule('user', data.data.user)
         }
       } catch (error) {
         const data = error.response ? error.response.data : {}

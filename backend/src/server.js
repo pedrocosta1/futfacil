@@ -14,6 +14,7 @@ import './config/knex'
 import log from './log/routes'
 import auth from './auth/routes'
 import template from './template/routes' // Sample
+import client from './client/routes'
 // --------------------------------------------------------
 
 logger.info('Starting server...')
@@ -33,6 +34,7 @@ router.get('/version', (req, res) => res.send(process.env.VERSION))
 router.use('/log', log)
 router.use('/auth', auth)
 router.use('/template', template) // Sample
+router.use('/client', client)
 // --------------------------------------------------------
 
 app.use('/api', router)
