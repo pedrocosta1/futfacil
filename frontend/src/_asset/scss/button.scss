@@ -1,7 +1,39 @@
 .button-group {
-  display: flex;
-  justify-content: flex-start;
-  margin-top: $padding-mobile-y;
+  position: fixed;
+  bottom: $padding-mobile-y;
+  right: $padding-mobile-x;
+  .btn-add {
+    display: flex !important;
+    justify-content: center;
+    height: $desktop-search-height;
+    width: 40px;
+    height: 40px;
+    align-items: center;
+    border-radius: 50%;
+    border: 1px solid black;
+    background: blue;
+    cursor: pointer;
+  }
+  .btn-cancel {
+    display: flex !important;
+    justify-content: center;
+    height: $desktop-search-height;
+    width: 40px;
+    height: 40px;
+    align-items: center;
+    border-radius: 50%;
+    border: 1px solid black;
+    background: #c1c1c1;
+    cursor: pointer;
+  }
+  span {
+    display: none;
+  }
+  svg {
+    width: 20px;
+    height: 20px;
+    color: #f1f1f1;
+  }
 }
 .button-group-search {
   position: fixed;
@@ -123,7 +155,26 @@
 @media screen and (min-width: $width-desktop) {
 
   .button-group {
-    margin-top: $padding-desktop-y;
+    position: relative;
+    width: auto;
+    border-radius: 0;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: flex-end;
+    .btn-add {
+      width: auto;
+      border-radius: 5px;
+      padding: 5px 7px;
+    }
+    span {
+      display: block;
+    }
+    svg {
+      display: none;
+    }
   }
     .button-group-search {
       margin-left: 15px;

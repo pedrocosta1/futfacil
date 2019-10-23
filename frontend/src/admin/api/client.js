@@ -19,7 +19,7 @@ const create = async (
   street,
   number
 ) => {
-  return axios.post(`${API}/client`, { 
+  return axios.post(`${API}/client`, {
     name,
     phone,
     city,
@@ -48,7 +48,7 @@ const update = async (
     postal,
     street,
     number
-   })
+  })
 }
 
 export {

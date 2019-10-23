@@ -1,5 +1,5 @@
 import express from 'express'
-// import Joi from 'joi'
+import Joi from 'joi'
 
 import logger from '../config/logger'
 import requireAuth from '../auth/requireAuth'
@@ -10,7 +10,6 @@ const router = express.Router()
 router.get('/', requireAuth('admin'), async (req, res) => {
   try {
     logger.info('GET /client')
-    if (error) { return res.status(400).send({ error: 'Validation error', fields: [...new Set(...error.details.map(x => x.path))] }) }
     const clients = await getAll()
     return res.send(clients)
   } catch (error) {
@@ -42,7 +41,7 @@ router.post('/', requireAuth('admin'), async (req, res) => {
     logger.info('POST /client/:id')
     const { value, error } = Joi.validate(
       req.body,
-      Joi.object().keys({
+      Joi.object({ abortEarly: true }).keys({
         name: Joi.string().required(),
         phone: Joi.string().required(),
         city: Joi.string().required(),
@@ -50,7 +49,7 @@ router.post('/', requireAuth('admin'), async (req, res) => {
         postal: Joi.string().required(),
         street: Joi.string().required(),
         number: Joi.number().integer().required()
-      })
+      }),
     )
     if (error) { return res.status(400).send({ error: 'Validation error', fields: [...new Set(...error.details.map(x => x.path))] }) }
     await create(

@@ -1,7 +1,12 @@
 <template>
   <section id="main">
-    AREA ADMINISTRATIVA {{ user.login }}
-    <button @click="signOut" type="button">Sair</button>
+    <div class="menu-container">
+      <div class="menu">
+        <div class="menu-item" @click="changeRoute">
+          Clientes
+        </div>
+      </div>
+    </div>
   </section>
 </template>
 
@@ -19,6 +24,9 @@ export default {
       this.$root.$destroy()
       removeToken()
       loadModule('core')
+    },
+    changeRoute () {
+      this.$router.push('/clients')
     }
   }
 }
