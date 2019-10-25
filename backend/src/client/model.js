@@ -26,29 +26,32 @@ const get = async (id) => {
       'number'
   )
   .where('id', id)
+  .first()
 }
 
-  const create = (
+  const create = async (
     name,
     phone,
     city,
     state,
     postal,
     street,
-    number
+    number,
+    description
   ) => {
-    knex('client').insert({
+    await knex('client').insert({
       name,
       phone,
       city,
       state,
       postal,
       street,
-      number
+      number,
+      description
     })
   }
 
-  const update = (
+  const update = async (
     id,
     name,
     phone,
@@ -56,16 +59,18 @@ const get = async (id) => {
     state,
     postal,
     street,
-    number
+    number,
+    description
   ) => {
-    knex('client').where('id', id).update({
+    await knex('client').where('id', id).update({
       name,
       phone,
       city,
       state,
       postal,
       street,
-      number
+      number,
+      description
     })
   }
 

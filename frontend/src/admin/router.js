@@ -28,7 +28,8 @@ export default new Router({
     {
       path: '/clients/:id',
       name: 'client',
-      component: Client
+      component: Client,
+      props: true
     }
   ]
 })

@@ -17,7 +17,8 @@ const create = async (
   state,
   postal,
   street,
-  number
+  number,
+  description
 ) => {
   return axios.post(`${API}/client`, {
     name,
@@ -26,7 +27,8 @@ const create = async (
     state,
     postal,
     street,
-    number
+    number,
+    description
   })
 }
 
