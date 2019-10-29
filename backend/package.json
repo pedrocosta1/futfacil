@@ -9,7 +9,8 @@
     "deploy": "npm install --only=prod && knex migrate:latest && pm2 startOrRestart pm2.json",
     "undeploy": "pm2 delete pm2.json",
     "latest": "knex migrate:latest",
-    "rollback": "knex migrate:rollback"
+    "rollback": "knex migrate:rollback",
+    "field": "knex migrate:make field"
   },
   "author": "RI Sistemas",
   "license": "ISC",

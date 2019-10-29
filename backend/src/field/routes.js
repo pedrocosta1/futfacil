@@ -9,9 +9,9 @@ const router = express.Router()
 
 router.get('/', requireAuth('admin'), async (req, res) => {
   try {
-    logger.info('GET /client')
-    const clients = await getAll()
-    return res.send(clients)
+    logger.info('GET /field')
+    const fields = await getAll()
+    return res.json(fields)
   } catch (error) {
     logger.error(error)
     return res.status(400).send({ error: 'Internal error' })
@@ -20,7 +20,7 @@ router.get('/', requireAuth('admin'), async (req, res) => {
 
 router.get('/:id', requireAuth('admin'), async (req, res) => {
   try {
-    logger.info('GET /client/:id')
+    logger.info('GET /field/:id')
     const { value, error } = Joi.validate(
       req.params,
       Joi.object().keys({
@@ -28,8 +28,8 @@ router.get('/:id', requireAuth('admin'), async (req, res) => {
       })
     )
     if (error) { return res.status(400).send({ error: 'Validation error', fields: [...new Set(...error.details.map(x => x.path))] }) }
-    const client = await get(value.id)
-    return res.send(client)
+    const field = await get(value.id)
+    return res.send(field)
   } catch (error) {
     logger.error(error)
     return res.status(400).send({ error: 'Internal error' })
@@ -38,18 +38,17 @@ router.get('/:id', requireAuth('admin'), async (req, res) => {
 
 router.post('/', requireAuth('admin'), async (req, res) => {
   try {
-    logger.info('POST /client/:id')
+    logger.info('POST /field/:id')
     const { value, error } = Joi.validate(
       req.body,
       Joi.object({ abortEarly: true }).options({ abortEarly: false }).keys({
         name: Joi.string().required(),
-        phone: Joi.string().required(),
-        city: Joi.string().required(),
-        state: Joi.string().required(),
-        postal: Joi.string().required(),
-        street: Joi.string().required(),
-        number: Joi.number().integer().allow(null),
-        description: Joi.string().allow(null)
+        client: Joi.number().integer().required(),
+        type: Joi.string().required(),
+        size: Joi.number().integer().required(),
+        maxPerson: Joi.number().integer().required(),
+        price: Joi.number().integer().required(),
+        hourPrice: Joi.number().integer().required()
       }),
     )
     if (error) { 
@@ -58,13 +57,12 @@ router.post('/', requireAuth('admin'), async (req, res) => {
     }
     await create(
       value.name,
-      value.phone,
-      value.city,
-      value.state,
-      value.postal,
-      value.street,
-      value.number,
-      value.description
+      value.client,
+      value.type,
+      value.size,
+      value.maxPerson,
+      value.price,
+      value.hourPrice
     )
     return res.send(true)
   } catch (error) {
@@ -75,7 +73,7 @@ router.post('/', requireAuth('admin'), async (req, res) => {
 
 router.put('/:id', requireAuth('admin'), async (req, res) => {
   try {
-    logger.info('POST /client/:id')
+    logger.info('POST /field/:id')
     const params = Joi.validate(
       req.params,
       Joi.object().keys({
@@ -90,13 +88,12 @@ router.put('/:id', requireAuth('admin'), async (req, res) => {
       req.body,
       Joi.object().options({ abortEarly: false }).keys({
         name: Joi.string().required(),
-        phone: Joi.string().required(),
-        city: Joi.string().required(),
-        state: Joi.string().required(),
-        postal: Joi.string().required(),
-        street: Joi.string().required(),
-        number: Joi.number().integer().allow(null),
-        description: Joi.string().allow(null)
+        client: Joi.number().integer().required(),
+        type: Joi.string().required(),
+        size: Joi.number().integer().required(),
+        maxPerson: Joi.number().integer().required(),
+        price: Joi.number().required(),
+        hourPrice: Joi.number().integer().required()
       })
     )
     if (body.error) {
@@ -106,13 +103,12 @@ router.put('/:id', requireAuth('admin'), async (req, res) => {
     await update(
       params.value.id,
       body.value.name,
-      body.value.phone,
-      body.value.city,
-      body.value.state,
-      body.value.postal,
-      body.value.street,
-      body.value.number,
-      body.value.description
+      body.value.client,
+      body.value.type,
+      body.value.size,
+      body.value.maxPerson,
+      body.value.price,
+      body.value.hourPrice
     )
     return res.send(true)
   } catch (error) {

@@ -15,6 +15,7 @@ import log from './log/routes'
 import auth from './auth/routes'
 import template from './template/routes' // Sample
 import client from './client/routes'
+import field from './field/routes'
 // --------------------------------------------------------
 
 logger.info('Starting server...')
@@ -35,6 +36,7 @@ router.use('/log', log)
 router.use('/auth', auth)
 router.use('/template', template) // Sample
 router.use('/client', client)
+router.use('/field', field)
 // --------------------------------------------------------
 
 app.use('/api', router)
