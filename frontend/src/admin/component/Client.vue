@@ -53,9 +53,17 @@
           <span v-if="error.indexOf('description') > -1">Ops! Ta faltando o Complemento</span>
         </div>
         <div class="button-group">
-          <div class="btn-add" @click="save" :disabled="edit">
+          <div class="btn-cancel" v-if="!edit" @click="cancel">
+            <span>Cancelar</span>
+            <IconClose />
+          </div>
+          <div class="btn-add" v-if="!edit" @click="save" :disabled="edit">
             <span>Adicionar</span>
             <IconAdd />
+          </div>
+          <div class="btn-add" v-if="edit" @click="edit = false">
+            <span>Editar</span>
+            <IconEdit />
           </div>
         </div>
       </div>
@@ -63,10 +71,9 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
-import { removeToken, loadModule } from '../../util'
 import IconClose from '../../Icons/IconClose.vue'
 import IconAdd from '../../Icons/IconAdd.vue'
+import IconEdit from '../../Icons/IconEdit.vue'
 import IconSearch from '../../Icons/IconSearch.vue'
 import { get, create, update } from '../api/client'
 
@@ -74,6 +81,7 @@ export default {
   components: {
     IconClose,
     IconAdd,
+    IconEdit,
     IconSearch
   },
   props: ['id'],
@@ -92,9 +100,6 @@ export default {
       edit: false
     }
   },
-  computed: {
-    ...mapState(['user'])
-  },
   async mounted () {
     if (this.id !== 'new') {
       await this.getMounted()
@@ -103,8 +108,8 @@ export default {
   methods: {
     async save () {
       try {
-        if (this.id !== 'new'){
-          await update (
+        if (this.id !== 'new') {
+          await update(
             this.id,
             this.name,
             this.phone,
@@ -117,7 +122,7 @@ export default {
           )
           await this.getMounted()
         } else {
-          await create (
+          await create(
             this.name,
             this.phone,
             this.city,
@@ -126,7 +131,7 @@ export default {
             this.street,
             this.number,
             this.description
-          ) 
+          )
           this.$router.push('/clients')
         }
       } catch (error) {
@@ -138,8 +143,7 @@ export default {
       // }
     },
     async getMounted () {
-      const clientData = await get(this.id)
-      this.client = clientData.data
+      this.client = await get(this.id)
       this.name = this.client.name
       this.city = this.client.city
       this.state = this.client.state
@@ -149,6 +153,9 @@ export default {
       this.street = this.client.street
       this.number = this.client.number
       this.edit = true
+    },
+    async cancel () {
+      await this.getMounted()
     }
   }
 }

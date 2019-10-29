@@ -3,11 +3,13 @@ import axios from 'axios'
 const API = process.env.VUE_APP_API
 
 const getAll = async () => {
-  return axios.get(`${API}/client`)
+  const { data } = await axios.get(`${API}/client`)
+  return data
 }
 
 const get = async (id) => {
-  return axios.get(`${API}/client/${id}`)
+  const { data } = await axios.get(`${API}/client/${id}`)
+  return data
 }
 
 const create = async (

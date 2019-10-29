@@ -2,7 +2,7 @@
   <div id="app">
     <div class="menu-container">
       <div class="menu" :class="open ? 'menu-open' : ''" @click="openClose(open)">
-        <div class="menu-item" @click="changeRoute('clients')" :class="clients ? 'active' : ''">
+        <div class="menu-item" @click="changeRoute('dashboard')" :class="dashboard ? 'active' : ''">
           <div class="menu-open-svg">
             <IconDashboard class="menu-svg" />
           </div>
@@ -13,6 +13,12 @@
             <IconClient class="menu-svg" />
           </div>
           <span class="menu-text">Clientes</span>
+        </div>
+        <div class="menu-item" @click="changeRoute('fields')" :class="fields ? 'active' : ''">
+          <div class="menu-open-svg">
+            <IconField class="menu-svg" />
+          </div>
+          <span class="menu-text">Fields</span>
         </div>
         <div class="menu-out" @click="signOut">
           <div class="menu-open-svg">
@@ -26,19 +32,20 @@
   </div>
 </template>
 
-
 <script>
 import { mapState } from 'vuex'
 import { removeToken, loadModule } from '../../util'
 import IconClient from '../../Icons/IconClient'
 import IconDashboard from '../../Icons/IconDashboard'
 import IconOut from '../../Icons/IconOut'
+import IconField from '../../Icons/IconField'
 
 export default {
   components: {
     IconClient,
     IconDashboard,
-    IconOut
+    IconOut,
+    IconField
   },
   computed: {
     ...mapState(['user'])
@@ -47,6 +54,8 @@ export default {
     return {
       path: null,
       clients: false,
+      fields: false,
+      dashboard: false,
       open: true
     }
   },
@@ -57,10 +66,11 @@ export default {
       removeToken()
       loadModule('core')
     },
-    changeRoute ( route ) {
+    changeRoute (route) {
       this.$router.push('/' + route)
       this.path = this.$route.path.split('/')[1]
-      if('clients' === this.path) this.clients = true
+      if (this.path === 'clients') this.clients = true
+      else if (this.path === 'fields') this.fields = true
     },
     openClose (open) {
       this.open = !open

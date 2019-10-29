@@ -4,11 +4,18 @@ import axios from 'axios'
 import './registerServiceWorker'
 import logger from './logger'
 import { getToken, setToken, removeToken, loadModule } from './util'
+import money from 'v-money'
+import VueTheMask from 'vue-the-mask'
 
 import './_asset/scss/app.scss'
 
 Vue.config.productionTip = false
 
+Vue.use(money, {
+  precision: 2,
+  prefix: 'R$ '
+})
+Vue.use(VueTheMask)
 // Error handler
 Vue.config.errorHandler = (err, vm, info) => {
   logger.error(err)

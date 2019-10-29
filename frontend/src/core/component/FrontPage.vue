@@ -254,10 +254,6 @@
 </template>
 
 <script>
-import logger from '../../logger'
-import { setToken } from '../../util'
-import { signin } from '../api/auth'
-
 export default {
   data () {
     return {
@@ -274,9 +270,9 @@ export default {
   },
   methods: {
     handleScroll (event) {
-      if(window.pageYOffset) { 
+      if (window.pageYOffset) {
         this.navbar = true
-      } else { 
+      } else {
         this.navbar = false
       }
     }

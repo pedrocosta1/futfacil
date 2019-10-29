@@ -2,4 +2,3 @@
   <section id="main">
   </section>
 </template>
-
