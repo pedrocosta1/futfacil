@@ -4,6 +4,8 @@ import Router from 'vue-router'
 import Main from './component/Main.vue'
 import Clients from './component/Clients.vue'
 import Client from './component/Client.vue'
+import Players from './component/Players.vue'
+import Player from './component/Player.vue'
 import Fields from './component/Fields.vue'
 import Field from './component/Field.vue'
 
@@ -34,14 +36,26 @@ export default new Router({
       props: true
     },
     {
-      path: '/fields',
+      path: '/clients/:client/fields',
       name: 'fields',
-      component: Fields
+      component: Fields,
+      props: true
     },
     {
-      path: '/fields/:id',
+      path: '/clients/:client/fields/:id',
       name: 'field',
       component: Field,
+      props: true
+    },
+    {
+      path: '/players',
+      name: 'players',
+      component: Players
+    },
+    {
+      path: '/players/:id',
+      name: 'player',
+      component: Player,
       props: true
     }
   ]

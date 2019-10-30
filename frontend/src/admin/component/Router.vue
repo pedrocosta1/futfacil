@@ -14,11 +14,11 @@
           </div>
           <span class="menu-text">Clientes</span>
         </div>
-        <div class="menu-item" @click="changeRoute('fields')" :class="fields ? 'active' : ''">
+        <div class="menu-item" @click="changeRoute('players')" :class="players ? 'active' : ''">
           <div class="menu-open-svg">
             <IconField class="menu-svg" />
           </div>
-          <span class="menu-text">Fields</span>
+          <span class="menu-text">Clientes</span>
         </div>
         <div class="menu-out" @click="signOut">
           <div class="menu-open-svg">
@@ -54,6 +54,7 @@ export default {
     return {
       path: null,
       clients: false,
+      players: false,
       fields: false,
       dashboard: false,
       open: true
@@ -70,7 +71,7 @@ export default {
       this.$router.push('/' + route)
       this.path = this.$route.path.split('/')[1]
       if (this.path === 'clients') this.clients = true
-      else if (this.path === 'fields') this.fields = true
+      if (this.path === 'players') this.players = true
     },
     openClose (open) {
       this.open = !open

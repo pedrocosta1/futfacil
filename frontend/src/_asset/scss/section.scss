@@ -5,7 +5,6 @@
 .section {
   display: flex;
   flex-direction: column;
-  
 }
 .section-header{
   display: flex;
@@ -32,16 +31,19 @@
     height: 20px;
     color: #bbb;
     cursor: pointer;
-    svg {
-      width: 20px;
-      height: 20px;
-    }
+  }
+  svg {
+    width: 20px;
+    height: 20px;
   }
   .rotate-right{
     transform: rotate(90deg);
   }
   .rotate-down{
-    transform: rotate(180deg);
+    transform: rotate(90deg);
+  }
+  .rotate-up {
+    transform: rotate(270deg);
   }
 }
 .section-body{

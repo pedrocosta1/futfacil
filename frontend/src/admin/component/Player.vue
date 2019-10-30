@@ -2,9 +2,9 @@
   <section class="router-view">
       <div class="header">
         <div class="title">
-          Client
+          player
         </div>
-        <div class="close" @click="$router.push('/clients')">
+        <div class="close" @click="$router.push('/players')">
           <IconClose/>
         </div>
       </div>
@@ -62,12 +62,12 @@
             </div>
           </div>
         </div>
-        <div class="section" @click="$router.push(`/clients/${id}/fields`)">
+        <!-- <div class="section" @click="$router.push(`/players/${id}/fields`)">
           <div class="section-header">
-            <span class="title">Campos</span>
+            <span class="title">Campos Alugados</span>
             <IconAngle/>
           </div>
-        </div>
+        </div> -->
           <div class="button-group">
             <div class="btn-cancel" v-if="!edit" @click="cancel">
               <span>Cancelar</span>
@@ -92,7 +92,7 @@ import IconAdd from '../../Icons/IconAdd.vue'
 import IconEdit from '../../Icons/IconEdit.vue'
 import IconSearch from '../../Icons/IconSearch.vue'
 import IconAngle from '../../Icons/IconAngle.vue'
-import { get, create, update } from '../api/client'
+import { get, create, update } from '../api/player'
 
 export default {
   components: {
@@ -105,7 +105,7 @@ export default {
   props: ['id'],
   data () {
     return {
-      client: [],
+      player: [],
       error: [],
       name: null,
       city: null,
@@ -151,7 +151,7 @@ export default {
             this.number,
             this.description
           )
-          this.$router.push('/clients')
+          this.$router.push('/players')
         }
       } catch (error) {
         const data = error.response ? error.response.data : {}
@@ -162,15 +162,15 @@ export default {
       // }
     },
     async getMounted () {
-      this.client = await get(this.id)
-      this.name = this.client.name
-      this.city = this.client.city
-      this.state = this.client.state
-      this.phone = this.client.phone
-      this.description = this.client.description
-      this.postal = this.client.postal
-      this.street = this.client.street
-      this.number = this.client.number
+      this.player = await get(this.id)
+      this.name = this.player.name
+      this.city = this.player.city
+      this.state = this.player.state
+      this.phone = this.player.phone
+      this.description = this.player.description
+      this.postal = this.player.postal
+      this.street = this.player.street
+      this.number = this.player.number
       this.edit = true
     },
     async cancel () {
