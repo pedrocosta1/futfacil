@@ -7,18 +7,18 @@ import { getAll, get, create, update, remove } from './model'
 
 const router = express.Router()
 
-router.get('/by/:client', requireAuth('admin'), async (req, res) => {
+router.get('/by/:field', requireAuth('admin'), async (req, res) => {
   try {
-    logger.info('GET /field/:client')
+    logger.info('GET /rent/:id')
     const { value, error } = Joi.validate(
       req.params,
       Joi.object().keys({
-        client: Joi.number().integer().required()
+        field: Joi.number().integer().required()
       })
     )
     if (error) { return res.status(400).send({ error: 'Validation error', fields: [...new Set(...error.details.map(x => x.path))] }) }
-    const fields = await getAll(value.client)
-    return res.json(fields)
+    const rents = await getAll(value.field)
+    return res.send(rents)
   } catch (error) {
     logger.error(error)
     return res.status(400).send({ error: 'Internal error' })
@@ -27,7 +27,7 @@ router.get('/by/:client', requireAuth('admin'), async (req, res) => {
 
 router.get('/:id', requireAuth('admin'), async (req, res) => {
   try {
-    logger.info('GET /field/:id')
+    logger.info('GET /rent/:id')
     const { value, error } = Joi.validate(
       req.params,
       Joi.object().keys({
@@ -35,8 +35,8 @@ router.get('/:id', requireAuth('admin'), async (req, res) => {
       })
     )
     if (error) { return res.status(400).send({ error: 'Validation error', fields: [...new Set(...error.details.map(x => x.path))] }) }
-    const field = await get(value.id)
-    return res.send(field)
+    const rent = await get(value.id)
+    return res.send(rent)
   } catch (error) {
     logger.error(error)
     return res.status(400).send({ error: 'Internal error' })
@@ -45,17 +45,16 @@ router.get('/:id', requireAuth('admin'), async (req, res) => {
 
 router.post('/', requireAuth('admin'), async (req, res) => {
   try {
-    logger.info('POST /field/:id')
+    logger.info('POST /rent/:id')
     const { value, error } = Joi.validate(
       req.body,
       Joi.object({ abortEarly: true }).options({ abortEarly: false }).keys({
-        name: Joi.string().required(),
-        client: Joi.number().integer().required(),
-        type: Joi.string().required(),
-        size: Joi.number().integer().required(),
-        maxPerson: Joi.number().integer().required(),
-        price: Joi.number().integer().required(),
-        hourPrice: Joi.number().integer().required()
+        player: Joi.integer().required(),
+        field: Joi.integer().required(),
+        price: Joi.number().required(),
+        dataIni: Joi.date().required(),
+        dataFinal: Joi.date().required(),
+        hour: Joi.string().required()
       }),
     )
     if (error) { 
@@ -63,13 +62,12 @@ router.post('/', requireAuth('admin'), async (req, res) => {
       return res.status(400).send({ error: 'Validation error', fields: [errorFront] }) 
     }
     await create(
-      value.name,
-      value.client,
-      value.type,
-      value.size,
-      value.maxPerson,
+      value.player,
+      value.field,
       value.price,
-      value.hourPrice
+      value.dataIni,
+      value.dataFinal,
+      value.hour
     )
     return res.send(true)
   } catch (error) {
@@ -80,7 +78,7 @@ router.post('/', requireAuth('admin'), async (req, res) => {
 
 router.put('/:id', requireAuth('admin'), async (req, res) => {
   try {
-    logger.info('POST /field/:id')
+    logger.info('POST /rent/:id')
     const params = Joi.validate(
       req.params,
       Joi.object().keys({
@@ -94,13 +92,12 @@ router.put('/:id', requireAuth('admin'), async (req, res) => {
     const body = Joi.validate(
       req.body,
       Joi.object().options({ abortEarly: false }).keys({
-        name: Joi.string().required(),
-        client: Joi.number().integer().required(),
-        type: Joi.string().required(),
-        size: Joi.number().integer().required(),
-        maxPerson: Joi.number().integer().required(),
+        player: Joi.integer().required(),
+        field: Joi.integer().required(),
         price: Joi.number().required(),
-        hourPrice: Joi.number().integer().required()
+        dataIni: Joi.date().required(),
+        dataFinal: Joi.date().required(),
+        hour: Joi.string().required()
       })
     )
     if (body.error) {
@@ -109,13 +106,12 @@ router.put('/:id', requireAuth('admin'), async (req, res) => {
     }
     await update(
       params.value.id,
-      body.value.name,
-      body.value.client,
-      body.value.type,
-      body.value.size,
-      body.value.maxPerson,
+      body.value.player,
+      body.value.field,
       body.value.price,
-      body.value.hourPrice
+      body.value.dataIni,
+      body.value.dataFinal,
+      body.value.hour
     )
     return res.send(true)
   } catch (error) {

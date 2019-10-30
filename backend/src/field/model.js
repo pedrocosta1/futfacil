@@ -1,7 +1,9 @@
 import knex from "../config/knex"
 
-const getAll = async () => {
-  return await knex('field').select('*')
+const getAll = async (client) => {
+  return await knex('field')
+    .select('*')
+    .where('client', client)
 }
 const get = async (id) => {
   return await knex('field')
