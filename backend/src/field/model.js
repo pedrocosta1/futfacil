@@ -21,6 +21,11 @@ const get = async (id) => {
   .first()
 }
 
+const getFields = async () => {
+  return await knex('field')
+  .select('*')
+}
+
   const create = async (
     name,
     client,
@@ -69,6 +74,7 @@ const get = async (id) => {
   export {
     getAll,
     get,
+    getFields,
     create,
     update,
     remove

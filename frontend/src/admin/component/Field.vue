@@ -126,7 +126,7 @@ export default {
             this.price,
             this.hourPrice
           )
-          this.$router.push('/fields')
+          this.$router.push(`/clients/${this.client}/fields`)
         }
       } catch (error) {
         const data = error.response ? error.response.data : {}

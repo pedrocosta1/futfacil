@@ -45,16 +45,16 @@ router.get('/:id', requireAuth('admin'), async (req, res) => {
 
 router.post('/', requireAuth('admin'), async (req, res) => {
   try {
-    logger.info('POST /rent/:id')
+    logger.info('POST /rent')
     const { value, error } = Joi.validate(
       req.body,
       Joi.object({ abortEarly: true }).options({ abortEarly: false }).keys({
-        player: Joi.integer().required(),
-        field: Joi.integer().required(),
+        player: Joi.number().integer().required(),
+        field: Joi.number().integer().required(),
         price: Joi.number().required(),
-        dataIni: Joi.date().required(),
-        dataFinal: Joi.date().required(),
-        hour: Joi.string().required()
+        date: Joi.date().required(),
+        hourIni: Joi.string().required(),
+        hourEnd: Joi.string().required()
       }),
     )
     if (error) { 
@@ -65,9 +65,9 @@ router.post('/', requireAuth('admin'), async (req, res) => {
       value.player,
       value.field,
       value.price,
-      value.dataIni,
-      value.dataFinal,
-      value.hour
+      value.date,
+      value.hourIni,
+      value.hourEnd
     )
     return res.send(true)
   } catch (error) {
@@ -95,9 +95,9 @@ router.put('/:id', requireAuth('admin'), async (req, res) => {
         player: Joi.integer().required(),
         field: Joi.integer().required(),
         price: Joi.number().required(),
-        dataIni: Joi.date().required(),
-        dataFinal: Joi.date().required(),
-        hour: Joi.string().required()
+        date: Joi.date().required(),
+        hourIni: Joi.date().required(),
+        hourEnd: Joi.date().required()
       })
     )
     if (body.error) {
@@ -109,9 +109,9 @@ router.put('/:id', requireAuth('admin'), async (req, res) => {
       body.value.player,
       body.value.field,
       body.value.price,
-      body.value.dataIni,
-      body.value.dataFinal,
-      body.value.hour
+      body.value.date,
+      body.value.hourIni,
+      body.value.hourEnd
     )
     return res.send(true)
   } catch (error) {

@@ -16,17 +16,17 @@ const create = async (
   player,
   field,
   price,
-  dataIni,
-  dataFinal,
-  hour
+  date,
+  hourIni,
+  hourEnd
 ) => {
   return axios.post(`${API}/rent`, {
     player,
     field,
     price,
-    dataIni,
-    dataFinal,
-    hour
+    date,
+    hourIni,
+    hourEnd
   })
 }
 
@@ -35,17 +35,17 @@ const update = async (
   player,
   field,
   price,
-  dataIni,
-  dataFinal,
-  hour
+  date,
+  hourIni,
+  hourEnd
 ) => {
   return axios.put(`${API}/rent/${id}`, {
     player,
     field,
     price,
-    dataIni,
-    dataFinal,
-    hour
+    date,
+    hourIni,
+    hourEnd
   })
 }
 

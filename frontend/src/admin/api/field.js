@@ -12,6 +12,11 @@ const get = async (id) => {
   return data
 }
 
+const getFields = async () => {
+  const { data } = await axios.get(`${API}/field`)
+  return data
+}
+
 const create = async (
   name,
   client,
@@ -56,6 +61,7 @@ const update = async (
 export {
   getAll,
   get,
+  getFields,
   create,
   update
 }

@@ -5,9 +5,10 @@ exports.up = function(knex, Promise) {
         table.increments()
         table.string('name')
         table.string('postal')
-        table.timestamp('date_ini', { useTz: true })
-        table.timestamp('date_end', { useTz: true })
-        table.string('hour')
+        table.timestamp('date', { useTz: true })
+        table.date('hour_ini', { useTz: true})
+        table.date('hour_end', { useTz: true })
+        table.decimal('price',14,2)
       }),
       knex.schema.alterTable('rent', function(table) {
         table.integer('player').unsigned()

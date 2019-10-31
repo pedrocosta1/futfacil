@@ -62,12 +62,12 @@
             </div>
           </div>
         </div>
-        <!-- <div class="section" @click="$router.push(`/players/${id}/fields`)">
+        <div class="section" @click="$router.push(`/players/${id}/rent`)">
           <div class="section-header">
             <span class="title">Campos Alugados</span>
             <IconAngle/>
           </div>
-        </div> -->
+        </div>
           <div class="button-group">
             <div class="btn-cancel" v-if="!edit" @click="cancel">
               <span>Cancelar</span>

@@ -18,7 +18,7 @@
           <div class="menu-open-svg">
             <IconField class="menu-svg" />
           </div>
-          <span class="menu-text">Clientes</span>
+          <span class="menu-text">Jogadores</span>
         </div>
         <div class="menu-out" @click="signOut">
           <div class="menu-open-svg">
@@ -68,6 +68,8 @@ export default {
       loadModule('core')
     },
     changeRoute (route) {
+      this.clients = false
+      this.players = false
       this.$router.push('/' + route)
       this.path = this.$route.path.split('/')[1]
       if (this.path === 'clients') this.clients = true

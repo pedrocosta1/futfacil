@@ -16,17 +16,17 @@ const get = async (id) => {
     player,
     field,
     price,
-    dataIni,
-    dataFinal,
-    hour
+    date,
+    hourIni,
+    hourEnd
   ) => {
     await knex('rent').insert({
       player,
       field,
       price,
-      dataIni,
-      dataFinal,
-      hour
+      date,
+      hourIni,
+      hourEnd
     })
   }
 
@@ -35,17 +35,17 @@ const get = async (id) => {
     player,
     field,
     price,
-    dataIni,
-    dataFinal,
-    hour
+    date,
+    hourIni,
+    hourEnd
   ) => {
     await knex('rent').where('id', id).update({
       player,
       field,
       price,
-      dataIni,
-      dataFinal,
-      hour
+      date,
+      hourIni,
+      hourEnd
     })
   }
 
