@@ -7,17 +7,17 @@ import { getAll, get, create, update, remove } from './model'
 
 const router = express.Router()
 
-router.get('/by/:field', requireAuth('admin'), async (req, res) => {
+router.get('/by/:player', requireAuth('admin'), async (req, res) => {
   try {
     logger.info('GET /rent/:id')
     const { value, error } = Joi.validate(
       req.params,
       Joi.object().keys({
-        field: Joi.number().integer().required()
+        player: Joi.number().integer().required()
       })
     )
     if (error) { return res.status(400).send({ error: 'Validation error', fields: [...new Set(...error.details.map(x => x.path))] }) }
-    const rents = await getAll(value.field)
+    const rents = await getAll(value.player)
     return res.send(rents)
   } catch (error) {
     logger.error(error)
@@ -53,8 +53,8 @@ router.post('/', requireAuth('admin'), async (req, res) => {
         field: Joi.number().integer().required(),
         price: Joi.number().required(),
         date: Joi.date().required(),
-        hourIni: Joi.string().required(),
-        hourEnd: Joi.string().required()
+        hourIni: Joi.date().required(),
+        hourEnd: Joi.date().required()
       }),
     )
     if (error) { 

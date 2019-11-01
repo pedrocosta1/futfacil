@@ -1,9 +1,17 @@
 import knex from "../config/knex"
 
-const getAll = async (field) => {
+const getAll = async (player) => {
   return await knex('rent')
-    .select('rent.*', 'field.*')
+    .select(
+      'rent.date', 
+      'rent.hourIni',
+      'rent.hourEnd',
+      'rent.price',
+      'client.name'
+    )
     .leftJoin('field', 'field.id', 'rent.field')
+    .leftJoin('client', 'client.id', 'field.client')
+    .where('rent.player', player)
 }
 const get = async (id) => {
   return await knex('rent')
