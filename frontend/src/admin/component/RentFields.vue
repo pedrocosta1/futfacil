@@ -57,7 +57,6 @@ export default {
   },
   async mounted () {
     this.fields = await getFields()
-    console.log(this.fields)
   }
 }
 </script>

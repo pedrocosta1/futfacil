@@ -10,6 +10,8 @@ import Fields from './component/Fields.vue'
 import Field from './component/Field.vue'
 import RentField from './component/RentField.vue'
 import RentFields from './component/RentFields.vue'
+import Rented from './component/Rented.vue'
+import Renteds from './component/Renteds.vue'
 
 Vue.use(Router)
 
@@ -70,6 +72,18 @@ export default new Router({
       path: '/players/:id/rent/:fieldId',
       name: 'RentField',
       component: RentField,
+      props: true
+    },
+    {
+      path: '/players/:id/rented',
+      name: 'Renteds',
+      component: Renteds,
+      props: true
+    },
+    {
+      path: '/players/:id/rented/:rentId',
+      name: 'Rented',
+      component: Rented,
       props: true
     }
   ]

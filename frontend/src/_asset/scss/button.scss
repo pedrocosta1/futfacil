@@ -13,7 +13,7 @@
     align-items: center;
     border-radius: 50%;
     border: 1px solid black;
-    background: blue;
+    background: $btn-bg;
     cursor: pointer;
     margin-left: 5px;
   }
@@ -52,7 +52,22 @@
 .button-group-right {
   justify-content: flex-end;
 }
-
+.filter-display {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  .filter-btn {
+    display: flex;
+    width: 20%;
+    padding: 5px;
+    background: #2c0d5f;
+    justify-content: center;
+    cursor: pointer;
+  }
+  .filter-btn-active {
+    border: 2px solid #000;
+  }
+}
 .button-group-fixed {
   justify-content: flex-end;
   position: fixed;
@@ -156,7 +171,9 @@
 }
 
 @media screen and (min-width: $width-desktop) {
-
+  .filter-btn {
+    margin: 2px;
+  }
   .button-group {
     position: relative;
     width: auto;

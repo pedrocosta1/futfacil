@@ -2,8 +2,8 @@ import axios from 'axios'
 
 const API = process.env.VUE_APP_API
 
-const getAll = async (field) => {
-  const { data } = await axios.get(`${API}/rent/by/${field}`)
+const getAll = async (player) => {
+  const { data } = await axios.get(`${API}/rent/by/${player}`)
   return data
 }
 

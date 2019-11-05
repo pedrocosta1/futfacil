@@ -64,6 +64,12 @@
         </div>
         <div class="section" @click="$router.push(`/players/${id}/rent`)">
           <div class="section-header">
+            <span class="title">Alugar Campos</span>
+            <IconAngle/>
+          </div>
+        </div>
+        <div class="section" @click="$router.push(`/players/${id}/rented`)">
+          <div class="section-header">
             <span class="title">Campos Alugados</span>
             <IconAngle/>
           </div>

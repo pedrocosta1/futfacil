@@ -1,5 +1,7 @@
 <template>
   <section class="router-view">
+    <Loading v-if="loading" />
+    <div v-if="!loading">
       <div class="header">
         <div class="title">
           Client
@@ -83,6 +85,7 @@
             </div>
           </div>
       </div>
+    </div>
   </section>
 </template>
 
@@ -93,6 +96,7 @@ import IconEdit from '../../Icons/IconEdit.vue'
 import IconSearch from '../../Icons/IconSearch.vue'
 import IconAngle from '../../Icons/IconAngle.vue'
 import { get, create, update } from '../api/client'
+import Loading from '../../Loading/LoadingScreen'
 
 export default {
   components: {
@@ -100,7 +104,8 @@ export default {
     IconAdd,
     IconEdit,
     IconSearch,
-    IconAngle
+    IconAngle,
+    Loading
   },
   props: ['id'],
   data () {
@@ -116,7 +121,8 @@ export default {
       description: null,
       postal: null,
       edit: false,
-      recallFirst: false
+      recallFirst: false,
+      loading: true
     }
   },
   async mounted () {
@@ -127,6 +133,7 @@ export default {
   methods: {
     async save () {
       try {
+        this.loading = true
         if (this.id !== 'new') {
           await update(
             this.id,
@@ -153,7 +160,9 @@ export default {
           )
           this.$router.push('/clients')
         }
+        this.loading = false
       } catch (error) {
+        this.loading = false
         const data = error.response ? error.response.data : {}
         if (data.error === 'Validation error') {
           this.error = data.fields
@@ -172,6 +181,7 @@ export default {
       this.street = this.client.street
       this.number = this.client.number
       this.edit = true
+      this.loading = false
     },
     async cancel () {
       await this.getMounted()

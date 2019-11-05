@@ -6,11 +6,27 @@ import logger from './logger'
 import { getToken, setToken, removeToken, loadModule } from './util'
 import money from 'v-money'
 import VueTheMask from 'vue-the-mask'
+import VueScrollTo from 'vue-scrollto'
+import Loading from './Loading/LoadingScreen'
 
 import './_asset/scss/app.scss'
 
 Vue.config.productionTip = false
 
+Vue.use(VueScrollTo, {
+  container: 'body',
+  duration: 500,
+  easing: 'ease',
+  offset: 0,
+  force: true,
+  cancelable: true,
+  onStart: false,
+  onDone: false,
+  onCancel: false,
+  x: false,
+  y: true
+})
+Vue.component(Loading)
 Vue.use(money, {
   precision: 2,
   prefix: 'R$ '

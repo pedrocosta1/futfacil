@@ -6,17 +6,17 @@
       </div>
       <div class="nav-option">
         <div class="nav-item">
-          <a href="#solution">
+          <a href="#solution" v-scroll-to="'#solution'">
             <h1>Nossa Solução</h1>
           </a>
         </div>
         <div class="nav-item">
-          <a href="#clients">
+          <a href="#clients" v-scroll-to="'#clients'">
             <h1>Clientes</h1>
           </a>
         </div>
         <div class="nav-item">
-          <a href="#plans">
+          <a href="#plans" v-scroll-to="'#plans'">
             <h1>Planos</h1>
           </a>
         </div>
@@ -299,16 +299,16 @@ export default {
     width: 100%;
     border-bottom: 1px solid white;
     background-color: #100335;
+    a {
+      color: white;
+    }
+    a:link {
+      text-decoration:none;
+      color: white;
+    }
     .nav-item {
       &:hover {
         background: #2e00ac;
-      }
-      a {
-        color: white;
-      }
-      a:link {
-        text-decoration:none;
-        color: white;
       }
       display: flex;
       flex-grow: 1;

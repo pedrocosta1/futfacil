@@ -36,25 +36,27 @@
         </div>
         <div class="section first-section">
           <div class="section-header" @click="recallSecond = !recallSecond">
-            <span class="title">Detalhes</span>
+            <span class="title">Horários Disponiveis</span>
             <IconAngle :class="recallSecond ? 'rotate-down' : 'rotate-up'"/>
           </div>
           <div class="section-body" :class="recallSecond ? 'recall' : 'recall-body'">
             <div class="form">
               <div class="form-group">
-                <label>Dia</label>
-                <input v-model="date" type="date">
-                <span v-if="error.indexOf('date') > -1">Ops! Ta faltando o Tamanho</span>
+                <div class="filter-display">
+                  <div class="filter-btn" v-for="day in days" :key="day" @click="getFiltered(day)">
+                    <span>{{day}}</span>
+                  </div>
+                </div>
               </div>
-              <div class="form-group">
-                <label>Hora Inicial</label>
-                <input v-model="hourIni" type="time">
-                <span v-if="error.indexOf('hourIni') > -1">Ops! Ta faltando o Maximo de Pessoas</span>
-              </div>
-              <div class="form-group">
-                <label>Hora Final</label>
-                <input v-model="hourEnd" type="time">
-                <span v-if="error.indexOf('hourEnd') > -1">Ops! Ta faltando o Maximo de Pessoas</span>
+              <div class="table">
+                <table>
+                  <tr v-for="field in fieldList" :key="field.id" @click="save(field.id)">
+                    <td>{{field.day}}</td>
+                    <td>{{field.hourIni}}</td>
+                    <td>{{field.hourEnd}}</td>
+                    <td>{{field.active ? 'Horario Alugado' : 'Horario Vago'}}</td>
+                  </tr>
+                </table>
               </div>
             </div>
           </div>
@@ -79,7 +81,7 @@ import IconAdd from '../../Icons/IconAdd.vue'
 import IconAngle from '../../Icons/IconAngle.vue'
 import { get } from '../api/field'
 import { create } from '../api/rent'
-
+import { getAll as getList, get as getListId, create as createList, update as updateList } from '../api/fieldList'
 
 export default {
   components: {
@@ -101,7 +103,11 @@ export default {
       hourIni: null,
       hourEnd: null,
       recallFirst: false,
-      recallSecond: true
+      recallSecond: true,
+      allFieldList: [],
+      fieldList: [],
+      day: null,
+      days: ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sabado']
     }
   },
   async mounted () {
@@ -110,8 +116,12 @@ export default {
     }
   },
   methods: {
-    async save () {
+    async save (id) {
       try {
+        const listField = await getListId(id)
+        this.date = listField.hourEnd
+        this.hourEnd = listField.hourEnd
+        this.hourIni = listField.hourIni
         await create(
           this.id,
           this.fieldId,
@@ -120,7 +130,7 @@ export default {
           this.hourIni,
           this.hourEnd
         )
-        this.$router.push(`/players/${this.id}/fields`)
+        this.$router.push(`/players/${this.id}`)
       } catch (error) {
         const data = error.response ? error.response.data : {}
         if (data.error === 'Validation error') {
@@ -128,7 +138,25 @@ export default {
         }
       }
     },
+    async getFiltered(day) {
+      this.fieldList = this.allFieldList.filter(x => x.day === day)
+    },
+    async calculatePrice () {
+      if (this.hourIni && this.hourEnd) {
+        const totalHourEnd = this.hourEnd.split(':')
+        const hourEndFinal = totalHourEnd[0] + totalHourEnd[1]
+        const totalHourIni = this.hourIni.split(':')
+        const hourIniFinal = (totalHourIni[0] + totalHourIni[1])
+        this.finalPrice = ((hourEndFinal - hourIniFinal) / 100) * this.price
+      }
+    },
     async getMounted () {
+      this.allFieldList = await getList(this.fieldId, false)
+      this.fieldList = this.allFieldList.map(x => {
+        x.hourIni = x.hourIni.split('T')[1].split(':')[0] + ':' + x.hourIni.split('T')[1].split(':')[1]
+        x.hourEnd = x.hourEnd.split('T')[1].split(':')[0] + ':' + x.hourEnd.split('T')[1].split(':')[1]
+        return x
+      })
       this.field = await get(this.fieldId)
       this.name = this.field.name
       this.type = this.field.type

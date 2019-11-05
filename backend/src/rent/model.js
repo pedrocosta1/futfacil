@@ -1,8 +1,9 @@
-import knex from "../config/knex"
+import knex from '../config/knex'
 
 const getAll = async (player) => {
   return await knex('rent')
     .select(
+      'rent.id',
       'rent.date', 
       'rent.hourIni',
       'rent.hourEnd',
@@ -28,13 +29,26 @@ const get = async (id) => {
     hourIni,
     hourEnd
   ) => {
-    await knex('rent').insert({
-      player,
-      field,
-      price,
-      date,
-      hourIni,
-      hourEnd
+    let day = date.getDay()
+    const active = true
+    const days = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sabado']
+    day = days[day]
+    knex.transaction(async trx => {
+      await knex('rent').transacting(trx).insert({
+        player,
+        field,
+        price,
+        date,
+        hourIni,
+        hourEnd
+      })
+      await knex('fieldList').transacting(trx).insert({
+        field,
+        hourIni,
+        hourEnd,
+        day,
+        active
+      })
     })
   }
 

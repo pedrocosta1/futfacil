@@ -3,22 +3,26 @@ import Joi from 'joi'
 
 import logger from '../config/logger'
 import requireAuth from '../auth/requireAuth'
-import { getAll, get, create, update, remove } from './model'
+import { getAll, get, create, update } from './model'
 
 const router = express.Router()
 
-router.get('/by/:player', requireAuth('admin'), async (req, res) => {
+router.get('/:field/:active', requireAuth('admin'), async (req, res) => {
   try {
-    logger.info('GET /rent/by/:player')
+    logger.info('GET /fieldList/:player/:active')
     const { value, error } = Joi.validate(
       req.params,
       Joi.object().keys({
-        player: Joi.number().integer().required()
+        field: Joi.number().integer().required(),
+        active: Joi.boolean().required()
       })
     )
     if (error) { return res.status(400).send({ error: 'Validation error', fields: [...new Set(...error.details.map(x => x.path))] }) }
-    const rents = await getAll(value.player)
-    return res.send(rents)
+    const fieldLists = await getAll(
+      value.field,
+      value.active
+    )
+    return res.send(fieldLists)
   } catch (error) {
     logger.error(error)
     return res.status(400).send({ error: 'Internal error' })
@@ -27,7 +31,7 @@ router.get('/by/:player', requireAuth('admin'), async (req, res) => {
 
 router.get('/:id', requireAuth('admin'), async (req, res) => {
   try {
-    logger.info('GET /rent/:id')
+    logger.info('GET /fieldList/:id')
     const { value, error } = Joi.validate(
       req.params,
       Joi.object().keys({
@@ -35,8 +39,8 @@ router.get('/:id', requireAuth('admin'), async (req, res) => {
       })
     )
     if (error) { return res.status(400).send({ error: 'Validation error', fields: [...new Set(...error.details.map(x => x.path))] }) }
-    const rent = await get(value.id)
-    return res.send(rent)
+    const fieldList = await get(value.id)
+    return res.send(fieldList)
   } catch (error) {
     logger.error(error)
     return res.status(400).send({ error: 'Internal error' })
@@ -45,16 +49,14 @@ router.get('/:id', requireAuth('admin'), async (req, res) => {
 
 router.post('/', requireAuth('admin'), async (req, res) => {
   try {
-    logger.info('POST /rent')
+    logger.info('POST /fieldList')
     const { value, error } = Joi.validate(
       req.body,
       Joi.object({ abortEarly: true }).options({ abortEarly: false }).keys({
-        player: Joi.number().integer().required(),
         field: Joi.number().integer().required(),
-        price: Joi.number().required(),
-        date: Joi.date().required(),
         hourIni: Joi.date().required(),
-        hourEnd: Joi.date().required()
+        hourEnd: Joi.date().required(),
+        day: Joi.string().required(),
       }),
     )
     if (error) { 
@@ -62,12 +64,11 @@ router.post('/', requireAuth('admin'), async (req, res) => {
       return res.status(400).send({ error: 'Validation error', fields: [errorFront] }) 
     }
     await create(
-      value.player,
       value.field,
-      value.price,
-      value.date,
       value.hourIni,
-      value.hourEnd
+      value.hourEnd,
+      value.day,
+      false
     )
     return res.send(true)
   } catch (error) {
@@ -78,7 +79,7 @@ router.post('/', requireAuth('admin'), async (req, res) => {
 
 router.put('/:id', requireAuth('admin'), async (req, res) => {
   try {
-    logger.info('POST /rent/:id')
+    logger.info('POST /fieldList/:id')
     const params = Joi.validate(
       req.params,
       Joi.object().keys({
@@ -92,12 +93,11 @@ router.put('/:id', requireAuth('admin'), async (req, res) => {
     const body = Joi.validate(
       req.body,
       Joi.object().options({ abortEarly: false }).keys({
-        player: Joi.integer().required(),
-        field: Joi.integer().required(),
-        price: Joi.number().required(),
-        date: Joi.date().required(),
+        field: Joi.number().integer().required(),
         hourIni: Joi.date().required(),
-        hourEnd: Joi.date().required()
+        hourEnd: Joi.date().required(),
+        day: Joi.string().required(),
+        active: Joi.boolean().required()
       })
     )
     if (body.error) {
@@ -106,12 +106,11 @@ router.put('/:id', requireAuth('admin'), async (req, res) => {
     }
     await update(
       params.value.id,
-      body.value.player,
       body.value.field,
-      body.value.price,
-      body.value.date,
       body.value.hourIni,
-      body.value.hourEnd
+      body.value.hourEnd,
+      body.value.day,
+      body.value.active
     )
     return res.send(true)
   } catch (error) {

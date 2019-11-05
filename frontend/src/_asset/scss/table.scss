@@ -6,45 +6,7 @@
     width: 100%;
     border: none;
     border-spacing: 0;
-    background: #040A13;
-  }
-  .red {
-    color: rgba( 234 , 15 , 31 , 1 );
-  }
-  .orange {
-    color: rgba( 202 , 77 , 0 , 1 );
-  }
-  .yellow {
-    color: rgba( 255 , 202 , 0 , 1 )
-  }
-  .green {
-    color: rgba( 78, 202 , 0 , 1 );
-  }
-  .blue {
-    color: rgba( 0 , 194 , 201 , 1 );
-  }
-
-  .td-text-details {
-    color: #FFC000;
-    font-size: 1em;
-    font-weight: bold;
-    line-height: 1em;
-  }
-
-  .td-display-info {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    .detail-box {
-      display: flex;
-      flex-direction: column;
-      border-top: 1px dotted rgba( 12 , 32 , 58 , 1 );
-      border-bottom:  1px dotted rgba( 12 , 32 , 58 , 1 );
-      align-items: center;
-      justify-content: center;
-      width: 20%;
-      height: 50px;
-    }
+    background: $color-primary;
   }
 
   .tr {
@@ -56,15 +18,15 @@
       background-color: transparent;
     }
   }
-
+  thead {
+    td {
+      background-color: $thead-bg;
+    }
+  }
   tr {
     cursor: pointer;
-    &:nth-child(2n+1) {
-      background-color: rgba(255, 255, 255, 0.15);
-    }
-    
     &:hover {
-      background-color: rgba(255, 255, 255, 0.3);
+      background-color: $tr-hover;
     }
   }
   
