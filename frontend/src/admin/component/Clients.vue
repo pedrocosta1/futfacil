@@ -1,7 +1,7 @@
 <template>
   <section class="router-view">
   <Loading v-if="loading"/> 
-    <div v-if="!loading">
+    <div v-if="!loading" class="main-content">
       <div class="header">
         <div class="title">
           Client

@@ -96,4 +96,12 @@
   opacity: 0;
 }
 @media screen and (min-width: $width-desktop) {
+  .router-view {
+    display: flex;
+    justify-content: center;
+    .main-content {
+      width: 1000px;
+      height: 100%;
+    }
   }
+}

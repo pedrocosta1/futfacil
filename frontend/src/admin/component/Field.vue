@@ -1,5 +1,7 @@
 <template>
   <section class="router-view">
+    <Loading v-if="loading"/> 
+    <div class="main-content" v-if="!loading">
       <div class="header">
         <div class="title">
           Campo
@@ -130,6 +132,7 @@
           </div>
         </div>
       </div>
+    </div>
   </section>
 </template>
 
@@ -140,13 +143,15 @@ import IconEdit from '../../Icons/IconEdit.vue'
 import IconAngle from '../../Icons/IconAngle.vue'
 import { get, create, update } from '../api/field'
 import { getAll as getList, create as createList, update as updateList } from '../api/fieldList'
+import Loading from '../../Loading/LoadingScreen'
 
 export default {
   components: {
     IconClose,
     IconAdd,
     IconEdit,
-    IconAngle
+    IconAngle,
+    Loading
   },
   props: ['client', 'id'],
   data () {
@@ -170,7 +175,8 @@ export default {
       fieldList: [],
       allFieldList: [],
       day: null,
-      days: ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sabado']
+      days: ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sabado'],
+      loading: true
     }
   },
   async mounted () {
@@ -277,6 +283,7 @@ export default {
       this.price = this.field.price
       this.priceHour = this.field.priceHour
       this.edit = true
+      this.loading = false
     },
     async cancel () {
       await this.getMounted()

@@ -1,5 +1,7 @@
 <template>
   <section class="router-view">
+    <Loading v-if="loading"/> 
+    <div class="main-content" v-if="!loading">
       <div class="header">
         <div class="title">
           Campos Disponiveis
@@ -24,6 +26,7 @@
           </tr>
         </table>
       </div>
+    </div>
   </section>
 </template>
 
@@ -31,17 +34,20 @@
 import IconClose from '../../Icons/IconClose.vue'
 import IconSearch from '../../Icons/IconSearch.vue'
 import { getFields } from '../api/field'
+import Loading from '../../Loading/LoadingScreen'
 
 export default {
   components: {
     IconClose,
-    IconSearch
+    IconSearch,
+    Loading
   },
   props: ['id'],
   data () {
     return {
       fields: [],
-      search: ''
+      search: '',
+      loading: true
     }
   },
   computed: {
@@ -57,6 +63,7 @@ export default {
   },
   async mounted () {
     this.fields = await getFields()
+    this.loading = false
   }
 }
 </script>

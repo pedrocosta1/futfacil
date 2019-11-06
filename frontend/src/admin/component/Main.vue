@@ -1,5 +1,5 @@
 <template>
-  <section id="main">
+  <section class="router-view">
     <Loading />
   </section>
 </template>

@@ -1,5 +1,7 @@
 <template>
   <section class="router-view">
+    <Loading v-if="loading"/> 
+    <div class="main-content" v-if="!loading">
       <div class="header">
         <div class="title">
           Detalhes do Campo alugado
@@ -42,6 +44,7 @@
           </div>
         </div>
       </div>
+    </div>
   </section>
 </template>
 
@@ -49,11 +52,13 @@
 import IconClose from '../../Icons/IconClose.vue'
 import IconAngle from '../../Icons/IconAngle.vue'
 import { get } from '../api/rent'
+import Loading from '../../Loading/LoadingScreen'
 
 export default {
   components: {
     IconClose,
-    IconAngle
+    IconAngle,
+    Loading
   },
   props: ['id', 'rentId'],
   data () {
@@ -70,7 +75,8 @@ export default {
       hourEnd: null,
       recallFirst: false,
       recallSecond: true,
-      finalPrice: 0
+      finalPrice: 0,
+      loading: true
     }
   },
   async mounted () {

@@ -1,5 +1,7 @@
 <template>
   <section class="router-view">
+    <Loading v-if="loading"/> 
+    <div class="main-content" v-if="!loading">
       <div class="header">
         <div class="title">
           player
@@ -89,6 +91,7 @@
             </div>
           </div>
       </div>
+    </div>
   </section>
 </template>
 
@@ -99,6 +102,7 @@ import IconEdit from '../../Icons/IconEdit.vue'
 import IconSearch from '../../Icons/IconSearch.vue'
 import IconAngle from '../../Icons/IconAngle.vue'
 import { get, create, update } from '../api/player'
+import Loading from '../../Loading/LoadingScreen'
 
 export default {
   components: {
@@ -106,7 +110,8 @@ export default {
     IconAdd,
     IconEdit,
     IconSearch,
-    IconAngle
+    IconAngle,
+    Loading
   },
   props: ['id'],
   data () {
@@ -122,7 +127,8 @@ export default {
       description: null,
       postal: null,
       edit: false,
-      recallFirst: false
+      recallFirst: false,
+      loading: true
     }
   },
   async mounted () {
@@ -178,6 +184,7 @@ export default {
       this.street = this.player.street
       this.number = this.player.number
       this.edit = true
+      this.loading = false
     },
     async cancel () {
       await this.getMounted()

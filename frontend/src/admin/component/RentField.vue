@@ -1,5 +1,7 @@
 <template>
   <section class="router-view">
+    <Loading v-if="loading"/> 
+    <div class="main-content" v-if="!loading">
       <div class="header">
         <div class="title">
           Alugar Campo
@@ -72,6 +74,7 @@
           </div>
         </div>
       </div>
+    </div>
   </section>
 </template>
 
@@ -82,12 +85,14 @@ import IconAngle from '../../Icons/IconAngle.vue'
 import { get } from '../api/field'
 import { create } from '../api/rent'
 import { getAll as getList, get as getListId, create as createList, update as updateList } from '../api/fieldList'
+import Loading from '../../Loading/LoadingScreen'
 
 export default {
   components: {
     IconClose,
     IconAdd,
-    IconAngle
+    IconAngle,
+    Loading
   },
   props: ['id', 'fieldId'],
   data () {
@@ -107,7 +112,8 @@ export default {
       allFieldList: [],
       fieldList: [],
       day: null,
-      days: ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sabado']
+      days: ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sabado'],
+      loading: true
     }
   },
   async mounted () {
@@ -163,6 +169,7 @@ export default {
       this.size = this.field.size
       this.maxPerson = this.field.maxPerson
       this.price = this.field.price
+      this.loading = false
     },
     async cancel () {
       await this.getMounted()
