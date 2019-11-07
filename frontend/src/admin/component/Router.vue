@@ -20,6 +20,12 @@
           </div>
           <span class="menu-text">Jogadores</span>
         </div>
+        <div class="menu-item" @click="changeRoute('random')" :class="random ? 'active' : ''">
+          <div class="menu-open-svg">
+            <IconField class="menu-svg" />
+          </div>
+          <span class="menu-text">Randomizar Times</span>
+        </div>
         <div class="menu-out" @click="signOut">
           <div class="menu-open-svg">
             <IconOut class="menu-svg" />
@@ -57,7 +63,8 @@ export default {
       players: false,
       fields: false,
       dashboard: false,
-      open: true
+      open: true,
+      random: false
     }
   },
   methods: {
@@ -73,7 +80,8 @@ export default {
       this.$router.push('/' + route)
       this.path = this.$route.path.split('/')[1]
       if (this.path === 'clients') this.clients = true
-      if (this.path === 'players') this.players = true
+      else if (this.path === 'players') this.players = true
+      else if (this.path === 'random') this.random = true
     },
     openClose (open) {
       this.open = !open

@@ -1,4 +1,4 @@
-.litle{
+.little{
   max-width: 50px;
 }
 .small{
@@ -12,6 +12,11 @@
 }
 .input-group{
   display: flex;
+}
+
+.same-line {
+  display: flex;
+  flex-direction: row;
 }
 
 .icon-search {

@@ -12,6 +12,7 @@ import RentField from './component/RentField.vue'
 import RentFields from './component/RentFields.vue'
 import Rented from './component/Rented.vue'
 import Renteds from './component/Renteds.vue'
+import RandomTeam from './component/RandomTeam.vue'
 
 Vue.use(Router)
 
@@ -85,6 +86,11 @@ export default new Router({
       name: 'Rented',
       component: Rented,
       props: true
+    },
+    {
+      path: '/random',
+      name: 'RandomTeam',
+      component: RandomTeam
     }
   ]
 })
