@@ -11,12 +11,16 @@
     height: 30px;
     width: 30px;
     border-radius: 50%;
-    background-color: $btn-bg;
+    background-color: $color-primary;
+    .svg-add {
+      color: #fff;
+    }
     cursor: pointer;
     &:hover {
+      background: #fff;
       border: 1px solid white;
       .svg-add {
-        color: white;
+        color: $color-primary;
       }
     }
   }

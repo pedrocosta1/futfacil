@@ -79,6 +79,7 @@ export default {
       x.hourEnd = x.hourEnd.split('T')[1]
       x.hourEnd = x.hourEnd.split(':')[0] + ':' + x.hourEnd.split(':')[1]
     })
+    this.loading = false
   }
 }
 </script>

@@ -4,7 +4,7 @@
     <div class="main-content" v-if="!loading">
       <div class="header">
         <div class="title">
-          player
+          Jogador
         </div>
         <div class="close" @click="$router.push('/')">
           <IconClose/>
@@ -69,14 +69,6 @@ export default {
   async mounted () {
     this.players = await getAll()
     this.loading = false
-  },
-  methods: {
-    signOut () {
-      this.$store.commit('user', null)
-      this.$root.$destroy()
-      removeToken()
-      loadModule('core')
-    }
   }
 }
 </script>

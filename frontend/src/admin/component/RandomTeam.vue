@@ -19,39 +19,53 @@
           <div class="section-body" :class="recallFirst ? 'recall' : 'recall-body'">
             <div class="form">
               <div class="form-group same-line">
-                <label>Nº Jogadores</label>
-                <input class="little" v-model="numberPlayer" :disabled="edit" @input="generateNumbersTeams">
-                <span v-if="error.indexOf('number') > -1">Ops! Ta faltando o nome</span>
-                <label>Jogadores p/ Time</label>
-                <input class="little" v-model="playerTeam" :disabled="edit" @input="generateNumbersTeams">
-                <label>Quantidade Times</label>
-                <input class="little" v-model="qttTeam" disabled>
+                <div class="mini-form">
+                  <label>Nº Jogadores</label>
+                  <input v-model="numberPlayer" :disabled="edit" @input="generateNumbersTeams">
+                  <span v-if="error.indexOf('number') > -1">Ops! Ta faltando o nome</span>
+                </div>
+                <div class="mini-form">
+                  <label>Jogadores p/ Time</label>
+                  <input v-model="playerTeam" :disabled="edit" @input="generateNumbersTeams">
+                </div>
+                <div class="mini-form">
+                  <label>Quantidade Times</label>
+                  <input v-model="qttTeam" disabled>
+                </div>
                 <div class="btn" @click="generateInputs">
                   <span>Gerar</span>
                 </div>
               </div>
               <div class="form-group same-line" v-for="player in players" :key="player.id">
-                <label>Player {{player.id + 1}}</label>
-                <label>Nome</label>
-                <input v-model="player.name">
-                <label>Posição</label>
-                <select v-model="player.position">
-                  <option value="GR">Goleiro</option>
-                  <option value="LR">Linha</option>
-                </select>
-                <select v-model="player.hability">
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                  <option value="6">6</option>
-                  <option value="7">7</option>
-                  <option value="8">8</option>
-                  <option value="9">9</option>
-                  <option value="10">10</option>
-                </select>
+                <div class="mini-form">
+                  <label>Jogador - {{player.id + 1}}</label>
+                  <input class="no-limit" v-model="player.name">
+                </div>
               </div>
+            </div>
+            <div class="modal" v-if="showModal" @click="showModal = false">
+                <div class="modal-content-add">
+                  <div class="modal-header">
+                    <span class="title">Divisão de times</span>
+                    <div class="close-add" @click="showModal = false">
+                      <IconClose/>
+                    </div>
+                  </div>
+                  <div class="form-two-columns">
+                    <table class="table">
+                      <th>Team2</th>
+                      <tr v-for="t1 in team1" :key="t1.id">
+                        <td>{{t1.name}}</td>
+                      </tr>
+                    </table>
+                    <table class="table">
+                      <th>Team 1</th>
+                      <tr v-for="t2 in team2" :key="t2.id">
+                        <td>{{t2.name}}</td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
             </div>
           </div>
         </div>
@@ -62,7 +76,7 @@
           </div>
           <div class="btn-add" v-if="!edit" @click="generateTeam" :disabled="edit">
             <span>Gerar Times</span>
-            <IconAdd />
+            <IconView />
           </div>
           <div class="btn-add" v-if="edit" @click="edit = false">
             <span>Editar</span>
@@ -76,7 +90,7 @@
 
 <script>
 import IconClose from '../../Icons/IconClose.vue'
-import IconAdd from '../../Icons/IconAdd.vue'
+import IconView from '../../Icons/IconView.vue'
 import IconEdit from '../../Icons/IconEdit.vue'
 import IconSearch from '../../Icons/IconSearch.vue'
 import IconAngle from '../../Icons/IconAngle.vue'
@@ -85,7 +99,7 @@ import Loading from '../../Loading/LoadingScreen'
 export default {
   components: {
     IconClose,
-    IconAdd,
+    IconView,
     IconEdit,
     IconSearch,
     IconAngle,
@@ -105,7 +119,10 @@ export default {
       loading: true,
       totalHability: 0,
       averageHability: 0,
-      players: []
+      players: [],
+      team1: [],
+      team2: [],
+      showModal: false
     }
   },
   async mounted () {
@@ -117,72 +134,56 @@ export default {
   methods: {
     async getMounted () {
       this.edit = true
+      this.players = []
       this.loading = false
     },
     async cancel () {
       await this.getMounted()
     },
     async generateTeam () {
-      const bestPlayers = []
-      const goodPlayers = []
-      const mediumPlayers = []
-      const badPlayers = []
-      this.totalHability = this.players.map(x => Number(x.hability)).reduce((acc, cur) => acc + cur)
-      this.averageHability = this.totalHability / this.qttTeam
-      this.players.map(x => {
-        if(Number(x.hability) === 10) {
-          bestPlayers.push(x)
-        } else if (Number(x.hability) >= 7 || Number(x.hability) < 10) {
-          goodPlayers.push(x)
-        } else if (Number(x.hability) > 4 || Number(x.hability) < 7) {
-          mediumPlayers.push(x)
-        } else {
-          badPlayers.push(x)
-        }
-        return x
+      var team1 = []
+      var team2 = []
+      // Projeto para considerar a habilidade do jogador
+      // const sumWeight = this.players.map(x => Number(x.hability)).reduce((acc, cur) => acc + cur)
+      this.players.map((x, i) => {
+        var condicao = true
+        var randNumber = Math.floor(Math.random() * this.players.length)
+        do {
+          if(i === 0) {
+            team1.push(this.players[randNumber])
+            condicao = false
+          } else if (team2.length === 0) {
+            if(!team1.find(y => y.id === this.players[randNumber].id)) {
+              team2.push(this.players[randNumber])
+              condicao = false
+            } else {
+              randNumber = Math.floor(Math.random() * this.players.length)
+            }
+          } else if(!team1.find(y => y.id === this.players[randNumber].id)) {
+            if(!team2.find(z => z.id === this.players[randNumber].id)) {
+              if(team1.length < team2.length) {
+                team1.push(this.players[randNumber])
+                condicao = false
+              } else {
+                team2.push(this.players[randNumber])
+                condicao = false
+              }
+            } else {
+              randNumber = Math.floor(Math.random() * this.players.length)
+            }
+          } else {
+            randNumber = Math.floor(Math.random() * this.players.length)
+          }
+        } while (condicao)
       })
-      const bestPlayerLimit = this.averageHability / bestPlayers.length
-      const goodPlayerLimit = this.averageHability * 0.3
-      const team1 = []
-      const team2 = []
-      if(bestPlayers.length > 0) {
-        bestPlayers.map((x, i) => {
-          if(i === 0) {
-            team1.push(x)
-            team2.push(x[i + 1])
-          }
-          if(team1 && team1.map(x => Number(x.hability)).reduce((acc, cur) => acc + cur) < bestPlayerLimit) {
-            team1.push(x)
-          } else if (team2 && team2.map(x => Number(x.hability)).reduce((acc, cur) => acc + cur) < bestPlayerLimit) {
-            team2.push(x)
-          }
-          return x
-        })
-      }
-      if(goodPlayers.length > 0) {
-        goodPlayers.map((x, i) => {
-          if(i === 0) {
-            team1.push(x)
-            team2.push(x[i + 1])
-          }
-          if(team1.map(x => Number(x.hability)).reduce((acc, cur) => acc + cur) < goodPlayerLimit) {
-            team1.push(x)
-          } else if (team2.map(x => Number(x.hability)).reduce((acc, cur) => acc + cur) < goodPlayerLimit) {
-            team2.push(x)
-          }
-          return x
-        })
-      }
-      // } else if(mediumPlayers.length > 0) {
-      //   team1.push(mediumPlayers[0])
-      // } else {
-      //   team1.push(badPlayers[0])
-      // }
-      console.log(team1)
-      console.log(team2)
+      this.team1 = team1
+      this.team2 = team2
+      this.showModal = true
     },
     async generateInputs () {
-      for(let x = 0; x < this.numberPlayer; x++) {
+      if(this.players.length > 0)
+        this.players = []
+      for(var x = 0; x < this.numberPlayer; x++) {
         const player = {'id': x, 'name': null, 'position': null, 'hability': 1}
         this.players.push(player)
       }

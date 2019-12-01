@@ -77,6 +77,7 @@ export default {
     changeRoute (route) {
       this.clients = false
       this.players = false
+      this.random = false
       this.$router.push('/' + route)
       this.path = this.$route.path.split('/')[1]
       if (this.path === 'clients') this.clients = true

@@ -12,6 +12,8 @@ import RentField from './component/RentField.vue'
 import RentFields from './component/RentFields.vue'
 import Rented from './component/Rented.vue'
 import Renteds from './component/Renteds.vue'
+import RentedFields from './component/RentedFields.vue'
+import RentedField from './component/RentedField.vue'
 import RandomTeam from './component/RandomTeam.vue'
 
 Vue.use(Router)
@@ -50,6 +52,18 @@ export default new Router({
       path: '/clients/:client/fields/:id',
       name: 'field',
       component: Field,
+      props: true
+    },
+    {
+      path: '/clients/:client/rentedfields',
+      name: 'rentedFields',
+      component: RentedFields,
+      props: true
+    },
+    {
+      path: '/clients/:client/rentedfields/:id',
+      name: 'rentedField',
+      component: RentedField,
       props: true
     },
     {

@@ -26,7 +26,7 @@
     align-items: center;
     border-radius: 50%;
     border: 1px solid black;
-    background: #c1c1c1;
+    background: #a1a1a1;
     cursor: pointer;
   }
   span {
@@ -80,7 +80,7 @@
   justify-content: center;
   align-items: center;
   font-size: 1em;
-  background-color: #ced0d3;
+  background-color: #fff;
   color: black;
   border: none;
   outline: none;
@@ -95,7 +95,10 @@
   }
 
   &:hover {
-    background-color: #1289bcc5;
+    background-color: $color-primary;
+    span {
+      color: #fff;
+    }
   }
 
   &:active {
@@ -184,6 +187,7 @@
     bottom: 0;
     display: flex;
     justify-content: flex-end;
+    margin-top: 20px;
     .btn-add {
       width: auto;
       border-radius: 5px;

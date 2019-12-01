@@ -3,9 +3,63 @@ import Joi from 'joi'
 
 import logger from '../config/logger'
 import requireAuth from '../auth/requireAuth'
-import { getAll, get, create, update } from './model'
+import { getAll, get, getRentedFields, create, update, getRentedDetails } from './model'
 
 const router = express.Router()
+
+router.get('/:id', requireAuth('admin'), async (req, res) => {
+  try {
+    logger.info('GET /fieldList/:id')
+    const { value, error } = Joi.validate(
+      req.params,
+      Joi.object().keys({
+        id: Joi.number().integer().required()
+      })
+    )
+    if (error) { return res.status(400).send({ error: 'Validation error', fields: [...new Set(...error.details.map(x => x.path))] }) }
+    const fieldList = await get(value.id)
+    return res.send(fieldList)
+  } catch (error) {
+    logger.error(error)
+    return res.status(400).send({ error: 'Internal error' })
+  }
+})
+
+router.get('/client/:id', requireAuth('admin'), async (req, res) => {
+  try {
+    logger.info('GET /fieldList/client/:id')
+    const { value, error } = Joi.validate(
+      req.params,
+      Joi.object().keys({
+        id: Joi.number().integer().required()
+      })
+    )
+    if (error) { return res.status(400).send({ error: 'Validation error', fields: [...new Set(...error.details.map(x => x.path))] }) }
+    const rentedList = await getRentedFields(value.id)
+    return res.send(rentedList)
+  } catch (error) {
+    logger.error(error)
+    return res.status(400).send({ error: 'Internal error' })
+  }
+})
+
+router.get('/details/:id', requireAuth('admin'), async (req, res) => {
+  try {
+    logger.info('GET /fieldList/details/:id')
+    const { value, error } = Joi.validate(
+      req.params,
+      Joi.object().keys({
+        id: Joi.number().integer().required()
+      })
+    )
+    if (error) { return res.status(400).send({ error: 'Validation error', fields: [...new Set(...error.details.map(x => x.path))] }) }
+    const rentedList = await getRentedDetails(value.id)
+    return res.send(rentedList)
+  } catch (error) {
+    logger.error(error)
+    return res.status(400).send({ error: 'Internal error' })
+  }
+})
 
 router.get('/:field/:active', requireAuth('admin'), async (req, res) => {
   try {
@@ -23,24 +77,6 @@ router.get('/:field/:active', requireAuth('admin'), async (req, res) => {
       value.active
     )
     return res.send(fieldLists)
-  } catch (error) {
-    logger.error(error)
-    return res.status(400).send({ error: 'Internal error' })
-  }
-})
-
-router.get('/:id', requireAuth('admin'), async (req, res) => {
-  try {
-    logger.info('GET /fieldList/:id')
-    const { value, error } = Joi.validate(
-      req.params,
-      Joi.object().keys({
-        id: Joi.number().integer().required()
-      })
-    )
-    if (error) { return res.status(400).send({ error: 'Validation error', fields: [...new Set(...error.details.map(x => x.path))] }) }
-    const fieldList = await get(value.id)
-    return res.send(fieldList)
   } catch (error) {
     logger.error(error)
     return res.status(400).send({ error: 'Internal error' })

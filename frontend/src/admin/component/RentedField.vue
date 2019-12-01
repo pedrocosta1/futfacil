@@ -6,29 +6,37 @@
         <div class="title">
           Detalhes do Campo alugado
         </div>
-        <div class="close" @click="$router.push(`/players/${id}`)">
+        <div class="close" @click="$router.push(`/clients/${client}/rentedfields`)">
           <IconClose/>
         </div>
       </div>
       <div class="content">
         <div class="section first-section">
           <div class="section-header" @click="recallFirst = !recallFirst">
-            <span class="title">Infomações do Campo</span>
+            <span class="title">Infomações do Aluguel</span>
             <IconAngle :class="recallFirst ? 'rotate-down' : 'rotate-up'"/>
           </div>
           <div class="section-body" :class="recallFirst ? 'recall' : 'recall-body'">
             <div class="form">
               <div class="form-group">
-                <label>Dia</label>
-                <input v-model="date" disabled type="date">
+                <label>Nome</label>
+                <input v-model="name" disabled>
               </div>
               <div class="form-group">
-                <label>Hora Inicial</label>
-                <input v-model="hourIni" disabled type="time">
+                <label>Celular</label>
+                <input v-model="phone" disabled>
               </div>
               <div class="form-group">
-                <label>Hora Final</label>
-                <input v-model="hourEnd" disabled type="time">
+                <label>Estado</label>
+                <input v-model="state" disabled>
+              </div>
+              <div class="form-group">
+                <label>Cidade</label>
+                <input v-model="city" disabled>
+              </div>
+              <div class="form-group">
+                <label>Rua</label>
+                <input v-model="street" disabled>
               </div>
               <div class="form-group">
                 <label>Preço Final</label>
@@ -38,7 +46,7 @@
           </div>
         </div>
         <div class="button-group">
-          <div class="btn-cancel" @click="cancel">
+          <div class="btn" @click="cancel">
             <span>Voltar</span>
             <IconClose />
           </div>
@@ -51,7 +59,7 @@
 <script>
 import IconClose from '../../Icons/IconClose.vue'
 import IconAngle from '../../Icons/IconAngle.vue'
-import { get } from '../api/rent'
+import { getRentedDetails } from '../api/fieldList'
 import Loading from '../../Loading/LoadingScreen'
 
 export default {
@@ -60,19 +68,17 @@ export default {
     IconAngle,
     Loading
   },
-  props: ['id', 'rentId'],
+  props: ['client', 'id'],
   data () {
     return {
-      rent: [],
+      detail: [],
       error: [],
       name: null,
-      type: null,
-      size: null,
-      maxPerson: null,
+      city: null,
+      phone: null,
+      street: null,
+      state: null,
       price: 0,
-      date: null,
-      hourIni: null,
-      hourEnd: null,
       recallFirst: false,
       recallSecond: true,
       finalPrice: 0,
@@ -87,15 +93,17 @@ export default {
   },
   methods: {
     async getMounted () {
-      this.rent = await get(this.rentId)
-      this.date = this.rent.date.split('T')[0]
-      this.hourIni = this.rent.hourIni.split('T')[1].split(':')[0] + ':' + this.rent.hourIni.split('T')[1].split(':')[1]
-      this.hourEnd = this.rent.hourEnd.split('T')[1].split(':')[0] + ':' + this.rent.hourEnd.split('T')[1].split(':')[1]
-      this.finalPrice = this.rent.price
+      this.detail = await getRentedDetails(this.id)
+      this.name = this.detail.name
+      this.phone = this.detail.phone
+      this.state = this.detail.state
+      this.city = this.detail.city
+      this.street = this.detail.street
+      this.finalPrice = this.detail.price
+      this.loading = false
     },
     async cancel () {
-      await this.getMounted()
-      this.$router.push(`/players/${this.id}/rented`)
+      this.$router.push(`/clients/${this.client}/rentedfields`)
     }
   }
 }

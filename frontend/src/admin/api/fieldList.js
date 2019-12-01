@@ -12,6 +12,16 @@ const get = async (id) => {
   return data
 }
 
+const getRentedList = async (id) => {
+  const { data } = await axios.get(`${API}/fieldList/client/${id}`)
+  return data
+}
+
+const getRentedDetails = async (id) => {
+  const { data } = await axios.get(`${API}/fieldList/details/${id}`)
+  return data
+}
+
 const create = async (
   field,
   hourIni,
@@ -48,6 +58,8 @@ const update = async (
 export {
   getAll,
   get,
+  getRentedList,
+  getRentedDetails,
   create,
   update
 }

@@ -116,19 +116,19 @@
               </table>
             </div>
           </div>
-          <div class="button-group">
-            <div class="btn-cancel" v-if="!edit" @click="cancel">
-              <span>Cancelar</span>
-              <IconClose />
-            </div>
-            <div class="btn-add" v-if="!edit" @click="save" :disabled="edit">
-              <span>Adicionar</span>
-              <IconAdd />
-            </div>
-            <div class="btn-add" v-if="edit" @click="edit = false">
-              <span>Editar</span>
-              <IconEdit />
-            </div>
+        </div>
+        <div class="button-group">
+          <div class="btn-cancel" v-if="!edit" @click="cancel">
+            <span>Cancelar</span>
+            <IconClose />
+          </div>
+          <div class="btn-add" v-if="!edit" @click="save" :disabled="edit">
+            <span>Adicionar</span>
+            <IconAdd />
+          </div>
+          <div class="btn-add" v-if="edit" @click="edit = false">
+            <span>Editar</span>
+            <IconEdit />
           </div>
         </div>
       </div>
@@ -182,7 +182,8 @@ export default {
   async mounted () {
     if (this.id !== 'new') {
       await this.getMounted()
-    }
+    } 
+    this.loading = false    
   },
   methods: {
     async save () {
@@ -219,10 +220,10 @@ export default {
       }
     },
     async setInterval () {
-      var hourIni = 7
+      var hourIni = 5
       var hourFinal = hourIni + 1
       if (this.interval === 'oneHour') {
-        for (var x = 0; x < 9; x++) {
+        for (var x = 0; x < 11; x++) {
           if (hourIni === 10) {
             hourIni = 14
             hourFinal = hourIni + 1
@@ -258,7 +259,7 @@ export default {
           }
         }
       }
-      this.allFieldList = await getList(this.id)
+      this.allFieldList = await getList(this.id, true)
       this.fieldList = this.allFieldList.map(x => {
         x.hourIni = x.hourIni.split('T')[1].split(':')[0] + ':' + x.hourIni.split('T')[1].split(':')[1]
         x.hourEnd = x.hourEnd.split('T')[1].split(':')[0] + ':' + x.hourEnd.split('T')[1].split(':')[1]

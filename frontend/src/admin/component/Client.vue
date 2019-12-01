@@ -25,16 +25,17 @@
               </div>
               <div class="form-group">
                 <label>Telefone</label>
-                <input v-model="phone" :disabled="edit">
+                <input v-model="phone" v-mask="['(##) #####-####', '(##) ####-####']" :disabled="edit">
                 <span v-if="error.indexOf('phone') > -1">Ops! Ta faltando o Celular</span>
               </div>
               <div class="form-group">
                 <label>CEP</label>
-                <div class="search">
-                  <input type="text" v-model="postal" :disabled="edit">
+                <div class="search" v-mask="['#####-###']" :class="edit ? 'disabled' : ''">
+                  <input type="text" v-model="postal" :disabled="edit" @blur="searchCep">
                   <IconSearch class="svg-search"/>
                 </div>
                 <span v-if="error.indexOf('postal') > -1">Ops! Ta faltando o CEP</span>
+                <span v-if="error.indexOf('cepInvalid') > -1">Ops! CEP Inválido</span>
               </div>
               <div class="form-group">
                 <label>Estado</label>
@@ -64,9 +65,15 @@
             </div>
           </div>
         </div>
-        <div class="section" @click="$router.push(`/clients/${id}/fields`)">
+        <div class="section" @click="$router.push(`/clients/${id}/fields`)" v-if="id !== 'new'">
           <div class="section-header">
             <span class="title">Campos</span>
+            <IconAngle/>
+          </div>
+        </div>
+        <div class="section" @click="$router.push(`/clients/${id}/rentedfields`)" v-if="id !== 'new'">
+          <div class="section-header">
+            <span class="title">Campos Alugados</span>
             <IconAngle/>
           </div>
         </div>
@@ -96,6 +103,7 @@ import IconEdit from '../../Icons/IconEdit.vue'
 import IconSearch from '../../Icons/IconSearch.vue'
 import IconAngle from '../../Icons/IconAngle.vue'
 import { get, create, update } from '../api/client'
+import { getCep } from '../api/searchCep'
 import Loading from '../../Loading/LoadingScreen'
 
 export default {
@@ -129,6 +137,7 @@ export default {
     if (this.id !== 'new') {
       await this.getMounted()
     }
+    this.loading = false
   },
   methods: {
     async save () {
@@ -185,7 +194,41 @@ export default {
     },
     async cancel () {
       await this.getMounted()
+    },
+    async searchCep () {
+      try {
+        const dataCep = await getCep(this.postal)
+        this.city = dataCep.localidade
+        this.street = dataCep.logradouro
+        this.state = dataCep.uf
+      } catch (error) {
+        this.loading = false
+        const data = error.response ? error.response.data : {}
+        if (data.error === 'Cep Inválido') {
+          this.error = 'cepInvalid'
+        }
+      }
     }
   }
 }
 </script>
+<style lang="scss" scoped>
+  .svg-search {
+    width: 50px;
+  }
+
+  .search {
+    input {
+      &:focus {
+        border: none;
+      }
+      padding: 5px 10px;
+      &:disabled {
+        background: none
+      }
+    }
+  }
+  .disabled {
+    background: #ebebe4;
+  }
+</style>

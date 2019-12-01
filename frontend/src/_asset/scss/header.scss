@@ -17,6 +17,10 @@
     height: 20px;
     color: white;
     cursor: pointer;
+    opacity: .7;
+    &:hover {
+      opacity: 1;
+    }
     svg {
       color: white;
       width: 20px;

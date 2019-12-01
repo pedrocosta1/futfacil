@@ -19,6 +19,7 @@ import player from './player/routes'
 import field from './field/routes'
 import rent from './rent/routes'
 import fieldList from './fieldList/routes'
+import cep from './cep/routes'
 // --------------------------------------------------------
 
 logger.info('Starting server...')
@@ -43,6 +44,7 @@ router.use('/field', field)
 router.use('/player', player)
 router.use('/rent', rent)
 router.use('/fieldList', fieldList)
+router.use('/cep', cep)
 // --------------------------------------------------------
 
 app.use('/api', router)

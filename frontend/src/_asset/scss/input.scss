@@ -16,7 +16,25 @@
 
 .same-line {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  .mini-form {
+    display: flex;
+    flex-direction: row;
+    margin-right: 10px;
+    align-items: center;
+    margin: 4px 0px;
+    label {
+      width: 40%;
+      margin-right: 10px;
+    }
+    input {
+      width: 100%;
+      max-width: 50px;
+    }
+    .no-limit {
+      max-width: none;
+    }
+  }
 }
 
 .icon-search {
@@ -52,5 +70,16 @@
 @media screen and (min-width: $width-desktop) {
   .input-search {
     width: 60%;
+  }
+  .same-line {
+    flex-direction: row;
+    .mini-form {
+      width: 50%;
+      margin: 0px;
+      margin-right: 10px;
+      input {
+        max-width: none;
+      }
+    }
   }
 }
