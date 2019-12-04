@@ -15,6 +15,7 @@ import Renteds from './component/Renteds.vue'
 import RentedFields from './component/RentedFields.vue'
 import RentedField from './component/RentedField.vue'
 import RandomTeam from './component/RandomTeam.vue'
+import Hability from './component/Hability.vue'
 
 Vue.use(Router)
 
@@ -87,6 +88,12 @@ export default new Router({
       path: '/players/:id/rent/:fieldId',
       name: 'RentField',
       component: RentField,
+      props: true
+    },
+    {
+      path: '/players/:id/hability',
+      name: 'Hability',
+      component: Hability,
       props: true
     },
     {

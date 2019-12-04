@@ -1,0 +1,222 @@
+<template>
+  <section class="router-view">
+    <Loading v-if="loading"/> 
+    <div class="main-content" v-if="!loading">
+      <div class="header">
+        <div class="title">
+          Habilidade
+        </div>
+        <div class="close" @click="$router.push('/players')">
+          <IconClose/>
+        </div>
+      </div>
+      <div class="content">
+        <div class="section first-section">
+          <div class="section-header" @click="recallFirst = !recallFirst">
+            <span class="title">Detalhes</span>
+            <IconAngle :class="recallFirst ? 'rotate-down' : 'rotate-up'"/>
+          </div>
+          <div class="section-body" :class="recallFirst ? 'recall' : 'recall-body'">
+            <div class="form">
+              <div class="form-group">
+                <label>Nome</label>
+                <input v-model="name" :disabled="edit">
+                <span v-if="error.indexOf('name') > -1">Ops! Ta faltando o nome</span>
+              </div>
+              <div class="form-group">
+                <label>Velocide / Ritmo</label>
+                <input v-model="pac" v-mask="['##']" :disabled="edit">
+                <span v-if="error.indexOf('pac') > -1">Ops! Ta faltando o Celular</span>
+              </div>
+              <div class="form-group">
+                <label>Chute</label>
+                <input v-model="shot" v-mask="['##']" :disabled="edit">
+                <span v-if="error.indexOf('shot') > -1">Ops! Ta faltando o Celular</span>
+              </div>
+              <div class="form-group">
+                <label>Passe</label>
+                <input v-model="pas" v-mask="['##']" :disabled="edit">
+                <span v-if="error.indexOf('pas') > -1">Ops! Ta faltando o Celular</span>
+              </div>
+              <div class="form-group">
+                <label>Drible</label>
+                <input v-model="dri" v-mask="['##']" :disabled="edit">
+                <span v-if="error.indexOf('dri') > -1">Ops! Ta faltando o Celular</span>
+              </div>
+              <div class="form-group">
+                <label>Defesa</label>
+                <input v-model="def" v-mask="['##']" :disabled="edit">
+                <span v-if="error.indexOf('def') > -1">Ops! Ta faltando o Celular</span>
+              </div>
+              <div class="form-group">
+                <label>Fisico</label>
+                <input v-model="phy" v-mask="['##']" :disabled="edit">
+                <span v-if="error.indexOf('phy') > -1">Ops! Ta faltando o Celular</span>
+              </div>
+              <div class="form-group">
+                <label>Nacionalidade</label>
+                <input v-model="nacionality" :disabled="edit">
+                <span v-if="error.indexOf('nacionality') > -1">Ops! Ta faltando o Celular</span>
+              </div>
+              <div class="form-group">
+                <label>Clube</label>
+                <input v-model="club" :disabled="edit">
+                <span v-if="error.indexOf('club') > -1">Ops! Ta faltando o Celular</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="button-group">
+          <div class="btn-cancel" v-if="!edit" @click="cancel">
+            <span>Cancelar</span>
+            <IconClose />
+          </div>
+          <div class="btn-add" v-if="!edit" @click="save" :disabled="edit">
+            <span>Adicionar</span>
+            <IconAdd />
+          </div>
+          <div class="btn-add" v-if="edit" @click="edit = false">
+            <span>Editar</span>
+            <IconEdit />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</template>
+
+<script>
+import IconClose from '../../Icons/IconClose.vue'
+import IconAdd from '../../Icons/IconAdd.vue'
+import IconEdit from '../../Icons/IconEdit.vue'
+import IconSearch from '../../Icons/IconSearch.vue'
+import IconAngle from '../../Icons/IconAngle.vue'
+import { get, create, update } from '../api/hability'
+import { getCep } from '../api/searchCep'
+import Loading from '../../Loading/LoadingScreen'
+
+export default {
+  components: {
+    IconClose,
+    IconAdd,
+    IconEdit,
+    IconSearch,
+    IconAngle,
+    Loading
+  },
+  props: ['id'],
+  data () {
+    return {
+      player: [],
+      pac: null,
+      shot: null,
+      pas: null,
+      dri: null,
+      def: null,
+      phy: null,
+      photo: null,
+      overall: null,
+      name: null,
+      nacionality: null,
+      club: null,
+      edit: false,
+      recallFirst: false,
+      loading: true,
+      error: []
+    }
+  },
+  async mounted () {
+    // if (this.id !== 'new') {
+    //   await this.getMounted()
+    // }
+    this.loading = false
+  },
+  methods: {
+    async save () {
+      try {
+        // if (this.id !== 'new') {
+          // await update(
+          //   this.id,
+          //   this.pac,
+          //   this.shot,
+          //   this.pas,
+          //   this.dri,
+          //   this.def,
+          //   this.phy,
+          //   this.photo,
+          //   this.overall,
+          //   this.name,
+          //   this.nacionality,
+          //   this.club
+          // )
+          // await this.getMounted()
+        this.overall = parseFloat(Math.floor((
+          Number(this.pac) + 
+          Number(this.shot) + 
+          Number(this.pas) + 
+          Number(this.dri) + 
+          Number(this.def) + 
+          Number(this.phy)) / 6).toFixed(2)) 
+        await create(
+            this.id,
+            this.pac,
+            this.shot,
+            this.pas,
+            this.dri,
+            this.def,
+            this.phy,
+            this.photo,
+            this.overall,
+            this.name,
+            this.nacionality,
+            this.club
+          )
+          this.$router.push(`/players/${id}`)
+      } catch (error) {
+        const data = error.response ? error.response.data : {}
+        if (data.error === 'Validation error') {
+          this.error = data.fields
+        }
+      }
+    },
+    async getMounted () {
+      this.player = await get(this.id)
+      this.name = this.player.name
+      this.city = this.player.city
+      this.state = this.player.state
+      this.phone = this.player.phone
+      this.neighborhood = this.player.neighborhood
+      this.description = this.player.description
+      this.postal = this.player.postal
+      this.street = this.player.street
+      this.number = this.player.number
+      this.edit = true
+      this.loading = false
+    },
+    async cancel () {
+      await this.getMounted()
+    }
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+  .svg-search {
+    width: 50px;
+  }
+
+  .search {
+    input {
+      &:focus {
+        border: none;
+      }
+      padding: 5px 10px;
+      &:disabled {
+        background: none
+      }
+    }
+  }
+  .disabled {
+    background: #ebebe4;
+  }
+</style>

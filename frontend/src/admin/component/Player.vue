@@ -81,6 +81,12 @@
             <IconAngle/>
           </div>
         </div>
+        <div class="section" @click="$router.push(`/players/${id}/hability`)" v-if="id !== 'new'">
+          <div class="section-header">
+            <span class="title">Habilidade</span>
+            <IconAngle/>
+          </div>
+        </div>
           <div class="button-group">
             <div class="btn-cancel" v-if="!edit" @click="cancel">
               <span>Cancelar</span>

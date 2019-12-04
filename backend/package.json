@@ -10,7 +10,7 @@
     "undeploy": "pm2 delete pm2.json",
     "latest": "knex migrate:latest",
     "rollback": "knex migrate:rollback",
-    "rent": "knex migrate:make neighborhood"
+    "rent": "knex migrate:make player_hability"
   },
   "author": "RI Sistemas",
   "license": "ISC",
