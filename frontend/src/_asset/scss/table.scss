@@ -15,7 +15,8 @@
     }
 
     &:hover {
-      background-color: transparent;
+      background-color: #fff;
+      color: $color-primary;
     }
   }
   thead {
@@ -26,7 +27,8 @@
   tr {
     cursor: pointer;
     &:hover {
-      background-color: $tr-hover;
+      background-color: #fff;
+      color: $color-primary;
     }
   }
   

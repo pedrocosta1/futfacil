@@ -65,16 +65,14 @@ router.post('/signon', async (req, res) => {
       req.body,
       Joi.object().keys({
         login: Joi.string().email().required(),
-        password: Joi.string().regex(/^[a-zA-Z0-9]{6,20}$/).required()
+        password: Joi.string().regex(/^[a-zA-Z0-9]{6,20}$/).required(),
+        role: Joi.string().required()
       })
     )
     if (error) { return res.status(400).send({ error: 'Validation error', fields: [...new Set(...error.details.map(x => x.path))] }) }
-    // Check if user already exists
     const check = await exist(value.login)
     if (check) { return res.status(400).send({ error: 'User already exists' }) }
-    // Create user
-    const user = await create(value.login, value.password)
-    // Generate sign token
+    const user = await create(value.login, value.password, value.role)
     const token = jwt.sign(user, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES })
     return res.send({ token, user })
   } catch (error) {

@@ -20,6 +20,7 @@ const create = async (
   postal,
   street,
   number,
+  neighborhood,
   description
 ) => {
   return axios.post(`${API}/client`, {
@@ -30,6 +31,7 @@ const create = async (
     postal,
     street,
     number,
+    neighborhood,
     description
   })
 }
@@ -42,7 +44,8 @@ const update = async (
   state,
   postal,
   street,
-  number
+  number,
+  neighborhood
 ) => {
   return axios.put(`${API}/client/${id}`, {
     name,
@@ -51,7 +54,8 @@ const update = async (
     state,
     postal,
     street,
-    number
+    number,
+    neighborhood
   })
 }
 

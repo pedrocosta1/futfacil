@@ -28,12 +28,13 @@ const get = async id => {
   return knex('user').where('id', id).select('id', 'login', 'role', 'active').first()
 }
 
-const create = async (login, password) => {
+const create = async (login, password, role) => {
   const {pass, key} = generateHash(password)
   const user = await knex('user').insert({ 
     login,
     password: pass,
-    hash: key
+    hash: key,
+    role
   }).returning(['id', 'login', 'role', 'active'])
   return user[0]
 }

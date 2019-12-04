@@ -1,7 +1,7 @@
 <template>
   <section class="signin">
     <div class="logo">
-      <img src="img/whorus-logo-white.png" />
+      <img src="img/logo_futfacil.jpg" />
     </div>
     <div class="divider"></div>
     <div class="login-box">
@@ -85,7 +85,7 @@ export default {
 @import "../../_asset/scss/_variables.scss";
 
 .signin {
-  background-color: $color-primary;
+  background-color: $color-secondary;
   min-height: 100%;
   display: flex;
   flex-direction: column;
@@ -99,7 +99,12 @@ export default {
       height: auto;
     }
   }
-
+  .form {
+    input {
+      max-width: none;
+      width: 100%;
+    }
+  }
   .login-box {
     min-width: 280px;
     max-width: 300px;

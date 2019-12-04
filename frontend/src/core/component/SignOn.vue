@@ -6,6 +6,10 @@
     <span v-if="error" class="error">{{ error }}</span>
     <input v-model="password" type="password" placeholder="Senha" :class="{ error : passwordError }" />
     <span v-if="passwordError" class="error">Senha informada incorretamente</span>
+    <select v-model="role">
+      <option value="admin">Admin</option>
+      <option value="user">Usuario</option>
+    </select>
     <button @click="signOn" type="button">Confirmar</button>
   </section>
 </template>
@@ -22,7 +26,8 @@ export default {
       emailError: false,
       password: null,
       passwordError: false,
-      error: null
+      error: null,
+      role: null
     }
   },
   props: ['login'],
@@ -33,7 +38,7 @@ export default {
       this.passwordError = false
       this.error = null
       try {
-        const { data } = await signon(this.email, this.password)
+        const { data } = await signon(this.email, this.password, this.role)
         // Set token on axios header
         setToken(data.token)
         this.$root.$destroy()

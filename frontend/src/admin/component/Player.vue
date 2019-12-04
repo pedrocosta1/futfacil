@@ -47,6 +47,11 @@
                 <span v-if="error.indexOf('city') > -1">Ops! Ta faltando o Cidade</span>
               </div>
               <div class="form-group">
+                <label>Bairro</label>
+                <input v-model="neighborhood" :disabled="edit">
+                <span v-if="error.indexOf('neighborhood') > -1">Ops! Ta faltando o Bairro</span>
+              </div>
+              <div class="form-group">
                 <label>Rua</label>
                 <input v-model="street" :disabled="edit">
                 <span v-if="error.indexOf('street') > -1">Ops! Ta faltando o Rua</span>
@@ -121,6 +126,7 @@ export default {
       error: [],
       name: null,
       city: null,
+      neighborhood: null,
       state: null,
       phone: null,
       street: null,
@@ -151,6 +157,7 @@ export default {
             this.postal,
             this.street,
             this.number,
+            this.neighborhood,
             this.description
           )
           await this.getMounted()
@@ -163,6 +170,7 @@ export default {
             this.postal,
             this.street,
             this.number,
+            this.neighborhood,
             this.description
           )
           this.$router.push('/players')
@@ -173,7 +181,6 @@ export default {
           this.error = data.fields
         }
       }
-      // }
     },
     async getMounted () {
       this.player = await get(this.id)
@@ -181,6 +188,7 @@ export default {
       this.city = this.player.city
       this.state = this.player.state
       this.phone = this.player.phone
+      this.neighborhood = this.player.neighborhood
       this.description = this.player.description
       this.postal = this.player.postal
       this.street = this.player.street
@@ -197,6 +205,7 @@ export default {
         this.city = dataCep.localidade
         this.street = dataCep.logradouro
         this.state = dataCep.uf
+        this.neighborhood = dataCep.bairro
       } catch (error) {
         this.loading = false
         const data = error.response ? error.response.data : {}

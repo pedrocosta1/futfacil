@@ -48,6 +48,11 @@
                 <span v-if="error.indexOf('city') > -1">Ops! Ta faltando o Cidade</span>
               </div>
               <div class="form-group">
+                <label>Bairro</label>
+                <input v-model="neighborhood" :disabled="edit">
+                <span v-if="error.indexOf('neighborhood') > -1">Ops! Ta faltando o Bairro</span>
+              </div>
+              <div class="form-group">
                 <label>Rua</label>
                 <input v-model="street" :disabled="edit">
                 <span v-if="error.indexOf('street') > -1">Ops! Ta faltando o Rua</span>
@@ -122,6 +127,7 @@ export default {
       error: [],
       name: null,
       city: null,
+      neighborhood: null,
       state: null,
       phone: null,
       street: null,
@@ -153,6 +159,7 @@ export default {
             this.postal,
             this.street,
             this.number,
+            this.neighborhood,
             this.description
           )
           await this.getMounted()
@@ -165,6 +172,7 @@ export default {
             this.postal,
             this.street,
             this.number,
+            this.neighborhood,
             this.description
           )
           this.$router.push('/clients')
@@ -186,6 +194,7 @@ export default {
       this.state = this.client.state
       this.phone = this.client.phone
       this.description = this.client.description
+      this.neighborhood = this.client.neighborhood
       this.postal = this.client.postal
       this.street = this.client.street
       this.number = this.client.number
@@ -197,10 +206,13 @@ export default {
     },
     async searchCep () {
       try {
-        const dataCep = await getCep(this.postal)
+        this.error = []
+        const cep = this.postal.replace('-','')
+        const dataCep = await getCep(cep)
         this.city = dataCep.localidade
         this.street = dataCep.logradouro
         this.state = dataCep.uf
+        this.neighborhood = dataCep.bairro
       } catch (error) {
         this.loading = false
         const data = error.response ? error.response.data : {}

@@ -1,4 +1,4 @@
-import knex from "../config/knex"
+import knex from '../config/knex'
 
 const getAll = async () => {
   return await knex('player')
@@ -10,19 +10,21 @@ const getAll = async () => {
       'state',
       'postal',
       'street',
+      'neighborhood',
       'number'
     )
 }
 const get = async (id) => {
   return await knex('player')
   .select(
-    'id',
+      'id',
       'name',
       'phone',
       'city',
       'state',
       'postal',
       'street',
+      'neighborhood',
       'number'
   )
   .where('id', id)
@@ -37,6 +39,7 @@ const get = async (id) => {
     postal,
     street,
     number,
+    neighborhood,
     description
   ) => {
     await knex('player').insert({
@@ -47,6 +50,7 @@ const get = async (id) => {
       postal,
       street,
       number,
+      neighborhood,
       description
     })
   }
@@ -60,6 +64,7 @@ const get = async (id) => {
     postal,
     street,
     number,
+    neighborhood,
     description
   ) => {
     await knex('player').where('id', id).update({
@@ -70,6 +75,7 @@ const get = async (id) => {
       postal,
       street,
       number,
+      neighborhood,
       description
     })
   }

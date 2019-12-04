@@ -48,6 +48,7 @@ router.post('/', requireAuth('admin'), async (req, res) => {
         state: Joi.string().required(),
         postal: Joi.string().required(),
         street: Joi.string().required(),
+        neighborhood: Joi.string().required(),
         number: Joi.number().integer().allow(null),
         description: Joi.string().allow(null)
       }),
@@ -64,6 +65,7 @@ router.post('/', requireAuth('admin'), async (req, res) => {
       value.postal,
       value.street,
       value.number,
+      value.neighborhood,
       value.description
     )
     return res.send(true)
@@ -96,6 +98,7 @@ router.put('/:id', requireAuth('admin'), async (req, res) => {
         postal: Joi.string().required(),
         street: Joi.string().required(),
         number: Joi.number().integer().allow(null),
+        neighborhood: Joi.string().required(),
         description: Joi.string().allow(null)
       })
     )
@@ -112,6 +115,7 @@ router.put('/:id', requireAuth('admin'), async (req, res) => {
       body.value.postal,
       body.value.street,
       body.value.number,
+      body.value.neighborhood,
       body.value.description
     )
     return res.send(true)

@@ -20,7 +20,8 @@ router.get('/:cep', requireAuth('admin'), async (req, res) => {
       const errorFront = error.details.map(x => x.message)
       return res.status(400).send({ error: 'Validation error', fields: [errorFront] }) 
     }
-    const { data } = await axios.get(`https://viacep.com.br/ws/${value.cep}/json/`)
+    console.log(value.cep)
+    const { data } = await axios.get(`  /ws/${value.cep}/json/`)
     return res.send(data)
   } catch (error) {
     logger.error(error)

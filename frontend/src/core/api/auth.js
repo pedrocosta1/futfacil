@@ -10,8 +10,8 @@ const signin = async (login, password) => {
   return axios.post(`${API}/auth/signin`, { login, password })
 }
 
-const signon = async (login, password) => {
-  return axios.post(`${API}/auth/signon`, { login, password })
+const signon = async (login, password, role) => {
+  return axios.post(`${API}/auth/signon`, { login, password, role })
 }
 
 export {
