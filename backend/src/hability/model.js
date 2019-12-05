@@ -2,8 +2,14 @@ import knex from '../config/knex'
 
 const get = async (player) => {
   return await knex('playerHability')
+  .select('playerHability.*', 'countries.name')
+  .leftJoin('countries', 'countries.code', 'playerHability.nacionality')
   .where('player', player)
   .first()
+}
+
+const getAll = async () => {
+  return await knex('countries')
 }
 
   const create = async (
@@ -81,6 +87,7 @@ const get = async (player) => {
   }
 
   export {
+    getAll,
     get,
     create,
     update,

@@ -55,7 +55,9 @@
               </div>
               <div class="form-group">
                 <label>Nacionalidade</label>
-                <input v-model="nacionality" :disabled="edit">
+                <select v-model="nacionality" :disabled="edit">
+                  <option v-for="nacio in habilities" :key="nacio.code" :value="nacio.code">{{nacio.name}}</option>
+                </select>
                 <span v-if="error.indexOf('nacionality') > -1">Ops! Ta faltando o Celular</span>
               </div>
               <div class="form-group">
@@ -68,7 +70,7 @@
                 <input :disabled="edit" type="file" name="file" @change="onFileChange">
                 <span v-if="error.indexOf('club') > -1">Ops! Ta faltando o Celular</span>
               </div>
-              <div class="form-group">
+              <div class="form-group" v-if="editable">
                 <Card :id="id" />
               </div>
             </div>
@@ -99,7 +101,7 @@ import IconAdd from '../../Icons/IconAdd.vue'
 import IconEdit from '../../Icons/IconEdit.vue'
 import IconSearch from '../../Icons/IconSearch.vue'
 import IconAngle from '../../Icons/IconAngle.vue'
-import { get, create, update } from '../api/hability'
+import { getAll, get, create, update } from '../api/hability'
 import { getCep } from '../api/searchCep'
 import Card from './Card'
 import Loading from '../../Loading/LoadingScreen'
@@ -118,6 +120,7 @@ export default {
   data () {
     return {
       habilityPlayer: [],
+      habilities: [],
       pac: null,
       shot: null,
       pas: null,
@@ -133,6 +136,7 @@ export default {
       edit: false,
       recallFirst: false,
       loading: true,
+      editable: false,
       error: []
     }
   },
@@ -143,6 +147,10 @@ export default {
   methods: {
     async save () {
       try {
+        const editable = false
+        if(this.habilityPlayer.lengh > 0) {
+          editable = true
+        }
         this.overall = parseFloat(Math.floor((
           Number(this.pac) + 
           Number(this.shot) + 
@@ -162,9 +170,10 @@ export default {
             this.overall,
             this.name,
             this.nacionality,
-            this.club
+            this.club,
+            editable
           )
-          this.$router.push(`/players/${id}`)
+          await this.getMounted()
       } catch (error) {
         const data = error.response ? error.response.data : {}
         if (data.error === 'Validation error') {
@@ -176,7 +185,9 @@ export default {
       this.photo = event.target.files[0]
     },
     async getMounted () {
+      this.habilities = await getAll()
       this.habilityPlayer = await get(this.id)
+      if(this.habilityPlayer) this.editable = true
       this.club = this.habilityPlayer.club
       this.def = this.habilityPlayer.def
       this.dri = this.habilityPlayer.dri

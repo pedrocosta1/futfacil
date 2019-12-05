@@ -15,7 +15,7 @@
               <img :src="nationality" alt="Argentina" draggable="false">
             </div>
             <div class="player-club">
-              <img :src="club" alt="Barcelona" draggable="false">
+              <img :src="club1" alt="Barcelona" draggable="false">
             </div>
           </div>
           <div class="player-picture">
@@ -25,7 +25,7 @@
         <div class="player-card-bottom">
             <div class="player-info">
                 <div class="player-name">
-                  <span>MESSI</span>
+                  <span>{{habilities.name}}</span>
                 </div>
                 <div class="player-features">
                     <div class="player-features-col">
@@ -85,6 +85,7 @@ export default {
     this.habilities = await get(this.id)
     this.overall = this.habilities.overall
     this.picture = 'img/profiles/' + this.habilities.photo
+    this.nationality = `https://www.countryflags.io/${this.habilities.nacionality}/flat/64.png`
     await this.mountColumns(this.habilities)
     if(!this.validation) {
       this.loading = false

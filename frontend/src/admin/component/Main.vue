@@ -63,7 +63,7 @@ export default {
     // Utilizar a sigla que vem do banco para mudar na variavel Nationality // 
     return {
       Loading: false,
-      nationality: `https://www.countryflags.io/ax/flat/64.png`,
+      nationality: `https://www.countryflags.io/ar/flat/64.png`,
       club: 'https://selimdoyranli.com/cdn/fut-player-card/img/barcelona.svg',
       picture: 'https://selimdoyranli.com/cdn/fut-player-card/img/messi.png',
       overall: 97,
