@@ -21,19 +21,28 @@ const create = async (
   nacionality,
   club
 ) => {
-  return axios.post(`${API}/hability`, {
-    player,
-    pac,
-    shot,
-    pas,
-    dri,
-    def,
-    phy,
-    photo,
-    overall,
-    name,
-    nacionality,
-    club
+  const fd = new FormData()
+  fd.append('player', player)
+  fd.append('pac', pac)
+  fd.append('shot', shot)
+  fd.append('pas', pas)
+  fd.append('dri', dri)
+  fd.append('def', def)
+  fd.append('phy', phy)
+  fd.append('file', photo, 'file')
+  fd.append('overall', overall)
+  fd.append('name', name)
+  fd.append('nacionality', nacionality)
+  fd.append('club', club)
+  return axios.post(`${API}/hability`,
+    fd,
+    {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    }
+  ).then(res => {
+    console.log(res)
   })
 }
 

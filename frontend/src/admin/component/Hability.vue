@@ -63,6 +63,14 @@
                 <input v-model="club" :disabled="edit">
                 <span v-if="error.indexOf('club') > -1">Ops! Ta faltando o Celular</span>
               </div>
+              <div class="form-group">
+                <label>Foto</label>
+                <input :disabled="edit" type="file" name="file" @change="onFileChange">
+                <span v-if="error.indexOf('club') > -1">Ops! Ta faltando o Celular</span>
+              </div>
+              <div class="form-group">
+                <Card :id="id" />
+              </div>
             </div>
           </div>
         </div>
@@ -93,6 +101,7 @@ import IconSearch from '../../Icons/IconSearch.vue'
 import IconAngle from '../../Icons/IconAngle.vue'
 import { get, create, update } from '../api/hability'
 import { getCep } from '../api/searchCep'
+import Card from './Card'
 import Loading from '../../Loading/LoadingScreen'
 
 export default {
@@ -102,12 +111,13 @@ export default {
     IconEdit,
     IconSearch,
     IconAngle,
-    Loading
+    Loading,
+    Card
   },
   props: ['id'],
   data () {
     return {
-      player: [],
+      habilityPlayer: [],
       pac: null,
       shot: null,
       pas: null,
@@ -119,6 +129,7 @@ export default {
       name: null,
       nacionality: null,
       club: null,
+      photo: null,
       edit: false,
       recallFirst: false,
       loading: true,
@@ -126,37 +137,19 @@ export default {
     }
   },
   async mounted () {
-    // if (this.id !== 'new') {
-    //   await this.getMounted()
-    // }
+    await this.getMounted()
     this.loading = false
   },
   methods: {
     async save () {
       try {
-        // if (this.id !== 'new') {
-          // await update(
-          //   this.id,
-          //   this.pac,
-          //   this.shot,
-          //   this.pas,
-          //   this.dri,
-          //   this.def,
-          //   this.phy,
-          //   this.photo,
-          //   this.overall,
-          //   this.name,
-          //   this.nacionality,
-          //   this.club
-          // )
-          // await this.getMounted()
         this.overall = parseFloat(Math.floor((
           Number(this.pac) + 
           Number(this.shot) + 
           Number(this.pas) + 
           Number(this.dri) + 
           Number(this.def) + 
-          Number(this.phy)) / 6).toFixed(2)) 
+          Number(this.phy)) / 6).toFixed(2))
         await create(
             this.id,
             this.pac,
@@ -179,17 +172,22 @@ export default {
         }
       }
     },
+    async onFileChange (event) {
+      this.photo = event.target.files[0]
+    },
     async getMounted () {
-      this.player = await get(this.id)
-      this.name = this.player.name
-      this.city = this.player.city
-      this.state = this.player.state
-      this.phone = this.player.phone
-      this.neighborhood = this.player.neighborhood
-      this.description = this.player.description
-      this.postal = this.player.postal
-      this.street = this.player.street
-      this.number = this.player.number
+      this.habilityPlayer = await get(this.id)
+      this.club = this.habilityPlayer.club
+      this.def = this.habilityPlayer.def
+      this.dri = this.habilityPlayer.dri
+      this.nacionality = this.habilityPlayer.nacionality
+      this.name = this.habilityPlayer.name
+      this.overall = this.habilityPlayer.overall
+      this.pac = this.habilityPlayer.pac
+      this.pas = this.habilityPlayer.pas
+      this.photo = this.habilityPlayer.photo
+      this.phy = this.habilityPlayer.phy
+      this.shot = this.habilityPlayer.shot
       this.edit = true
       this.loading = false
     },

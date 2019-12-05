@@ -20,7 +20,7 @@ const get = async (player) => {
     nacionality,
     club
   ) => {
-    await knex('playerHability').insert({
+    const playerH = await knex('playerHability').insert({
       player,
       pac,
       shot,
@@ -34,6 +34,7 @@ const get = async (player) => {
       nacionality,
       club
     })
+    return playerH
   }
 
   const update = async (
@@ -66,6 +67,15 @@ const get = async (player) => {
     })
   }
 
+  const updatePhoto = async (
+    id,
+    photo
+  ) => {
+    await knex('playerHability').where('id', id).update({
+      photo
+    })
+  }
+
   const remove = (id) => {
     return knex('playerHability').del('id', id)
   }
@@ -74,5 +84,6 @@ const get = async (player) => {
     get,
     create,
     update,
+    updatePhoto,
     remove
   }
