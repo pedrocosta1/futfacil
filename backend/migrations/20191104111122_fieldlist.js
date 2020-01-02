@@ -3,8 +3,8 @@ exports.up = function(knex, Promise) {
     return Promise.all([
       knex.schema.createTable('field_list', function(table) {
         table.increments()
-        table.timestamp('hour_ini', { useTz: true})
-        table.timestamp('hour_end', { useTz: true })
+        table.timestamp('hour_ini', true).defaultTo(knex.fn.now())
+        table.timestamp('hour_end', true).defaultTo(knex.fn.now())
         table.string('day'),
         table.boolean('active')
       }),

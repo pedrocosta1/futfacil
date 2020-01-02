@@ -1,11 +1,10 @@
-
 exports.up = function(knex, Promise) {
     return Promise.all([
       knex.schema.createTable('rent', function(table) {
         table.increments()
-        table.timestamp('date', { useTz: true })
-        table.timestamp('hour_ini', { useTz: true})
-        table.timestamp('hour_end', { useTz: true })
+        table.timestamp('date', true).defaultTo(knex.fn.now())
+        table.timestamp('hour_ini', true).defaultTo(knex.fn.now())
+        table.timestamp('hour_end', true).defaultTo(knex.fn.now())
         table.decimal('price',14,2)
       }),
       knex.schema.alterTable('rent', function(table) {
