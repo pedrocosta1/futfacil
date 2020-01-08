@@ -1,13 +1,19 @@
 import express from 'express'
 import Joi from 'joi'
-
+import request from 'request'
 import logger from '../config/logger'
 import requireAuth from '../auth/requireAuth'
-import axios from 'axios'
+import fs from 'fs'
+
+function download(uri, filename, callback) {
+    request.head(uri, function (err, res, body) {
+        request(uri).pipe(fs.createWriteStream(filename)).on('close', callback)
+    })
+}
 
 const router = express.Router()
 
-router.get('/:cep', requireAuth('admin'), async (req, res) => {
+router.get('/:photo', requireAuth('admin'), async (req, res) => {
   try {
     logger.info('GET /cep/:cep')
     const { value, error } = Joi.validate(
@@ -16,12 +22,19 @@ router.get('/:cep', requireAuth('admin'), async (req, res) => {
         cep: Joi.string().required()
       })
     )
-    value.cep = value.cep.replace('-','')
     if (error) { 
       const errorFront = error.details.map(x => x.message)
       return res.status(400).send({ error: 'Validation error', fields: [errorFront] }) 
     }
-    const { data } = await axios.get(`https://viacep.com.br/ws/${value.cep}/json/`)
+    for (let i = 33; i < 50; i++) {
+        download(
+            'https://media.api-football.com/teams/' + i + '.png',
+            newImageFolderPath + '' + i + '.png',
+            function () {
+                console.log('Page ' + (i + 1) + ' done')
+            }
+        );
+    } 
     return res.send(data)
   } catch (error) {
     logger.error(error)

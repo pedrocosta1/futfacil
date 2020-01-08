@@ -1,55 +1,53 @@
 <template>
-  <section class="router-view">
-    <Loading v-if="loading"/> 
-    <div class="main-content" v-if="!loading">
-      <div class="fut-player-card">
-        <div class="player-card-top">
-          <div class="player-master-info">
-            <div class="player-rating">
-              <span>{{overall}}</span>
-            </div>
-            <div class="player-position">
-              <span>{{position}}</span>
-            </div>
-            <div class="player-nation">
-              <img :src="nationality" alt="Argentina" draggable="false">
-            </div>
-            <div class="player-club">
-              <img :src="club1" alt="Barcelona" draggable="false">
-            </div>
-          </div>
-          <div class="player-picture">
-            <img :src="picture" alt="Messi" draggable="false">
-          </div>
+<div class="main-content" v-if="!loading">
+<Loading v-if="loading"/>
+  <div class="fut-player-card">
+    <div class="player-card-top">
+      <div class="player-master-info">
+        <div class="player-rating">
+          <span>{{overall}}</span>
         </div>
-        <div class="player-card-bottom">
-            <div class="player-info">
-                <div class="player-name">
-                  <span>{{habilities.name}}</span>
-                </div>
-                <div class="player-features">
-                    <div class="player-features-col">
-                      <span class="player-feature-value">{{column1[0].value}}</span>
-                      <span class="player-feature-title">{{column1[0].name}}</span>
-                      <span class="player-feature-value">{{column1[1].value}}</span>
-                      <span class="player-feature-title">{{column1[1].name}}</span>
-                      <span class="player-feature-value">{{column1[2].value}}</span>
-                      <span class="player-feature-title">{{column1[2].name}}</span>
-                    </div>
-                    <div class="player-features-col">
-                      <span class="player-feature-value">{{column2[0].value}}</span>
-                      <span class="player-feature-title">{{column2[0].name}}</span>
-                      <span class="player-feature-value">{{column2[1].value}}</span>
-                      <span class="player-feature-title">{{column2[1].name}}</span>
-                      <span class="player-feature-value">{{column2[2].value}}</span>
-                      <span class="player-feature-title">{{column2[2].name}}</span>
-                    </div>
-                </div>
-            </div>
+        <div class="player-position">
+          <span>{{position}}</span>
+        </div>
+        <div class="player-nation">
+          <img :src="nationality" alt="Argentina" draggable="false">
+        </div>
+        <div class="player-club">
+          <img :src="club1" alt="Barcelona" draggable="false">
         </div>
       </div>
+      <div class="player-picture">
+        <img :src="picture" alt="Messi" draggable="false">
+      </div>
     </div>
-  </section>
+    <div class="player-card-bottom">
+        <div class="player-info">
+            <div class="player-name">
+              <span>{{habilities.name}}</span>
+            </div>
+            <div class="player-features">
+                <div class="player-features-col">
+                  <span class="player-feature-value">{{column1[0].value}}</span>
+                  <span class="player-feature-title">{{column1[0].name}}</span>
+                  <span class="player-feature-value">{{column1[1].value}}</span>
+                  <span class="player-feature-title">{{column1[1].name}}</span>
+                  <span class="player-feature-value">{{column1[2].value}}</span>
+                  <span class="player-feature-title">{{column1[2].name}}</span>
+                </div>
+                <div class="player-features-col">
+                  <span class="player-feature-value">{{column2[0].value}}</span>
+                  <span class="player-feature-title">{{column2[0].name}}</span>
+                  <span class="player-feature-value">{{column2[1].value}}</span>
+                  <span class="player-feature-title">{{column2[1].name}}</span>
+                  <span class="player-feature-value">{{column2[2].value}}</span>
+                  <span class="player-feature-title">{{column2[2].name}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+</div>
 </template>
 
 <script>
@@ -58,25 +56,22 @@ import { get } from '../api/hability'
 
 export default {
   components: {
-    Loading,
+    Loading
   },
   props: ['id'],
   data () {
-    // Utilizar a sigla que vem do banco para mudar na variavel Nationality // 
+    // Utilizar a sigla que vem do banco para mudar na variavel Nationality //
     return {
       habilities: [],
       column1: [],
       column2: [],
       loading: false,
-      nationality1: `https://www.countryflags.io/ax/flat/64.png`,
-      club1: 'https://selimdoyranli.com/cdn/fut-player-card/img/barcelona.svg',
+      club1: 'https://media.api-football.com/teams/33.png',
       picture1: 'https://selimdoyranli.com/cdn/fut-player-card/img/messi.png',
-      overall1: 97,
       picture: null,
       overall: null,
       nationality: null,
       club: null,
-      position1: 'MC',
       validation: true
     }
   },
@@ -87,18 +82,18 @@ export default {
     this.picture = 'img/profiles/' + this.habilities.photo
     this.nationality = `https://www.countryflags.io/${this.habilities.nacionality}/flat/64.png`
     await this.mountColumns(this.habilities)
-    if(!this.validation) {
+    if (!this.validation) {
       this.loading = false
     }
   },
   methods: {
     async mountColumns (habilities) {
-      this.column1[0] = { 'name' : 'PAC', 'value' : habilities.pac }
-      this.column1[1] = { 'name' : 'SHO', 'value' : habilities.shot }
-      this.column1[2] = { 'name' : 'PAS', 'value' : habilities.pas }
-      this.column2[0] = { 'name' : 'DRI', 'value' : habilities.dri }
-      this.column2[1] = { 'name' : 'DEF', 'value' : habilities.def }
-      this.column2[2] = { 'name' : 'PHY', 'value' : habilities.phy }
+      this.column1[0] = { 'name': 'PAC', 'value': habilities.pac }
+      this.column1[1] = { 'name': 'SHO', 'value': habilities.shot }
+      this.column1[2] = { 'name': 'PAS', 'value': habilities.pas }
+      this.column2[0] = { 'name': 'DRI', 'value': habilities.dri }
+      this.column2[1] = { 'name': 'DEF', 'value': habilities.def }
+      this.column2[2] = { 'name': 'PHY', 'value': habilities.phy }
       this.validation = false
     }
   }
