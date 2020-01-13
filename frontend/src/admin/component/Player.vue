@@ -87,8 +87,17 @@
             <IconAngle/>
           </div>
         </div>
+        <div class="section" v-if="cardDone">
+          <div class="section-header" @click="recallSecond = !recallSecond">
+            <span class="title">Card Futebol</span>
+            <IconAngle :class="recallSecond ? 'rotate-down' : 'rotate-up'"/>
+          </div>
+          <div class="section-body" :class="recallSecond ? 'recall' : 'recall-body'">
+            <Card :id="id" />
+          </div>
+        </div>  
           <div class="button-group">
-            <div class="btn-cancel" v-if="!edit" @click="cancel">
+            <div class="btn-cancel"  @click="cancel">
               <span>Cancelar</span>
               <IconClose />
             </div>
@@ -113,7 +122,9 @@ import IconEdit from '../../Icons/IconEdit.vue'
 import IconSearch from '../../Icons/IconSearch.vue'
 import IconAngle from '../../Icons/IconAngle.vue'
 import { get, create, update } from '../api/player'
+import { get as getHability } from '../api/hability'
 import { getCep } from '../api/searchCep'
+import Card from './Card'
 import Loading from '../../Loading/LoadingScreen'
 
 export default {
@@ -123,7 +134,8 @@ export default {
     IconEdit,
     IconSearch,
     IconAngle,
-    Loading
+    Loading,
+    Card
   },
   props: ['id'],
   data () {
@@ -141,6 +153,8 @@ export default {
       postal: null,
       edit: false,
       recallFirst: false,
+      recallSecond: true,
+      cardDone: false,
       loading: true
     }
   },
@@ -190,6 +204,8 @@ export default {
     },
     async getMounted () {
       this.player = await get(this.id)
+      const habilities = await getHability(this.id)
+      if(habilities) this.cardDone = true
       this.name = this.player.name
       this.city = this.player.city
       this.state = this.player.state

@@ -1,5 +1,5 @@
 <template>
-<div class="main-content" v-if="!loading">
+<div class="fut-background" v-if="!loading">
 <Loading v-if="loading"/>
   <div class="fut-player-card">
     <div class="player-card-top">
@@ -7,18 +7,15 @@
         <div class="player-rating">
           <span>{{overall}}</span>
         </div>
-        <div class="player-position">
-          <span>{{position}}</span>
-        </div>
         <div class="player-nation">
           <img :src="nationality" alt="Argentina" draggable="false">
         </div>
         <div class="player-club">
-          <img :src="club1" alt="Barcelona" draggable="false">
+          <img :src="club" alt="Barcelona" draggable="false">
         </div>
       </div>
       <div class="player-picture">
-        <img :src="picture" alt="Messi" draggable="false">
+        <img :src="picture ? picture : picture1" alt="Messi" draggable="false">
       </div>
     </div>
     <div class="player-card-bottom">
@@ -79,7 +76,10 @@ export default {
     this.loading = true
     this.habilities = await get(this.id)
     this.overall = this.habilities.overall
-    this.picture = 'img/profiles/' + this.habilities.photo
+    if(this.habilities.photo){
+      this.picture = 'img/profiles/' + this.habilities.photo
+    }
+    this.club = `https://media.api-football.com/teams/${this.habilities.club}.png`
     this.nationality = `https://www.countryflags.io/${this.habilities.nacionality}/flat/64.png`
     await this.mountColumns(this.habilities)
     if (!this.validation) {
@@ -99,3 +99,10 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+  .fut-background {
+    width: 100%;
+    height: 100%;
+  }
+</style>

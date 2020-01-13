@@ -1,16 +1,39 @@
 <template>
-  <section id="signon">
-    <h4>Registrar</h4>
-    <input v-model="email" type="text" placeholder="E-mail" :class="{ error : emailError || error }" />
-    <span v-if="emailError" class="error">E-mail informado incorretamente</span>
-    <span v-if="error" class="error">{{ error }}</span>
-    <input v-model="password" type="password" placeholder="Senha" :class="{ error : passwordError }" />
-    <span v-if="passwordError" class="error">Senha informada incorretamente</span>
-    <select v-model="role">
-      <option value="admin">Admin</option>
-      <option value="user">Usuario</option>
-    </select>
-    <button @click="signOn" type="button">Confirmar</button>
+  <section id="signon" class="all-page">
+      <div class="box-login">
+        <div class="login-header">
+          <div class="back-header">
+            <div class="box-svg" @click="$router.push('/')">
+              <IconAngle class="rotate-up"/>
+            </div>
+          </div>
+          <label>Registre-se</label>
+          <div class="line">
+          </div>
+        </div>
+        <div class="login-body">
+          <div class="box">
+            <label>Email</label>
+            <input v-model="email" type="text" placeholder="E-mail" :class="{ error : emailError || error }" />
+            <span v-if="emailError" class="error">E-mail informado incorretamente</span>
+          </div>
+          <div class="box">
+            <label>Senha</label>
+            <input v-model="password" type="password" placeholder="Senha" :class="{ error : passwordError }" />
+            <span v-if="passwordError" class="error">Senha informada incorretamente</span>
+          </div>
+          <div class="box">
+            <label>Permissão</label>
+            <select v-model="role">
+              <option value="admin">Admin</option>
+              <option value="user">Usuario</option>
+            </select>
+          </div>
+        </div>
+        <div class="login-footer">
+          <button class="btn-login" @click="signOn" type="button">Confirmar</button>
+        </div>
+      </div>
   </section>
 </template>
 
@@ -18,8 +41,12 @@
 import logger from '../../logger'
 import { setToken, loadModule } from '../../util'
 import { signon } from '../api/auth'
+import IconAngle from '../../Icons/IconAngle'
 
 export default {
+	components: {
+    IconAngle
+	},
   data () {
     return {
       email: null,
@@ -74,9 +101,3 @@ export default {
 }
 </script>
 
-<style scoped>
-  .error {
-    border: 1px solid red;
-    color: red;
-  }
-</style>

@@ -133,6 +133,9 @@ export default {
   },
   methods: {
     async getMounted () {
+      this.numberPlayer = null
+      this.playerTeam = null
+      this.qttTeam = null
       this.edit = true
       this.players = []
       this.loading = false

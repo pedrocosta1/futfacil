@@ -1,30 +1,34 @@
 <template>
-  <section class="signin">
-    <div class="logo">
-      <img src="img/logo_futfacil.jpg" />
-    </div>
-    <div class="divider"></div>
-    <div class="login-box">
-      <form @submit.prevent class="form">
-        <div class="form-group" :class="{ 'error' : error.indexOf('login') > -1 || error.indexOf('disabled') > -1 || error.indexOf('invalid') > -1 }">
+  <section class="all-page">
+    <div class="box-login">
+      <div class="login-header">
+        <div class="back-header">
+          <div class="box-svg" @click="$router.push('/')">
+            <IconAngle class="rotate-up"/>
+          </div>
+        </div>
+        <label>Faça o Login</label>
+        <div class="line">
+        </div>
+      </div>
+      <div class="login-body">
+        <div class="box" :class="{ 'error' : error.indexOf('login') > -1 || error.indexOf('disabled') > -1 || error.indexOf('invalid') > -1 }">
           <label>Login</label>
           <input v-model="login" type="text" placeholder="Informe o login" />
           <span v-if="error.indexOf('login') > -1">Ops! Ta faltando o login.</span>
           <span v-if="error.indexOf('disabled') > -1">Usuário desativado! Por favor entrar em contato.</span>
           <span v-if="error.indexOf('invalid') > -1"></span>
         </div>
-        <div class="form-group" :class="{'error' : error.indexOf('password') > -1 || error.indexOf('invalid') > -1 }" >
+        <div class="box" :class="{'error' : error.indexOf('password') > -1 || error.indexOf('invalid') > -1 }" >
           <label>Senha</label>
           <input v-model="password" type="password" placeholder="Informe a sua senha" />
           <span v-if="error.indexOf('password') > -1">Ops! Ta faltando a senha.</span>
           <span v-if="error.indexOf('invalid') > -1"> Login ou senha invalido!</span>
         </div>
-        <div class="button-group button-group-right">
-          <button @click="$router.push('/')" type="button" class="btn" style="margin-right: 5px">Voltar</button>
-          <button @click="signInOn" type="button" class="btn">Entrar</button>
-        </div>
-        <Register v-if="open" :closeModal="closeModal"/>
-      </form>
+      </div>
+      <div class="login-footer">
+          <button @click="signInOn" type="button" class="btn-login">Entrar</button>
+      </div>
     </div>
   </section>
 </template>
@@ -33,8 +37,12 @@
 import logger from '../../logger'
 import { setToken, loadModule } from '../../util'
 import { signin } from '../api/auth'
+import IconAngle from '../../Icons/IconAngle'
 
 export default {
+  components: {
+    IconAngle
+	},
   data () {
     return {
       login: 'pedro@dev.com.br',
@@ -84,51 +92,4 @@ export default {
 <style lang="scss" scoped>
 @import "../../_asset/scss/_variables.scss";
 
-.signin {
-  background-color: $color-secondary;
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  .logo {
-    max-width: 200px;
-    margin: 50px 0;
-    img {
-      width: 100%;
-      height: auto;
-    }
-  }
-  .form {
-    input {
-      max-width: none;
-      width: 100%;
-    }
-  }
-  .login-box {
-    min-width: 280px;
-    max-width: 300px;
-    padding: 15px;
-    margin: 0 20px;
-  }
-
-  .divider {
-    display: none;
-  }
-}
-
-@media screen and (min-width: $width-desktop) {
-
-  .signin {
-    flex-direction: row;
-    justify-content: center;
-  }
-
-  .divider {
-    display: block !important;
-    height: 225px;
-    border-right: 2px groove #fff;
-    margin: 0 100px;
-  }
-}
 </style>

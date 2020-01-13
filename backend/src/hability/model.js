@@ -2,7 +2,7 @@ import knex from '../config/knex'
 
 const get = async (player) => {
   return await knex('playerHability')
-  .select('playerHability.*', 'countries.name')
+  .select('playerHability.*', 'countries.name as countryName')
   .leftJoin('countries', 'countries.code', 'playerHability.nacionality')
   .where('player', player)
   .first()
@@ -10,6 +10,10 @@ const get = async (player) => {
 
 const getAll = async () => {
   return await knex('countries')
+}
+
+const getTeams = async () => {
+  return await knex('leagueTeams')
 }
 
   const create = async (
@@ -44,7 +48,7 @@ const getAll = async () => {
   }
 
   const update = async (
-    id,
+    player,
     pac,
     shot,
     pas,
@@ -57,8 +61,7 @@ const getAll = async () => {
     nacionality,
     club
   ) => {
-    await knex('playerHability').where('id', id).update({
-      id,
+    await knex('playerHability').where('id', player).update({
       pac,
       shot,
       pas,
@@ -88,6 +91,7 @@ const getAll = async () => {
 
   export {
     getAll,
+    getTeams,
     get,
     create,
     update,

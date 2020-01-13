@@ -56,13 +56,15 @@
               <div class="form-group">
                 <label>Nacionalidade</label>
                 <select v-model="nacionality" :disabled="edit">
-                  <option v-for="nacio in habilities" :key="nacio.code" :value="nacio.code">{{nacio.name}}</option>
+                  <option v-for="nacio in nacionalities" :key="nacio.code" :value="nacio.code">{{nacio.name}}</option>
                 </select>
                 <span v-if="error.indexOf('nacionality') > -1">Ops! Ta faltando o Celular</span>
               </div>
               <div class="form-group">
-                <label>Clube</label>
-                <input v-model="club" :disabled="edit">
+                <label>Time</label>
+                <select v-model="club" :disabled="edit">
+                  <option v-for="team in teams" :key="team.id" :value="team.idApi">{{team.name}}</option>
+                </select>
                 <span v-if="error.indexOf('club') > -1">Ops! Ta faltando o Celular</span>
               </div>
               <div class="form-group">
@@ -84,6 +86,10 @@
           <div class="btn-add" v-if="!edit" @click="save" :disabled="edit">
             <span>Adicionar</span>
             <IconAdd />
+          </div>
+          <div class="btn-cancel" v-if="edit" @click="$router.push(`/players/${id}`)">
+            <span>Voltar</span>
+            <IconClose />
           </div>
           <div class="btn-add" v-if="edit" @click="edit = false">
             <span>Editar</span>
@@ -120,7 +126,8 @@ export default {
   data () {
     return {
       habilityPlayer: [],
-      habilities: [],
+      nacionalities: [],
+      teams: [],
       pac: null,
       shot: null,
       pas: null,
@@ -147,10 +154,6 @@ export default {
   methods: {
     async save () {
       try {
-        const editable = false
-        if(this.habilityPlayer.lengh > 0) {
-          editable = true
-        }
         this.overall = parseFloat(Math.floor((
           Number(this.pac) + 
           Number(this.shot) + 
@@ -171,8 +174,9 @@ export default {
             this.name,
             this.nacionality,
             this.club,
-            editable
+            this.editable
           )
+          this.editable = false
           await this.getMounted()
       } catch (error) {
         const data = error.response ? error.response.data : {}
@@ -185,7 +189,9 @@ export default {
       this.photo = event.target.files[0]
     },
     async getMounted () {
-      this.habilities = await getAll()
+      this.allObject = await getAll()
+      this.nacionalities = this.allObject[0]
+      this.teams = this.allObject[1]
       this.habilityPlayer = await get(this.id)
       if(this.habilityPlayer) this.editable = true
       this.club = this.habilityPlayer.club

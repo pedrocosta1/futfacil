@@ -20,7 +20,7 @@ var upload = multer({
 
 import logger from '../config/logger'
 import requireAuth from '../auth/requireAuth'
-import { getAll, get, create, update, updatePhoto } from './model'
+import { getAll, getTeams, get, create, update, updatePhoto } from './model'
 
 
 const router = express.Router()
@@ -45,8 +45,11 @@ router.get('/:player', requireAuth('admin'), async (req, res) => {
 
 router.get('/', requireAuth('admin'), async (req, res) => {
   try {
-    const nacionalidade = await getAll()
-    return res.send(nacionalidade)
+    const Nacionalities = await Promise.all([
+      getAll(),
+      getTeams()
+    ])
+    return res.send(Nacionalities)
   } catch (error) {
     logger.error(error)
     return res.status(400).send({ error: 'Internal error' })
@@ -55,28 +58,87 @@ router.get('/', requireAuth('admin'), async (req, res) => {
 
 router.post('/', requireAuth('admin'), async (req, res) => {
   try {
-    upload(req, res, async function(err) {
-      const photoName = req.files[0].filename
-      if (err) {
-          return res.end('Upload de foto deu errado')
-      }
-      logger.info('POST /player/:id')
+    logger.info('POST /hability')
+    if(req.body.photo){
+      upload(req, res, async function(err) {
+        const photoName = req.files[0].filename
+        if (err) {
+            return res.end('Upload de foto deu errado')
+        }
+        const { value, error } = Joi.validate(
+          req.body,
+          Joi.object({ abortEarly: true }).options({ abortEarly: false }).keys({
+            player: Joi.number().integer().required(),
+            pac: Joi.number().integer().required(),
+            shot: Joi.number().integer().required(),
+            pas: Joi.number().integer().required(),
+            dri: Joi.number().integer().required(),
+            def: Joi.number().integer().required(),
+            phy: Joi.number().integer().required(),
+            photo: Joi.string().allow(null),
+            overall: Joi.number().integer().required(),
+            name: Joi.string().required(),
+            nacionality: Joi.string().required(),
+            club: Joi.number().required(),
+            edit: Joi.boolean().required()
+          }),
+        )
+        if (error) { 
+          const errorFront = error.details.map(x => x.message)
+          return res.status(400).send({ error: 'Validation error', fields: [errorFront] }) 
+        }
+        let id = 0
+        if (value.edit){
+          id = await update (
+            value.id,
+            value.player,
+            value.pac,
+            value.shot,
+            value.pas,
+            value.dri,
+            value.def,
+            value.phy,
+            value.photo,
+            value.overall,
+            value.name,
+            value.nacionality,
+            value.club
+          )
+        } else {
+          id = await create(
+            value.player,
+            value.pac,
+            value.shot,
+            value.pas,
+            value.dri,
+            value.def,
+            value.phy,
+            value.photo,
+            value.overall,
+            value.name,
+            value.nacionality,
+            value.club
+          )
+        }
+        await updatePhoto(id, photoName)
+      })
+    } else {
       const { value, error } = Joi.validate(
         req.body,
         Joi.object({ abortEarly: true }).options({ abortEarly: false }).keys({
           player: Joi.number().integer().required(),
-          pac: Joi.number().integer().required(),
-          shot: Joi.number().integer().required(),
-          pas: Joi.number().integer().required(),
-          dri: Joi.number().integer().required(),
-          def: Joi.number().integer().required(),
-          phy: Joi.number().integer().required(),
-          photo: Joi.string().allow(null),
-          overall: Joi.number().integer().required(),
-          name: Joi.string().required(),
-          nacionality: Joi.string().required(),
-          club: Joi.string().required(),
-          edit: Joi.boolean().required()
+            pac: Joi.number().integer().required(),
+            shot: Joi.number().integer().required(),
+            pas: Joi.number().integer().required(),
+            dri: Joi.number().integer().required(),
+            def: Joi.number().integer().required(),
+            phy: Joi.number().integer().required(),
+            photo: Joi.string().allow(null),
+            overall: Joi.number().integer().required(),
+            name: Joi.string().required(),
+            nacionality: Joi.string().required(),
+            club: Joi.number().required(),
+            edit: Joi.boolean().required()
         }),
       )
       if (error) { 
@@ -86,7 +148,6 @@ router.post('/', requireAuth('admin'), async (req, res) => {
       let id = 0
       if (value.edit){
         id = await update (
-          value.id,
           value.player,
           value.pac,
           value.shot,
@@ -116,8 +177,7 @@ router.post('/', requireAuth('admin'), async (req, res) => {
           value.club
         )
       }
-      await updatePhoto(id, photoName)
-    })
+    }
     return res.send(true)
   } catch (error) {
     logger.error(error)
@@ -151,7 +211,7 @@ router.put('/:id', requireAuth('admin'), async (req, res) => {
         overall: Joi.number().integer().required(),
         name: Joi.string().required(),
         nacionality: Joi.string().required(),
-        club: Joi.string().required()
+        club: Joi.number().required()
       })
     )
     if (body.error) {
