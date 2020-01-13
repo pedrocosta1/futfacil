@@ -1,7 +1,7 @@
 <template>
-<div class="fut-background" v-if="!loading">
+<div class="fut-background" >
 <Loading v-if="loading"/>
-  <div class="fut-player-card">
+  <div class="fut-player-card" v-if="!loading">
     <div class="player-card-top">
       <div class="player-master-info">
         <div class="player-rating">
@@ -23,7 +23,7 @@
             <div class="player-name">
               <span>{{habilities.name}}</span>
             </div>
-            <div class="player-features">
+            <div class="player-features" v-if="!validation">
                 <div class="player-features-col">
                   <span class="player-feature-value">{{column1[0].value}}</span>
                   <span class="player-feature-title">{{column1[0].name}}</span>
@@ -55,7 +55,7 @@ export default {
   components: {
     Loading
   },
-  props: ['id'],
+  props: ['id', 'change'],
   data () {
     // Utilizar a sigla que vem do banco para mudar na variavel Nationality //
     return {
@@ -72,16 +72,23 @@ export default {
       validation: true
     }
   },
+  computed: {
+    changeCard(change) {
+      console.log('Alou')
+    }
+  },
   async mounted () {
     this.loading = true
     this.habilities = await get(this.id)
-    this.overall = this.habilities.overall
-    if(this.habilities.photo){
-      this.picture = 'img/profiles/' + this.habilities.photo
+    if(this.habilities) {
+      this.overall = this.habilities.overall
+      if(this.habilities.photo){
+        this.picture = 'img/profiles/' + this.habilities.photo
+      }
+      this.club = `https://media.api-football.com/teams/${this.habilities.club}.png`
+      this.nationality = `https://www.countryflags.io/${this.habilities.nacionality}/flat/64.png`
+      await this.mountColumns(this.habilities)
     }
-    this.club = `https://media.api-football.com/teams/${this.habilities.club}.png`
-    this.nationality = `https://www.countryflags.io/${this.habilities.nacionality}/flat/64.png`
-    await this.mountColumns(this.habilities)
     if (!this.validation) {
       this.loading = false
     }

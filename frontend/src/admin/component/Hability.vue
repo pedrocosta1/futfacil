@@ -73,7 +73,7 @@
                 <span v-if="error.indexOf('club') > -1">Ops! Ta faltando o Celular</span>
               </div>
               <div class="form-group" v-if="editable">
-                <Card :id="id" />
+                <Card :id="id" :change="variable" />
               </div>
             </div>
           </div>
@@ -144,12 +144,12 @@ export default {
       recallFirst: false,
       loading: true,
       editable: false,
+      variable: true,
       error: []
     }
   },
   async mounted () {
     await this.getMounted()
-    this.loading = false
   },
   methods: {
     async save () {
@@ -177,6 +177,7 @@ export default {
             this.editable
           )
           this.editable = false
+          this.variable = !this.variable
           await this.getMounted()
       } catch (error) {
         const data = error.response ? error.response.data : {}
@@ -189,22 +190,25 @@ export default {
       this.photo = event.target.files[0]
     },
     async getMounted () {
+      this.loading = true
       this.allObject = await getAll()
       this.nacionalities = this.allObject[0]
       this.teams = this.allObject[1]
       this.habilityPlayer = await get(this.id)
-      if(this.habilityPlayer) this.editable = true
-      this.club = this.habilityPlayer.club
-      this.def = this.habilityPlayer.def
-      this.dri = this.habilityPlayer.dri
-      this.nacionality = this.habilityPlayer.nacionality
-      this.name = this.habilityPlayer.name
-      this.overall = this.habilityPlayer.overall
-      this.pac = this.habilityPlayer.pac
-      this.pas = this.habilityPlayer.pas
-      this.photo = this.habilityPlayer.photo
-      this.phy = this.habilityPlayer.phy
-      this.shot = this.habilityPlayer.shot
+      if(this.habilityPlayer) {
+        this.editable = true
+        this.club = this.habilityPlayer.club
+        this.def = this.habilityPlayer.def
+        this.dri = this.habilityPlayer.dri
+        this.nacionality = this.habilityPlayer.nacionality
+        this.name = this.habilityPlayer.name
+        this.overall = this.habilityPlayer.overall
+        this.pac = this.habilityPlayer.pac
+        this.pas = this.habilityPlayer.pas
+        this.photo = this.habilityPlayer.photo
+        this.phy = this.habilityPlayer.phy
+        this.shot = this.habilityPlayer.shot
+      }
       this.edit = true
       this.loading = false
     },
