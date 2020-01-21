@@ -51,9 +51,11 @@ export default {
   },
   data () {
     return {
+      data: [],
       logs: [],
       search: '',
-      loading: true
+      loading: true,
+      busy: false
     }
   },
   computed: {
@@ -64,7 +66,8 @@ export default {
         String(log.message).toUpperCase().startsWith(this.search.toUpperCase()) ||
         String(log.info).toUpperCase().startsWith(this.search.toUpperCase()) ||
         String(log.date).toUpperCase().startsWith(this.search.toUpperCase()) ||
-        String(log.level).toUpperCase().startsWith(this.search.toUpperCase())
+        String(log.level).toUpperCase().startsWith(this.search.toUpperCase()) ||
+        String(log.from).toUpperCase().startsWith(this.search.toUpperCase())
       })
     }
   },

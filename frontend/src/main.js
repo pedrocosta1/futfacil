@@ -8,7 +8,9 @@ import money from 'v-money'
 import VueTheMask from 'vue-the-mask'
 import VueScrollTo from 'vue-scrollto'
 import Loading from './Loading/LoadingScreen'
+import infiniteScroll from 'vue-infinite-scroll'
 
+import './_asset/scss/app.scss'
 
 Vue.config.productionTip = false
 
@@ -25,6 +27,7 @@ Vue.use(VueScrollTo, {
   x: false,
   y: true
 })
+Vue.use(infiniteScroll)
 Vue.component(Loading)
 Vue.use(money, {
   precision: 2,

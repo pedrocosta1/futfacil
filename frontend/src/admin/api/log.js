@@ -7,6 +7,12 @@ const getAll = async () => {
   return data
 }
 
+const get = async (id) => {
+  const { data } = await axios.get(`${API}/log/${id}`)
+  return data
+}
+
 export {
-  getAll
+  getAll,
+  get
 }

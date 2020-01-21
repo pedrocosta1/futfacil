@@ -21,6 +21,7 @@
     "register-service-worker": "^1.0.0",
     "v-money": "^0.8.1",
     "vue": "^2.5.17",
+    "vue-infinite-scroll": "^2.0.2",
     "vue-router": "^3.0.1",
     "vue-scrollto": "^2.17.1",
     "vue-the-mask": "^0.11.1",

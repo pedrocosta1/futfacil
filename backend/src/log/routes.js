@@ -4,7 +4,7 @@ import Joi from 'joi'
 import logger from '../config/logger'
 import knex from '../config/knex'
 import requireAuth from '../auth/requireAuth'
-import { getAll } from './model'
+import { getAll, get } from './model'
 
 const router = express.Router()
 
@@ -39,7 +39,7 @@ router.post('/', async (req, res) => {
 
 router.get('/', requireAuth('admin'), async (req, res) => {
   try {
-    logger.info('GET /player/:id')
+    logger.info('GET /log')
     const logs = await getAll()
     return res.send(logs)
   } catch (error) {
@@ -48,4 +48,24 @@ router.get('/', requireAuth('admin'), async (req, res) => {
   }
 })
 
+router.get('/:id', requireAuth('admin'), async (req, res) => {
+  try {
+    logger.info('GET /log/:id')
+    const { value, error } = Joi.validate(
+      req.params,
+      Joi.object().keys({
+        id: Joi.number().integer().required()
+      })
+    )
+    if(error) {
+      const errorFront = error.details.map(x => x.path)
+      return res.status(400).send({ error: 'Validation error', fields: errorFront }) 
+    }
+    const logs = await get(value.id)
+    return res.send(logs)
+  } catch (error) {
+    logger.error(error)
+    return res.status(400).send({ error: 'Internal error' })
+  }
+})
 export default router
