@@ -9,7 +9,6 @@ import VueTheMask from 'vue-the-mask'
 import VueScrollTo from 'vue-scrollto'
 import Loading from './Loading/LoadingScreen'
 
-import './_asset/scss/app.scss'
 
 Vue.config.productionTip = false
 

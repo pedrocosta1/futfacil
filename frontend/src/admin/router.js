@@ -16,6 +16,8 @@ import RentedFields from './component/RentedFields.vue'
 import RentedField from './component/RentedField.vue'
 import RandomTeam from './component/RandomTeam.vue'
 import Hability from './component/Hability.vue'
+import Logs from './component/Logs.vue'
+import Log from './component/Log.vue'
 
 Vue.use(Router)
 
@@ -112,6 +114,17 @@ export default new Router({
       path: '/random',
       name: 'RandomTeam',
       component: RandomTeam
+    },
+    {
+      path: '/logs',
+      name: 'Logs',
+      component: Logs
+    },
+    {
+      path: '/logs/:id',
+      name: 'Log',
+      component: Log,
+      props: true
     }
   ]
 })

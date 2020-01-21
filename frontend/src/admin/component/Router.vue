@@ -22,9 +22,15 @@
         </div>
         <div class="menu-item" @click="changeRoute('random')" :class="random ? 'active' : ''">
           <div class="menu-open-svg">
-            <IconField class="menu-svg" />
+            <IconRandom class="menu-svg" />
           </div>
           <span class="menu-text">Randomizar Times</span>
+        </div>
+        <div class="menu-item" @click="changeRoute('logs')" :class="random ? 'active' : ''">
+          <div class="menu-open-svg">
+            <IconLog class="menu-svg" />
+          </div>
+          <span class="menu-text">Log Sistema</span>
         </div>
         <div class="menu-out" @click="signOut">
           <div class="menu-open-svg">
@@ -45,13 +51,17 @@ import IconClient from '../../Icons/IconClient'
 import IconDashboard from '../../Icons/IconDashboard'
 import IconOut from '../../Icons/IconOut'
 import IconField from '../../Icons/IconField'
+import IconRandom from '../../Icons/IconRandom'
+import IconLog from '../../Icons/IconLog'
 
 export default {
   components: {
     IconClient,
     IconDashboard,
     IconOut,
-    IconField
+    IconField,
+    IconRandom,
+    IconLog
   },
   computed: {
     ...mapState(['user'])
@@ -64,7 +74,8 @@ export default {
       fields: false,
       dashboard: false,
       open: true,
-      random: false
+      random: false,
+      log: false,
     }
   },
   methods: {
@@ -83,6 +94,7 @@ export default {
       if (this.path === 'clients') this.clients = true
       else if (this.path === 'players') this.players = true
       else if (this.path === 'random') this.random = true
+      else if (this.path === 'logs') this.log = true
     },
     openClose (open) {
       this.open = !open

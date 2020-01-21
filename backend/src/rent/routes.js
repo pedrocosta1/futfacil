@@ -16,7 +16,10 @@ router.get('/by/:player', requireAuth('admin'), async (req, res) => {
         player: Joi.number().integer().required()
       })
     )
-    if (error) { return res.status(400).send({ error: 'Validation error', fields: [...new Set(...error.details.map(x => x.path))] }) }
+    if(error){
+      const errorFront = error.details.map(x => x.path)
+      return res.status(400).send({ error: 'Validation error', fields: errorFront }) 
+    }
     const rents = await getAll(value.player)
     return res.send(rents)
   } catch (error) {
@@ -34,7 +37,10 @@ router.get('/:id', requireAuth('admin'), async (req, res) => {
         id: Joi.number().integer().required()
       })
     )
-    if (error) { return res.status(400).send({ error: 'Validation error', fields: [...new Set(...error.details.map(x => x.path))] }) }
+    if(error) {
+      const errorFront = error.details.map(x => x.path)
+      return res.status(400).send({ error: 'Validation error', fields: errorFront }) 
+    }
     const rent = await get(value.id)
     return res.send(rent)
   } catch (error) {
@@ -86,8 +92,8 @@ router.put('/:id', requireAuth('admin'), async (req, res) => {
       })
     )
     if (params.error) { 
-      const errorFront = params.error.details.map(x => x.message)
-      return res.status(400).send({ error: 'Validation error', fields: [errorFront] }) 
+      const errorFront = error.details.map(x => x.path)
+      return res.status(400).send({ error: 'Validation error', fields: errorFront }) 
     }
     const body = Joi.validate(
       req.body,

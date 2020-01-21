@@ -19,7 +19,10 @@ router.post('/exist', async (req, res) => {
         login: Joi.string().email().required()
       })
     )
-    if (error) { return res.status(400).send({ error: 'Validation error', fields: [...new Set(...error.details.map(x => x.path))] }) }
+    if(error) {
+      const errorFront = error.details.map(x => x.path)
+      return res.status(400).send({ error: 'Validation error', fields: errorFront }) 
+    }
     // Check if login exists
     const exists = await exist(value.login)
     res.send({ exists })
@@ -41,7 +44,10 @@ router.post('/signin', async (req, res) => {
         password: Joi.string().regex(/^[a-zA-Z0-9]{6,20}$/).required()
       })
     )
-    if (error) { return res.status(400).send({ error: 'Validation error', fields: [...new Set(...error.details.map(x => x.path))] }) }
+    if(error) {
+      const errorFront = error.details.map(x => x.path)
+      return res.status(400).send({ error: 'Validation error', fields: errorFront }) 
+    }
     // Validate user
     const user = await validate(value.login, value.password)
     if (!user) { return res.status(400).send({ error: 'Invalid login or password' }) }
@@ -69,7 +75,10 @@ router.post('/signon', async (req, res) => {
         role: Joi.string().required()
       })
     )
-    if (error) { return res.status(400).send({ error: 'Validation error', fields: [...new Set(...error.details.map(x => x.path))] }) }
+    if(error) {
+      const errorFront = error.details.map(x => x.path)
+      return res.status(400).send({ error: 'Validation error', fields: errorFront }) 
+    }
     const check = await exist(value.login)
     if (check) { return res.status(400).send({ error: 'User already exists' }) }
     const user = await create(value.login, value.password, value.role)

@@ -12,10 +12,15 @@
     height: 40px;
     align-items: center;
     border-radius: 50%;
-    border: 1px solid black;
-    background: $btn-bg;
+    border: 1px solid $btn-bg;
+    background: #fff;
     cursor: pointer;
     margin-left: 5px;
+    color: #000;
+    &:hover {
+      background: $btn-bg;
+      color: #fff;
+    }
   }
   .btn-cancel {
     display: flex !important;
@@ -25,9 +30,13 @@
     height: 40px;
     align-items: center;
     border-radius: 50%;
-    border: 1px solid black;
-    background: #a1a1a1;
+    border: 1px solid #a1a1a1;
+    background: #f1f1f1;
+    color: #000;
     cursor: pointer;
+    &:hover {
+      background: #a1a1a1;
+    }
   }
   span {
     display: none;
@@ -191,13 +200,13 @@
     margin-top: 20px;
     .btn-add {
       width: auto;
-      border-radius: 5px;
-      padding: 5px 7px;
+      border-radius: 10px;
+      padding: 7px 10px;
     }
     .btn-cancel {
       width: auto;
-      border-radius: 5px;
-      padding: 5px 7px;
+      border-radius: 10px;
+      padding: 7px 10px;
     }
     span {
       display: block;

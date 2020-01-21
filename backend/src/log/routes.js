@@ -3,6 +3,8 @@ import Joi from 'joi'
 
 import logger from '../config/logger'
 import knex from '../config/knex'
+import requireAuth from '../auth/requireAuth'
+import { getAll } from './model'
 
 const router = express.Router()
 
@@ -18,7 +20,10 @@ router.post('/', async (req, res) => {
         message: Joi.string().required()
       })
     )
-    if (error) { return res.status(400).send({ error: 'Validation error', fields: [...new Set(...error.details.map(x => x.path))] }) }
+    if(error) {
+      const errorFront = error.details.map(x => x.path)
+      return res.status(400).send({ error: 'Validation error', fields: errorFront }) 
+    }
     // Save log to database
     await knex('log').insert({
 			from: value.from,
@@ -26,6 +31,17 @@ router.post('/', async (req, res) => {
 			message: value.message
     })
     res.send({ status: true })
+  } catch (error) {
+    logger.error(error)
+    return res.status(400).send({ error: 'Internal error' })
+  }
+})
+
+router.get('/', requireAuth('admin'), async (req, res) => {
+  try {
+    logger.info('GET /player/:id')
+    const logs = await getAll()
+    return res.send(logs)
   } catch (error) {
     logger.error(error)
     return res.status(400).send({ error: 'Internal error' })

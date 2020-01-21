@@ -34,7 +34,6 @@
 </template>
 
 <script>
-import { removeToken, loadModule } from '../../util'
 import IconClose from '../../Icons/IconClose.vue'
 import IconAdd from '../../Icons/IconAdd.vue'
 import IconSearch from '../../Icons/IconSearch.vue'
@@ -69,14 +68,6 @@ export default {
   async mounted () {
     this.clients = await getAll()
     this.loading = false
-  },
-  methods: {
-    signOut () {
-      this.$store.commit('user', null)
-      this.$root.$destroy()
-      removeToken()
-      loadModule('core')
-    }
   }
 }
 </script>

@@ -15,6 +15,9 @@
     "axios": "^0.18.1",
     "chart.js": "^2.8.0",
     "chartjs-plugin-piechart-outlabels": "^0.1.4",
+    "node-noop": "^1.0.0",
+    "pedro-design-system": "file:../../desing-system",
+    "postcss": "^7.0.26",
     "register-service-worker": "^1.0.0",
     "v-money": "^0.8.1",
     "vue": "^2.5.17",
@@ -32,7 +35,7 @@
     "babel-eslint": "^10.0.1",
     "eslint": "^5.8.0",
     "eslint-plugin-vue": "^5.0.0-0",
-    "node-sass": "^4.9.0",
+    "node-sass": "^4.13.1",
     "sass-loader": "^7.0.1",
     "vue-cli-plugin-cordova": "^2.0.8",
     "vue-template-compiler": "^2.5.17"
