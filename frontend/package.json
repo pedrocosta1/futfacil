@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "axios": "^0.18.1",
-    "chart.js": "^2.8.0",
+    "chart.js": "^2.9.3",
     "chartjs-plugin-piechart-outlabels": "^0.1.4",
     "node-noop": "^1.0.0",
     "pedro-design-system": "file:../../desing-system",
@@ -21,6 +21,7 @@
     "register-service-worker": "^1.0.0",
     "v-money": "^0.8.1",
     "vue": "^2.5.17",
+    "vue-chartjs": "^3.5.0",
     "vue-infinite-scroll": "^2.0.2",
     "vue-router": "^3.0.1",
     "vue-scrollto": "^2.17.1",
