@@ -8,6 +8,7 @@ import money from 'v-money'
 import VueTheMask from 'vue-the-mask'
 import VueScrollTo from 'vue-scrollto'
 import Loading from './Loading/LoadingScreen'
+import Card from './admin/component/Card'
 import infiniteScroll from 'vue-infinite-scroll'
 
 import './_asset/scss/app.scss'
@@ -28,7 +29,8 @@ Vue.use(VueScrollTo, {
   y: true
 })
 Vue.use(infiniteScroll)
-Vue.component(Loading)
+Vue.component('Loading', Loading)
+Vue.component('Card', Card)
 Vue.use(money, {
   precision: 2,
   prefix: 'R$ '

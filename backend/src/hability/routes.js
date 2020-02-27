@@ -25,7 +25,7 @@ import { getAll, getTeams, get, create, update, updatePhoto } from './model'
 
 const router = express.Router()
 
-router.get('/:player', requireAuth('admin'), async (req, res) => {
+router.get('/:player', async (req, res) => {
   try {
     logger.info('GET /player/:id')
     const { value, error } = Joi.validate(
@@ -46,7 +46,7 @@ router.get('/:player', requireAuth('admin'), async (req, res) => {
   }
 })
 
-router.get('/', requireAuth('admin'), async (req, res) => {
+router.get('/', async (req, res) => {
   try {
     const Nacionalities = await Promise.all([
       getAll(),
@@ -59,7 +59,7 @@ router.get('/', requireAuth('admin'), async (req, res) => {
   }
 })
 
-router.post('/', requireAuth('admin'), async (req, res) => {
+router.post('/', async (req, res) => {
   try {
     logger.info('POST /hability')
     if(req.body.photo){
@@ -188,7 +188,7 @@ router.post('/', requireAuth('admin'), async (req, res) => {
   }
 })
 
-router.put('/:id', requireAuth('admin'), async (req, res) => {
+router.put('/:id', async (req, res) => {
   try {
     logger.info('POST /player/:id')
     const params = Joi.validate(

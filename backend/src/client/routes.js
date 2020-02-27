@@ -3,7 +3,6 @@ import Joi from 'joi'
 
 import logger from '../config/logger'
 import requireAuth from '../auth/requireAuth'
-import user from './routesUser'
 import { getAll, get, create, update, remove } from './model'
 
 const router = express.Router()
@@ -129,5 +128,4 @@ router.put('/:id', requireAuth('admin'), async (req, res) => {
   }
 })
 
-router.use('/user', user)
 export default router
