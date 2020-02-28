@@ -57,17 +57,17 @@ export default {
         // Clean errors
         this.error = []
         // Sign in on frontend
-        const data = await signin(this.login, this.password)
+        const { data } = await signin(this.login, this.password)
         // Set token on axios header
-        setToken(data.data.token)
+        setToken(data.token)
         this.$root.$destroy()
-        console.log(data)
-        if (data.data.user.role === 'admin') {
+        if (data.user.role === 'admin') {
           // Start admin module
-          loadModule('admin', data.data.user)
+          loadModule('admin', data.user)
+        } else if (data.user.role === 'user') {
+          loadModule('user', data.user)
         } else {
-          // Start user module
-          loadModule('user', data.data.user)
+          loadModule('player', data.user)
         }
       } catch (error) {
         const data = error.response ? error.response.data : {}

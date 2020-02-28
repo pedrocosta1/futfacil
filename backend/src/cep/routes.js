@@ -2,12 +2,11 @@ import express from 'express'
 import Joi from 'joi'
 
 import logger from '../config/logger'
-import requireAuth from '../auth/requireAuth'
 import axios from 'axios'
 
 const router = express.Router()
 
-router.get('/:cep', requireAuth('admin'), async (req, res) => {
+router.get('/:cep', async (req, res) => {
   try {
     logger.info('GET /cep/:cep')
     const { value, error } = Joi.validate(

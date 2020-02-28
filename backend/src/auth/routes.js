@@ -3,7 +3,7 @@ import Joi from 'joi'
 import jwt from 'jsonwebtoken'
 
 import logger from '../config/logger'
-import { exist, validate, create } from './model'
+import { exist, validate, create, createPlayer } from './model'
 import requireAuth from './requireAuth'
 
 const router = express.Router()
@@ -82,6 +82,9 @@ router.post('/signon', async (req, res) => {
     const check = await exist(value.login)
     if (check) { return res.status(400).send({ error: 'User already exists' }) }
     const user = await create(value.login, value.password, value.role)
+    if(value.role === 'player') {
+      await createPlayer(user)
+    }
     const token = jwt.sign(user, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES })
     return res.send({ token, user })
   } catch (error) {

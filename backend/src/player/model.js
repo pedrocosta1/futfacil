@@ -31,6 +31,12 @@ const get = async (id) => {
   .first()
 }
 
+const getPlayer = async (id) => {
+  return await knex('player')
+  .select('id')
+  .where('user', id)
+  .first()
+}
   const create = async (
     name,
     phone,
@@ -87,6 +93,7 @@ const get = async (id) => {
   export {
     getAll,
     get,
+    getPlayer,
     create,
     update,
     remove

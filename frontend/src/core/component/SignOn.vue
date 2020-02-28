@@ -27,6 +27,7 @@
             <select v-model="role">
               <option value="admin">Admin</option>
               <option value="user">Usuario</option>
+              <option value="player">Player</option>
             </select>
           </div>
         </div>
@@ -72,9 +73,11 @@ export default {
         if (data.user.role === 'admin') {
           // Start admin module
           loadModule('admin', data.user)
-        } else {
+        } else if (data.user.role === 'user') {
           // Start user module
           loadModule('user', data.user)
+        } else {
+          loadModule('player', data.user)
         }
       } catch (error) {
         const data = error.response ? error.response.data : {}

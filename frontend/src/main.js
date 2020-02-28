@@ -8,8 +8,8 @@ import money from 'v-money'
 import VueTheMask from 'vue-the-mask'
 import VueScrollTo from 'vue-scrollto'
 import Loading from './Loading/LoadingScreen'
-import Card from './admin/component/Card'
 import infiniteScroll from 'vue-infinite-scroll'
+import Card from './admin/component/Card'
 
 import './_asset/scss/app.scss'
 

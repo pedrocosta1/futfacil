@@ -1,6 +1,7 @@
 import crypto from 'crypto'
 
 import knex from '../config/knex'
+import { description } from 'joi'
 
 const generateHash = (password, hash = null) => {
   const key = hash ? hash : crypto.randomBytes(16).toString('base64')
@@ -39,9 +40,32 @@ const create = async (login, password, role) => {
   return user[0]
 }
 
+const createPlayer = async (user) => {
+  var name = 'mudar'
+  var phone = 'mudar'
+  var postal = 'mudar'
+  var state = 'mudar'
+  var city = 'mudar'
+  var street = 'mudar'
+  var description = 'mudar'
+  var neighborhood = 'mudar'
+  await knex('player').insert({
+    name,
+    phone,
+    postal,
+    state,
+    city,
+    street,
+    description,
+    user,
+    neighborhood
+  })
+}
+
 export {
   validate,
   exist,
   get,
-  create
+  create,
+  createPlayer
 }
