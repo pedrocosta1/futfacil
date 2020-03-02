@@ -85,8 +85,7 @@ export default {
       if(this.habilities.photo){
         this.picture = 'img/profiles/' + this.habilities.photo
       }
-      console.log(this.habilities.club)
-      this.club = `https://media.api-football.com/teams/34s.png`
+      this.club = `https://media.api-football.com/teams/${this.habilities.club}.png`
       this.nationality = `https://www.countryflags.io/${this.habilities.nacionality}/flat/64.png`
       await this.mountColumns(this.habilities)
     } else {

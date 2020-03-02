@@ -34,6 +34,7 @@
 
 <script>
 import { mapState } from 'vuex'
+import { get } from '../api/player'
 import { removeToken, loadModule } from '../../util'
 import IconClient from '../../Icons/IconClient'
 import IconDashboard from '../../Icons/IconDashboard'
@@ -52,7 +53,8 @@ export default {
     IconLog
   },
   computed: {
-    ...mapState(['user'])
+    ...mapState(['user']),
+    ...mapState(['player']),
   },
   data () {
     return {
@@ -66,6 +68,10 @@ export default {
       log: false,
     }
   },
+  async mounted () {
+    const playerData = await get(this.user.id)
+    this.$store.commit('player', playerData)
+  },
   methods: {
     signOut () {
       this.$store.commit('user', null)
@@ -77,7 +83,6 @@ export default {
       this.clients = false
       this.players = false
       this.random = false
-      console.log(route)
       this.$router.push('/' + route)
       this.path = this.$route.path.split('/')[1]
       if (this.path === 'clients') this.clients = true

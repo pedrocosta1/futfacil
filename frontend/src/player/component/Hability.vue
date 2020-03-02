@@ -20,56 +20,56 @@
             <div class="form">
               <div class="form-group">
                 <label>Nome</label>
-                <input v-model="name" :disabled="edit">
+                <input v-model="name" >
                 <span v-if="error.indexOf('name') > -1">Ops! Ta faltando o nome</span>
               </div>
               <div class="form-group">
                 <label>Velocide / Ritmo</label>
-                <input v-model="pac" v-mask="['##']" :disabled="edit">
+                <input v-model="pac" v-mask="['##']" >
                 <span v-if="error.indexOf('pac') > -1">Ops! Ta faltando o Celular</span>
               </div>
               <div class="form-group">
                 <label>Chute</label>
-                <input v-model="shot" v-mask="['##']" :disabled="edit">
+                <input v-model="shot" v-mask="['##']" >
                 <span v-if="error.indexOf('shot') > -1">Ops! Ta faltando o Celular</span>
               </div>
               <div class="form-group">
                 <label>Passe</label>
-                <input v-model="pas" v-mask="['##']" :disabled="edit">
+                <input v-model="pas" v-mask="['##']" >
                 <span v-if="error.indexOf('pas') > -1">Ops! Ta faltando o Celular</span>
               </div>
               <div class="form-group">
                 <label>Drible</label>
-                <input v-model="dri" v-mask="['##']" :disabled="edit">
+                <input v-model="dri" v-mask="['##']" >
                 <span v-if="error.indexOf('dri') > -1">Ops! Ta faltando o Celular</span>
               </div>
               <div class="form-group">
                 <label>Defesa</label>
-                <input v-model="def" v-mask="['##']" :disabled="edit">
+                <input v-model="def" v-mask="['##']" >
                 <span v-if="error.indexOf('def') > -1">Ops! Ta faltando o Celular</span>
               </div>
               <div class="form-group">
                 <label>Fisico</label>
-                <input v-model="phy" v-mask="['##']" :disabled="edit">
+                <input v-model="phy" v-mask="['##']" >
                 <span v-if="error.indexOf('phy') > -1">Ops! Ta faltando o Celular</span>
               </div>
               <div class="form-group">
                 <label>Nacionalidade</label>
-                <select v-model="nacionality" :disabled="edit">
+                <select v-model="nacionality" >
                   <option v-for="nacio in nacionalities" :key="nacio.code" :value="nacio.code">{{nacio.name}}</option>
                 </select>
                 <span v-if="error.indexOf('nacionality') > -1">Ops! Ta faltando o Celular</span>
               </div>
               <div class="form-group">
                 <label>Time</label>
-                <select v-model="club" :disabled="edit">
+                <select v-model="club" >
                   <option v-for="team in teams" :key="team.id" :value="team.idApi">{{team.name}}</option>
                 </select>
                 <span v-if="error.indexOf('club') > -1">Ops! Ta faltando o Celular</span>
               </div>
               <div class="form-group">
                 <label>Foto</label>
-                <input :disabled="edit" type="file" name="file" @change="onFileChange">
+                <input  type="file" name="file" @change="onFileChange">
                 <span v-if="error.indexOf('club') > -1">Ops! Ta faltando o Celular</span>
               </div>
               <div class="form-group" v-if="editable">
@@ -79,19 +79,11 @@
           </div>
         </div>
         <div class="button-group">
-          <div class="btn-cancel" v-if="!edit" @click="cancel">
+          <div class="btn-cancel" @click="cancel">
             <span>Cancelar</span>
             <IconClose />
           </div>
-          <div class="btn-add" v-if="!edit" @click="save" :disabled="edit">
-            <span>Adicionar</span>
-            <IconAdd />
-          </div>
-          <div class="btn-cancel" v-if="edit" @click="$router.push(`/players/${id}`)">
-            <span>Voltar</span>
-            <IconClose />
-          </div>
-          <div class="btn-add" v-if="edit" @click="edit = false">
+          <div class="btn-add" @click="save">
             <span>Editar</span>
             <IconEdit />
           </div>
@@ -102,6 +94,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import IconClose from '../../Icons/IconClose.vue'
 import IconAdd from '../../Icons/IconAdd.vue'
 import IconEdit from '../../Icons/IconEdit.vue'
@@ -109,8 +102,6 @@ import IconSearch from '../../Icons/IconSearch.vue'
 import IconAngle from '../../Icons/IconAngle.vue'
 import { getAll, get, create, update } from '../api/hability'
 import { getCep } from '../api/searchCep'
-import Card from './Card'
-import Loading from '../../Loading/LoadingScreen'
 
 export default {
   components: {
@@ -118,11 +109,12 @@ export default {
     IconAdd,
     IconEdit,
     IconSearch,
-    IconAngle,
-    Loading,
-    Card
+    IconAngle
   },
-  props: ['id'],
+  computed: {
+    ...mapState(['player']),
+    ...mapState(['user'])
+  },
   data () {
     return {
       habilityPlayer: [],
@@ -140,7 +132,6 @@ export default {
       nacionality: null,
       club: null,
       photo: null,
-      edit: false,
       recallFirst: false,
       loading: true,
       editable: false,
@@ -149,6 +140,7 @@ export default {
     }
   },
   async mounted () {
+    this.id = this.player.id
     await this.getMounted()
   },
   methods: {

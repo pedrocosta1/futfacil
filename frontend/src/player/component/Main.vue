@@ -13,20 +13,21 @@ import { get } from '../api/player'
 
 export default {
   computed: {
-    ...mapState(['user'])
+    ...mapState(['user']),
+    ...mapState(['player'])
   },
   data () {
     return {
       id: null,
       loading: true,
-      player: null
+      playerData: null
     }
   },
   async mounted () {
-    this.id = this.user.id
-    this.player = await get(this.id)
-    this.$store.commit('player', this.player)
-    this.loading = false
+    if(this.user && this.player) {
+      this.id = this.player.id
+      this.loading = false
+    } 
   }
 }
 </script>

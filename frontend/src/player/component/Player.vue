@@ -69,19 +69,19 @@
             </div>
           </div>
         </div>
-        <div class="section" @click="$router.push(`/players/${id}/rent`)" v-if="id !== 'new'">
+        <div class="section" @click="$router.push(`/rent`)" v-if="id !== 'new'">
           <div class="section-header">
             <span class="title">Alugar Campos</span>
             <IconAngle/>
           </div>
         </div>
-        <div class="section" @click="$router.push(`/players/${id}/rented`)" v-if="id !== 'new'">
+        <div class="section" @click="$router.push(`/rented`)" v-if="id !== 'new'">
           <div class="section-header">
             <span class="title">Campos Alugados</span>
             <IconAngle/>
           </div>
         </div>
-        <div class="section" @click="$router.push(`/players/${id}/hability`)" v-if="id !== 'new'">
+        <div class="section" @click="$router.push(`/hability`)" v-if="id !== 'new'">
           <div class="section-header">
             <span class="title">Habilidade</span>
             <IconAngle/>
@@ -102,7 +102,7 @@
               <IconClose />
             </div>
             <div class="btn-add" @click="save">
-              <span>Editar</span>
+              <span>Salvar</span>
               <IconEdit />
             </div>
           </div>
@@ -118,7 +118,8 @@ import IconAdd from '../../Icons/IconAdd.vue'
 import IconEdit from '../../Icons/IconEdit.vue'
 import IconSearch from '../../Icons/IconSearch.vue'
 import IconAngle from '../../Icons/IconAngle.vue'
-import { getData as get } from '../api/player'
+import { getCep } from '../api/searchCep'
+import { getData as get, update } from '../api/player'
 
 export default {
   components: {
@@ -136,6 +137,7 @@ export default {
     return {
       playerData: [],
       error: [],
+      id: null,
       name: null,
       city: null,
       neighborhood: null,
@@ -161,6 +163,7 @@ export default {
   methods: {
     async save () {
       try {
+        this.loading = true
           await update(
             this.id,
             this.name,

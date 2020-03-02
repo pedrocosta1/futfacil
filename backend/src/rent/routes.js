@@ -49,7 +49,7 @@ router.get('/:id', requireAuth('admin'), async (req, res) => {
   }
 })
 
-router.post('/', requireAuth('admin'), async (req, res) => {
+router.post('/', requireAuth(''), async (req, res) => {
   try {
     logger.info('POST /rent')
     const { value, error } = Joi.validate(

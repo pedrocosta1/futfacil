@@ -149,6 +149,7 @@ router.post('/', async (req, res) => {
         return res.status(400).send({ error: 'Validation error', fields: [errorFront] }) 
       }
       let id = 0
+      console.log(value.player)
       if (value.edit){
         id = await update (
           value.player,

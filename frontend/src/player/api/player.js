@@ -21,7 +21,8 @@ const update = async (
   postal,
   street,
   number,
-  neighborhood
+  neighborhood,
+  description
 ) => {
   return axios.put(`${API}/player/player/${id}`, {
     name,
@@ -31,7 +32,8 @@ const update = async (
     postal,
     street,
     number,
-    neighborhood
+    neighborhood,
+    description
   })
 }
 

@@ -16,17 +16,6 @@ const getAll = async () => {
 }
 const get = async (id) => {
   return await knex('player')
-  .select(
-      'id',
-      'name',
-      'phone',
-      'city',
-      'state',
-      'postal',
-      'street',
-      'neighborhood',
-      'number'
-  )
   .where('id', id)
   .first()
 }

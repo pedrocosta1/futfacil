@@ -3,7 +3,7 @@ import Joi from 'joi'
 import jwt from 'jsonwebtoken'
 
 import logger from '../config/logger'
-import { exist, validate, create, createPlayer } from './model'
+import { exist, validate, create, firstRegister } from './model'
 import requireAuth from './requireAuth'
 
 const router = express.Router()
@@ -54,6 +54,7 @@ router.post('/signin', async (req, res) => {
     if (!user.active) { return res.status(401).send({ error: 'User disabled' }) }
     // Generate sign token
     delete user.active
+    console.log(user)
     const token = jwt.sign(user, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES })
     return res.send({ token, user })
   } catch (error) {
@@ -82,11 +83,36 @@ router.post('/signon', async (req, res) => {
     const check = await exist(value.login)
     if (check) { return res.status(400).send({ error: 'User already exists' }) }
     const user = await create(value.login, value.password, value.role)
-    if(value.role === 'player') {
-      await createPlayer(user)
-    }
+    console.log(user)
     const token = jwt.sign(user, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES })
     return res.send({ token, user })
+  } catch (error) {
+    logger.error(error)
+    return res.status(400).send({ error: 'Internal error' })
+  }
+})
+
+router.post('/register', async (req, res) => {
+  try {
+    logger.info('REQ /api/auth/register')
+    const { value, error } = Joi.validate(
+      req.body,
+      Joi.object().keys({
+        id: Joi.number().integer().required(),
+        name: Joi.string().required(),
+        phone: Joi.string().required()
+      })
+    )
+    if(error) {
+      const errorFront = error.details.map(x => x.path)
+      return res.status(400).send({ error: 'Validation error', fields: errorFront }) 
+    }
+    await firstRegister(
+      value.id,
+      value.name,
+      value.phone
+    )
+    return res.send(true)
   } catch (error) {
     logger.error(error)
     return res.status(400).send({ error: 'Internal error' })

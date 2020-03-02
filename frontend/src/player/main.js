@@ -7,7 +7,7 @@ import Router from './component/Router.vue'
 import { removeToken, loadModule } from '../util'
 
 export const render = (user) => {
-  new Vue({
+  new Vue ({
     router,
     store,
     render: h => h(Router),

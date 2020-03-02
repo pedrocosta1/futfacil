@@ -28,6 +28,8 @@
       </div>
       <div class="login-footer">
           <button @click="signInOn" type="button" class="btn-login">Entrar</button>
+          <span> Ou </span>
+          <button @click="$router.push('/signon')" type="button" class="btn-login">Registre-se</button>
       </div>
     </div>
   </section>

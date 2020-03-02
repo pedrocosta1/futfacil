@@ -61,7 +61,7 @@ const getTeams = async () => {
     nacionality,
     club
   ) => {
-    await knex('playerHability').where('id', player).update({
+    await knex('playerHability').where('player', player).update({
       pac,
       shot,
       pas,

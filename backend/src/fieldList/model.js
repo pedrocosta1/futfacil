@@ -27,6 +27,16 @@ import knex from '../config/knex'
     .andWhere('fieldList.active', true)
   }
 
+  const getRentedFieldsPlayer = async (player) => {
+    return knex('rent')
+    .select('rent.*', 'field.name', 'fieldList.day')
+    .leftJoin('field', 'field.id', 'rent.field')
+    .leftJoin('fieldList', 'fieldList.field', 'field.id')
+    .where('rent.player', player)
+    .andWhere('fieldList.active', true)
+    .groupBy('rent.id')
+  }
+
   const getRentedDetails = async (id) => {
     return await knex('player')
     .select(
@@ -84,6 +94,7 @@ import knex from '../config/knex'
     get,
     getRentedFields,
     getRentedDetails,
+    getRentedFieldsPlayer,
     create,
     update,
     remove

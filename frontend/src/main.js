@@ -60,9 +60,11 @@ const run = async () => {
       if (data.user.role === 'admin') {
         // Start admin module
         loadModule('admin', data.user)
-      } else {
+      } else if ( data.user.role === 'user') {
         // Start user module
         loadModule('user', data.user)
+      } else if ( data.user.role === 'player') {
+        loadModule('player', data.user)
       }
     } else {
       // Start core module

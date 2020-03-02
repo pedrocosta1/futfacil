@@ -28,7 +28,7 @@ router.get('/by/:client', requireAuth('admin'), async (req, res) => {
   }
 })
 
-router.get('/:id', requireAuth('admin'), async (req, res) => {
+router.get('/:id', requireAuth(''), async (req, res) => {
   try {
     logger.info('GET /field/:id')
     const { value, error } = Joi.validate(
@@ -53,6 +53,7 @@ router.get('/', requireAuth(''), async (req, res) => {
   try {
     logger.info('GET /field/all/:id')
     const fields = await getFields()
+    console.log(fields)
     return res.send(fields)
   } catch (error) {
     logger.error(error)

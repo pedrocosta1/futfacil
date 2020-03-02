@@ -36,29 +36,16 @@ const create = async (login, password, role) => {
     password: pass,
     hash: key,
     role
-  }).returning(['id', 'login', 'role', 'active'])
-  return user[0]
+  }).returning('id', 'login', 'role', 'active')
+  const userResult = await knex('user').where('id', user[0]).first()
+  return userResult
 }
 
-const createPlayer = async (user) => {
-  var name = 'mudar'
-  var phone = 'mudar'
-  var postal = 'mudar'
-  var state = 'mudar'
-  var city = 'mudar'
-  var street = 'mudar'
-  var description = 'mudar'
-  var neighborhood = 'mudar'
+const firstRegister = async (id, name, phone) => {
   await knex('player').insert({
     name,
     phone,
-    postal,
-    state,
-    city,
-    street,
-    description,
-    user,
-    neighborhood
+    user: id
   })
 }
 
@@ -67,5 +54,5 @@ export {
   exist,
   get,
   create,
-  createPlayer
+  firstRegister
 }

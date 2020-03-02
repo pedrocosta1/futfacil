@@ -3,11 +3,11 @@ import Joi from 'joi'
 
 import logger from '../config/logger'
 import requireAuth from '../auth/requireAuth'
-import { getAll, get, getRentedFields, create, update, getRentedDetails } from './model'
+import { getAll, get, getRentedFields, create, update, getRentedDetails, getRentedFieldsPlayer } from './model'
 
 const router = express.Router()
 
-router.get('/:id', requireAuth('admin'), async (req, res) => {
+router.get('/:id', requireAuth(''), async (req, res) => {
   try {
     logger.info('GET /fieldList/:id')
     const { value, error } = Joi.validate(
@@ -28,7 +28,7 @@ router.get('/:id', requireAuth('admin'), async (req, res) => {
   }
 })
 
-router.get('/client/:id', requireAuth('admin'), async (req, res) => {
+router.get('/client/:id', requireAuth(''), async (req, res) => {
   try {
     logger.info('GET /fieldList/client/:id')
     const { value, error } = Joi.validate(
@@ -49,7 +49,28 @@ router.get('/client/:id', requireAuth('admin'), async (req, res) => {
   }
 })
 
-router.get('/details/:id', requireAuth('admin'), async (req, res) => {
+router.get('/player/:player', requireAuth('player'), async (req, res) => {
+  try {
+    logger.info('GET /fieldList/player/:id')
+    const { value, error } = Joi.validate(
+      req.params,
+      Joi.object().keys({
+        player: Joi.number().integer().required()
+      })
+    )
+    if(error) {
+      const errorFront = error.details.map(x => x.path)
+      return res.status(400).send({ error: 'Validation error', fields: errorFront }) 
+    }
+    const rentedList = await getRentedFieldsPlayer(value.player)
+    return res.send(rentedList)
+  } catch (error) {
+    logger.error(error)
+    return res.status(400).send({ error: 'Internal error' })
+  }
+})
+
+router.get('/details/:id', requireAuth(''), async (req, res) => {
   try {
     logger.info('GET /fieldList/details/:id')
     const { value, error } = Joi.validate(
@@ -70,7 +91,7 @@ router.get('/details/:id', requireAuth('admin'), async (req, res) => {
   }
 })
 
-router.get('/:field/:active', requireAuth('admin'), async (req, res) => {
+router.get('/:field/:active', requireAuth(''), async (req, res) => {
   try {
     logger.info('GET /fieldList/:player/:active')
     const { value, error } = Joi.validate(
