@@ -137,7 +137,8 @@ export default {
           this.price,
           this.date,
           this.hourIni,
-          this.hourEnd
+          this.hourEnd,
+          listField.day
         )
         this.$router.push(`/rent`)
       } catch (error) {

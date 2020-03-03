@@ -38,7 +38,7 @@
             <label>Permissão</label>
             <select v-model="role">
               <option value="admin">Admin</option>
-              <option value="user">Usuario</option>
+              <option value="client">Cliente</option>
               <option value="player">Player</option>
             </select>
           </div>
@@ -90,11 +90,12 @@ export default {
         if (data.user.role === 'admin') {
           // Start admin module
           loadModule('admin', data.user)
-        } else if (data.user.role === 'user') {
+        } else if (data.user.role === 'client') {
+          await firstRegister(data.user.id, this.name, this.phone, data.user.role)
           // Start user module
-          loadModule('user', data.user)
+          loadModule('client', data.user)
         } else if (data.user.role === 'player') {
-          await firstRegister(data.user.id, this.name, this.phone)
+          await firstRegister(data.user.id, this.name, this.phone, data.user.role)
           loadModule('player', data.user)
         }
       } catch (error) {

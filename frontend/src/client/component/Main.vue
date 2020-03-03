@@ -1,16 +1,18 @@
 <template>
   <section class="router-view">
     <Loading v-if="loading"/> 
-    <div class="main-content" v-if="!loading">
-      <Card :id=id />
-    </div>
+    <testChart/>
   </section>
 </template>
 
 <script>
 import { mapState } from 'vuex'
+import testChart from '../charts/testChart'
 
 export default {
+  components: {
+    testChart
+  },
   computed: {
     ...mapState(['user'])
   },

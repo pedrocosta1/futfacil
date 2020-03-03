@@ -11,6 +11,7 @@ import Loading from './Loading/LoadingScreen'
 import infiniteScroll from 'vue-infinite-scroll'
 import Card from './admin/component/Card'
 import Random from './admin/component/RandomTeam'
+// import Chart from 'chart.js'
 
 
 import './_asset/scss/app.scss'
@@ -30,6 +31,7 @@ Vue.use(VueScrollTo, {
   x: false,
   y: true
 })
+// Vue.use(Chart)
 Vue.use(infiniteScroll)
 Vue.component('Loading', Loading)
 Vue.component('Card', Card)
@@ -64,9 +66,10 @@ const run = async () => {
         // Start admin module
         loadModule('admin', data.user)
       } else if ( data.user.role === 'client') {
-        // Start user module
+        // Start client module
         loadModule('client', data.user)
       } else if ( data.user.role === 'player') {
+        // Start player module
         loadModule('player', data.user)
       }
     } else {

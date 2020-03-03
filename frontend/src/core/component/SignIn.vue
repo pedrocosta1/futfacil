@@ -47,7 +47,7 @@ export default {
 	},
   data () {
     return {
-      login: 'pedro@dev.com.br',
+      login: 'talento@aa.com.br',
       password: '123456',
       error: [],
       open: false
@@ -66,8 +66,8 @@ export default {
         if (data.user.role === 'admin') {
           // Start admin module
           loadModule('admin', data.user)
-        } else if (data.user.role === 'user') {
-          loadModule('user', data.user)
+        } else if (data.user.role === 'client') {
+          loadModule('client', data.user)
         } else {
           loadModule('player', data.user)
         }

@@ -8,7 +8,8 @@ const create = async (
   price,
   date,
   hourIni,
-  hourEnd
+  hourEnd,
+  day
 ) => {
   return axios.post(`${API}/rent`, {
     player,
@@ -16,7 +17,8 @@ const create = async (
     price,
     date,
     hourIni,
-    hourEnd
+    hourEnd,
+    day
   })
 }
 

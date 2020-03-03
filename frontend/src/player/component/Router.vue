@@ -52,7 +52,6 @@
 
 <script>
 import { mapState } from 'vuex'
-import { get } from '../api/player'
 import { removeToken, loadModule } from '../../util'
 import IconClient from '../../Icons/IconClient'
 import IconDashboard from '../../Icons/IconDashboard'
@@ -92,10 +91,6 @@ export default {
       random: false,
       log: false,
     }
-  },
-  async mounted () {
-    const playerData = await get(this.user.id)
-    this.$store.commit('player', playerData)
   },
   methods: {
     signOut () {
