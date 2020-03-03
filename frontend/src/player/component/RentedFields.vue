@@ -69,7 +69,6 @@ export default {
       x.hourEnd = x.hourEnd.split(':')[0] + ':' + x.hourEnd.split(':')[1]
       return x
     })
-    console.log(this.fields)
     this.loading = false
   }
 }

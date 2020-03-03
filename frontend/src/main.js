@@ -10,6 +10,8 @@ import VueScrollTo from 'vue-scrollto'
 import Loading from './Loading/LoadingScreen'
 import infiniteScroll from 'vue-infinite-scroll'
 import Card from './admin/component/Card'
+import Random from './admin/component/RandomTeam'
+
 
 import './_asset/scss/app.scss'
 
@@ -31,6 +33,7 @@ Vue.use(VueScrollTo, {
 Vue.use(infiniteScroll)
 Vue.component('Loading', Loading)
 Vue.component('Card', Card)
+Vue.component('Random', Random)
 Vue.use(money, {
   precision: 2,
   prefix: 'R$ '
@@ -60,9 +63,9 @@ const run = async () => {
       if (data.user.role === 'admin') {
         // Start admin module
         loadModule('admin', data.user)
-      } else if ( data.user.role === 'user') {
+      } else if ( data.user.role === 'client') {
         // Start user module
-        loadModule('user', data.user)
+        loadModule('client', data.user)
       } else if ( data.user.role === 'player') {
         loadModule('player', data.user)
       }

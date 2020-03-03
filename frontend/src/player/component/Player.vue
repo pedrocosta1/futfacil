@@ -69,7 +69,7 @@
             </div>
           </div>
         </div>
-        <div class="section" @click="$router.push(`/rent`)" v-if="id !== 'new'">
+        <!-- <div class="section" @click="$router.push(`/rent`)" v-if="id !== 'new'">
           <div class="section-header">
             <span class="title">Alugar Campos</span>
             <IconAngle/>
@@ -86,8 +86,8 @@
             <span class="title">Habilidade</span>
             <IconAngle/>
           </div>
-        </div>
-        <div class="section" v-if="cardDone">
+        </div> -->
+        <!-- <div class="section" v-if="cardDone">
           <div class="section-header" @click="recallSecond = !recallSecond">
             <span class="title">Card Futebol</span>
             <IconAngle :class="recallSecond ? 'rotate-down' : 'rotate-up'"/>
@@ -95,7 +95,7 @@
           <div class="section-body" :class="recallSecond ? 'recall' : 'recall-body'">
             <Card :id="id" />
           </div>
-        </div>  
+        </div>   -->
           <div class="button-group">
             <div class="btn-cancel" @click="cancel">
               <span>Cancelar</span>

@@ -18,7 +18,7 @@ const getRentedListPlayer = async (player) => {
 }
 
 const getRentedDetails = async (id) => {
-  const { data } = await axios.get(`${API}/fieldList/details/${id}`)
+  const { data } = await axios.get(`${API}/fieldList/detailsplayer/${id}`)
   return data
 }
 

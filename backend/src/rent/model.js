@@ -8,6 +8,7 @@ const getAll = async (player) => {
       'rent.hourIni',
       'rent.hourEnd',
       'rent.price',
+      'rent.day',
       'client.name'
     )
     .leftJoin('field', 'field.id', 'rent.field')
@@ -40,7 +41,8 @@ const get = async (id) => {
         price,
         date,
         hourIni,
-        hourEnd
+        hourEnd,
+        day
       })
       await knex('fieldList').transacting(trx).insert({
         field,
@@ -61,13 +63,17 @@ const get = async (id) => {
     hourIni,
     hourEnd
   ) => {
+    let day = date.getDay()
+    const days = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sabado']
+    day = days[day]
     await knex('rent').where('id', id).update({
       player,
       field,
       price,
       date,
       hourIni,
-      hourEnd
+      hourEnd,
+      day
     })
   }
 
