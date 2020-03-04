@@ -28,12 +28,10 @@ const get = async (id) => {
     price,
     date,
     hourIni,
-    hourEnd
+    hourEnd,
+    day
   ) => {
-    let day = date.getDay()
     const active = true
-    const days = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sabado']
-    day = days[day]
     knex.transaction(async trx => {
       await knex('rent').transacting(trx).insert({
         player,

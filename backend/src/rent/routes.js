@@ -60,7 +60,8 @@ router.post('/', requireAuth(''), async (req, res) => {
         price: Joi.number().required(),
         date: Joi.date().required(),
         hourIni: Joi.date().required(),
-        hourEnd: Joi.date().required()
+        hourEnd: Joi.date().required(),
+        day: Joi.string().required()
       }),
     )
     if (error) { 
@@ -73,7 +74,8 @@ router.post('/', requireAuth(''), async (req, res) => {
       value.price,
       value.date,
       value.hourIni,
-      value.hourEnd
+      value.hourEnd,
+      value.day
     )
     return res.send(true)
   } catch (error) {
@@ -103,7 +105,8 @@ router.put('/:id', requireAuth('admin'), async (req, res) => {
         price: Joi.number().required(),
         date: Joi.date().required(),
         hourIni: Joi.date().required(),
-        hourEnd: Joi.date().required()
+        hourEnd: Joi.date().required(),
+        day: Joi.string().required()
       })
     )
     if (body.error) {
@@ -117,7 +120,8 @@ router.put('/:id', requireAuth('admin'), async (req, res) => {
       body.value.price,
       body.value.date,
       body.value.hourIni,
-      body.value.hourEnd
+      body.value.hourEnd,
+      body.value.day
     )
     return res.send(true)
   } catch (error) {

@@ -41,12 +41,20 @@ const create = async (login, password, role) => {
   return userResult
 }
 
-const firstRegister = async (id, name, phone) => {
-  await knex('player').insert({
-    name,
-    phone,
-    user: id
-  })
+const firstRegister = async (id, name, phone, player) => {
+  if(player) {
+    await knex('player').insert({
+      name,
+      phone,
+      user: id
+    })
+  } else {
+    await knex('client').insert({
+      name,
+      phone,
+      user: id
+    })
+  }
 }
 
 export {

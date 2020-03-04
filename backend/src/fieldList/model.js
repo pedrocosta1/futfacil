@@ -41,11 +41,9 @@ import knex from '../config/knex'
       'rent.price',
     )
     .leftJoin('rent', 'rent.player', 'player.id')
-    .leftJoin('field', 'field.id', 'rent.field')
-    .leftJoin('fieldList', 'fieldList.field', 'field.id')
+    .leftJoin('fieldList', 'fieldList.field', 'rent.field')
     .where('fieldList.active', true)
     .andWhere('fieldList.id', id)
-    .groupBy('fieldList.id')
     .first()
   }
 

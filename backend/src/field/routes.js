@@ -7,7 +7,7 @@ import { getAll, get, getFields, create, update, remove } from './model'
 
 const router = express.Router()
 
-router.get('/by/:client', requireAuth('admin'), async (req, res) => {
+router.get('/by/:client', requireAuth(''), async (req, res) => {
   try {
     logger.info('GET /field/:client')
     const { value, error } = Joi.validate(
@@ -61,7 +61,7 @@ router.get('/', requireAuth(''), async (req, res) => {
   }
 })
 
-router.post('/', requireAuth('admin'), async (req, res) => {
+router.post('/', requireAuth(''), async (req, res) => {
   try {
     logger.info('POST /field/:id')
     const { value, error } = Joi.validate(
@@ -73,7 +73,7 @@ router.post('/', requireAuth('admin'), async (req, res) => {
         size: Joi.number().integer().required(),
         maxPerson: Joi.number().integer().required(),
         price: Joi.number().integer().required(),
-        hourPrice: Joi.number().integer().required()
+        hourPrice: Joi.number().integer().allow(null)
       }),
     )
     if (error) { 
@@ -96,7 +96,7 @@ router.post('/', requireAuth('admin'), async (req, res) => {
   }
 })
 
-router.put('/:id', requireAuth('admin'), async (req, res) => {
+router.put('/:id', requireAuth(''), async (req, res) => {
   try {
     logger.info('POST /field/:id')
     const params = Joi.validate(
@@ -118,7 +118,7 @@ router.put('/:id', requireAuth('admin'), async (req, res) => {
         size: Joi.number().integer().required(),
         maxPerson: Joi.number().integer().required(),
         price: Joi.number().required(),
-        hourPrice: Joi.number().integer().required()
+        hourPrice: Joi.number().integer().allow(null)
       })
     )
     if (body.error) {

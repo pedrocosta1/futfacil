@@ -83,7 +83,6 @@ router.post('/signon', async (req, res) => {
     const check = await exist(value.login)
     if (check) { return res.status(400).send({ error: 'User already exists' }) }
     const user = await create(value.login, value.password, value.role)
-    console.log(user)
     const token = jwt.sign(user, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES })
     return res.send({ token, user })
   } catch (error) {
@@ -100,17 +99,21 @@ router.post('/register', async (req, res) => {
       Joi.object().keys({
         id: Joi.number().integer().required(),
         name: Joi.string().required(),
-        phone: Joi.string().required()
+        phone: Joi.string().required(),
+        role: Joi.string().required()
       })
     )
     if(error) {
       const errorFront = error.details.map(x => x.path)
       return res.status(400).send({ error: 'Validation error', fields: errorFront }) 
     }
+    let player = false
+    if(value.role === 'player') player = true
     await firstRegister(
       value.id,
       value.name,
-      value.phone
+      value.phone,
+      player
     )
     return res.send(true)
   } catch (error) {
