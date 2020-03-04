@@ -8,6 +8,12 @@ import RentField from './component/RentField.vue'
 import RentFields from './component/RentFields.vue'
 import RentedFields from './component/RentedFields.vue'
 import RentedField from './component/RentedField.vue'
+import Teams from './component/Teams.vue'
+import Team from './component/Team.vue'
+import TeamPlayers from './component/TeamPlayers.vue'
+import TeamPlayer from './component/TeamPlayer.vue'
+import TeamAccepts from './component/TeamAccepts.vue'
+import TeamAccept from './component/TeamAccept.vue'
 import RandomTeam from './component/RandomTeam.vue'
 
 
@@ -56,6 +62,41 @@ export default new Router({
       path: '/rented/:id',
       name: 'rentedField',
       component: RentedField,
+      props: true
+    },
+    {
+      path: '/team',
+      name: 'teams',
+      component: Teams
+    },
+    {
+      path: '/team/:id',
+      name: 'team',
+      component: Team,
+      props: true
+    },
+    {
+      path: '/team/:id/players',
+      name: 'TeamPlayers',
+      component: TeamPlayers,
+      props: true
+    },
+    {
+      path: '/team/:id/players/:playerId',
+      name: 'TeamPlayer',
+      component: TeamPlayer,
+      props: true
+    },
+    {
+      path: '/team/:id/accept',
+      name: 'TeamAccepts',
+      component: TeamAccepts,
+      props: true
+    },
+    {
+      path: '/team/:id/accept/:acceptId',
+      name: 'TeamAccept',
+      component: TeamAccept,
       props: true
     },
     {

@@ -6,9 +6,6 @@
         <div class="title">
           Campos Disponiveis
         </div>
-        <div class="close" @click="$router.push(`/clients/${client}`)">
-          <IconClose/>
-        </div>
       </div>
       <div class="header-search">
         <div class="search">

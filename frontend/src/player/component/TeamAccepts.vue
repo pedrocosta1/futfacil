@@ -1,0 +1,67 @@
+<template>
+  <section class="router-view">
+    <Loading v-if="loading"/> 
+    <div class="main-content" v-if="!loading">
+      <div class="header">
+        <div class="title">
+          Lista para Entrar no {{}}
+        </div>
+        <div class="close" @click="$router.push(`/team/${id}`)">
+          <IconClose/>
+        </div>
+      </div>
+      <div class="header-search">
+        <div class="search">
+            <input type="text" v-model="search">
+            <IconSearch class="svg-search"/>
+        </div>
+      </div>
+      <div class="table">
+        <table>
+          <tr v-for="player in filteredTeams" :key="player.id" @click="$router.push(`/team/${id}/accept/${player.id}`)">
+            <td>{{player.name}}</td>
+            <td>{{player.overall}}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </section>
+</template>
+
+<script>
+import { mapState } from 'vuex'
+import IconClose from '../../Icons/IconClose.vue'
+import IconSearch from '../../Icons/IconSearch.vue'
+import IconAdd from '../../Icons/IconAdd.vue'
+import { getAll } from '../api/teamAccept'
+
+export default {
+  components: {
+    IconClose,
+    IconSearch,
+    IconAdd
+  },
+  props: ['id'],
+  data () {
+    return {
+      players: [],
+      search: '',
+      loading: true
+    }
+  },
+  computed: {
+    filteredTeams () {
+      return this.players.filter((player) => {
+        return String(player.name).toUpperCase().startsWith(this.search.toUpperCase()) ||
+        String(player.id).includes(this.search) ||
+        String(player.playerName).toUpperCase().startsWith(this.search.toUpperCase())
+      })
+    },
+    ...mapState(['player'])
+  },
+  async mounted () {
+    this.players = await getAll(this.id)
+    this.loading = false
+  }
+}
+</script>
