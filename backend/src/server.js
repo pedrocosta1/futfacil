@@ -20,6 +20,9 @@ import rent from './rent/routes'
 import fieldList from './fieldList/routes'
 import cep from './cep/routes'
 import hability from './hability/routes'
+import team from './team/routes'
+import teamAccept from './teamAccept/routes'
+import teamPlayers from './teamPlayers/routes'
 // --------------------------------------------------------
 
 logger.info('Starting server...')
@@ -46,6 +49,9 @@ router.use('/rent', rent)
 router.use('/fieldList', fieldList)
 router.use('/cep', cep)
 router.use('/hability', hability)
+router.use('/teamPlayers', teamPlayers)
+router.use('/teamAccept', teamAccept)
+router.use('/team', team)
 // --------------------------------------------------------
 
 app.use('/api', router)
