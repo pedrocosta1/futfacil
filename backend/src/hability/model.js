@@ -61,7 +61,7 @@ const getTeams = async () => {
     nacionality,
     club
   ) => {
-    await knex('playerHability').where('player', player).update({
+    const playerH = await knex('playerHability').where('player', player).update({
       pac,
       shot,
       pas,
@@ -73,16 +73,24 @@ const getTeams = async () => {
       name,
       nacionality,
       club
-    })
+    }).returning(['id'])
+    return playerH
   }
 
   const updatePhoto = async (
     id,
-    photo
+    photo,
+    edit
   ) => {
-    await knex('playerHability').where('id', id).update({
-      photo
-    })
+    if(edit) {
+      await knex('playerHability').where('player', id).update({
+        photo
+      })
+    } else {
+      await knex('playerHability').where('id', id).update({
+        photo
+      })
+    }
   }
 
   const remove = (id) => {

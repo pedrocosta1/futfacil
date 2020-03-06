@@ -2,20 +2,7 @@ import express from 'express'
 import Joi from 'joi'
 import fs from 'fs'
 import multer from 'multer'
-var Storage = multer.diskStorage({
-  destination: function(req, file, callback) {
-    if (!fs.existsSync('../frontend/public/img/profiles')) {
-      fs.mkdirSync('../frontend/public/img/profiles')
-    }
-    callback(null, '../frontend/public/img/profiles')
-  },
-  filename: function(req, file, callback) {
-      callback(null, file.fieldname + '_' + Date.now() + '.png')
-  }
-})
-var upload = multer({
-  storage: Storage
-}).array('file', 3)
+var upload = multer({ dest: 'frontend/public/img/profiles' });
 
 
 import logger from '../config/logger'
@@ -46,7 +33,7 @@ router.get('/:player', async (req, res) => {
   }
 })
 
-router.get('/', async (req, res) => {
+router.get('/', requireAuth(''), async (req, res) => {
   try {
     const Nacionalities = await Promise.all([
       getAll(),
@@ -59,99 +46,34 @@ router.get('/', async (req, res) => {
   }
 })
 
-router.post('/', async (req, res) => {
+router.post('/',  requireAuth(''), upload.single('file'), async (req, res) => {
   try {
     logger.info('POST /hability')
-    if(req.body.photo){
-      upload(req, res, async function(err) {
-        const photoName = req.files[0].filename
-        if (err) {
-            return res.end('Upload de foto deu errado')
-        }
-        const { value, error } = Joi.validate(
-          req.body,
-          Joi.object({ abortEarly: true }).options({ abortEarly: false }).keys({
-            player: Joi.number().integer().required(),
-            pac: Joi.number().integer().required(),
-            shot: Joi.number().integer().required(),
-            pas: Joi.number().integer().required(),
-            dri: Joi.number().integer().required(),
-            def: Joi.number().integer().required(),
-            phy: Joi.number().integer().required(),
-            photo: Joi.string().allow(null),
-            overall: Joi.number().integer().required(),
-            name: Joi.string().required(),
-            nacionality: Joi.string().required(),
-            club: Joi.number().required(),
-            edit: Joi.boolean().required()
-          }),
-        )
-        if (error) { 
-          const errorFront = error.details.map(x => x.message)
-          return res.status(400).send({ error: 'Validation error', fields: [errorFront] }) 
-        }
-        let id = 0
-        if (value.edit){
-          id = await update (
-            value.id,
-            value.player,
-            value.pac,
-            value.shot,
-            value.pas,
-            value.dri,
-            value.def,
-            value.phy,
-            value.photo,
-            value.overall,
-            value.name,
-            value.nacionality,
-            value.club
-          )
-        } else {
-          id = await create(
-            value.player,
-            value.pac,
-            value.shot,
-            value.pas,
-            value.dri,
-            value.def,
-            value.phy,
-            value.photo,
-            value.overall,
-            value.name,
-            value.nacionality,
-            value.club
-          )
-        }
-        await updatePhoto(id, photoName)
-      })
-    } else {
-      const { value, error } = Joi.validate(
+    const { value, error } = Joi.validate(
         req.body,
         Joi.object({ abortEarly: true }).options({ abortEarly: false }).keys({
           player: Joi.number().integer().required(),
-            pac: Joi.number().integer().required(),
-            shot: Joi.number().integer().required(),
-            pas: Joi.number().integer().required(),
-            dri: Joi.number().integer().required(),
-            def: Joi.number().integer().required(),
-            phy: Joi.number().integer().required(),
-            photo: Joi.string().allow(null),
-            overall: Joi.number().integer().required(),
-            name: Joi.string().required(),
-            nacionality: Joi.string().required(),
-            club: Joi.number().required(),
-            edit: Joi.boolean().required()
+          pac: Joi.number().integer().required(),
+          shot: Joi.number().integer().required(),
+          pas: Joi.number().integer().required(),
+          dri: Joi.number().integer().required(),
+          def: Joi.number().integer().required(),
+          phy: Joi.number().integer().required(),
+          photo: Joi.string().allow(null),
+          overall: Joi.number().integer().required(),
+          name: Joi.string().required(),
+          nacionality: Joi.string().required(),
+          club: Joi.number().required(),
+          edit: Joi.boolean().required()
         }),
       )
       if (error) { 
         const errorFront = error.details.map(x => x.message)
-        return res.status(400).send({ error: 'Validation error', fields: [errorFront] }) 
+        return res.status(400).send({ error: 'Validation error', fields: errorFront }) 
       }
       let id = 0
-      console.log(value.player)
       if (value.edit){
-        id = await update (
+        await update (
           value.player,
           value.pac,
           value.shot,
@@ -165,6 +87,7 @@ router.post('/', async (req, res) => {
           value.nacionality,
           value.club
         )
+        id = value.player
       } else {
         id = await create(
           value.player,
@@ -181,7 +104,15 @@ router.post('/', async (req, res) => {
           value.club
         )
       }
-    }
+      if(req.file) {
+        const renamePhoto = '../frontend/public/img/profiles/profile_' + id + '.png'
+        fs.rename(req.file.path, renamePhoto, function(err) {
+          if (err) throw err;
+          console.log(err)
+        })
+        const photoName = "profile_" + id + '.png'
+        await updatePhoto(id, photoName, value.edit)
+      }
     return res.send(true)
   } catch (error) {
     logger.error(error)
