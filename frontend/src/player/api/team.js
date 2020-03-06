@@ -31,7 +31,6 @@ const update = async (
   logo,
 ) => {
   return axios.put(`${API}/team/${id}`, {
-    id,
     name,
     player,
     logo,

@@ -17,7 +17,7 @@
             <IconAngle :class="recallFirst ? 'rotate-down' : 'rotate-up'"/>
           </div>
           <div class="section-body" :class="recallFirst ? 'recall' : 'recall-body'">
-            <div class="form">
+            <form class="form" enctype="multipart/form-data">
               <div class="form-group">
                 <label>Nome</label>
                 <input v-model="name" :disabled="edit">
@@ -69,13 +69,13 @@
               </div>
               <div class="form-group">
                 <label>Foto</label>
-                <input :disabled="edit" type="file" name="file" @change="onFileChange">
+                <input :disabled="edit" type="file" name="profile" @change="onFileChange">
                 <span v-if="error.indexOf('club') > -1">Ops! Ta faltando o Celular</span>
               </div>
               <div class="form-group" v-if="editable">
                 <Card :id="id" :change="variable" />
               </div>
-            </div>
+            </form>
           </div>
         </div>
         <div class="button-group">
@@ -128,15 +128,15 @@ export default {
       habilityPlayer: [],
       nacionalities: [],
       teams: [],
-      pac: null,
-      shot: null,
-      pas: null,
-      dri: null,
-      def: null,
-      phy: null,
+      pac: 32,
+      shot: 123,
+      pas: 1,
+      dri: 23,
+      def: 23,
+      phy: 23,
       photo: null,
       overall: null,
-      name: null,
+      name: 'Pedroca',
       nacionality: null,
       club: null,
       photo: null,

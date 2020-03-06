@@ -18,6 +18,12 @@
       </div>
       <div class="table">
         <table>
+          <thead>
+            <th>Nome do Jogador</th>
+            <th class="td-hidden">Tipo</th>
+            <th>Maximo de Pessoas</th>
+            <th>Preço</th>
+          </thead>
           <tr v-for="field in filteredFields" :key="field.id" @click="$router.push(`/rent/${field.id}`)">
             <td>{{field.name}}</td>
             <td class="td-hidden">{{field.type}}</td>
@@ -50,11 +56,10 @@ export default {
   computed: {
     filteredFields () {
       return this.fields.filter((field) => {
-        return String(field.name).toUpperCase().startsWith(this.search.toUpperCase()) ||
-        String(field.id).includes(this.search) ||
-        String(field.phone).toUpperCase().startsWith(this.search.toUpperCase()) ||
-        String(field.state).toUpperCase().startsWith(this.search.toUpperCase()) ||
-        String(field.city).toUpperCase().startsWith(this.search.toUpperCase())
+        return String(field.name).toUpperCase().includes(this.search.toUpperCase()) ||
+        String(field.type).toUpperCase().includes(this.search.toUpperCase()) ||
+        String(field.maxPerson).toUpperCase().includes(this.search.toUpperCase()) ||
+        String(field.price).toUpperCase().includes(this.search.toUpperCase())
       })
     }
   },

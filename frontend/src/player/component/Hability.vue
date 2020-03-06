@@ -17,7 +17,7 @@
             <IconAngle :class="recallFirst ? 'rotate-down' : 'rotate-up'"/>
           </div>
           <div class="section-body" :class="recallFirst ? 'recall' : 'recall-body'">
-            <div class="form">
+            <form class="form" enctype="multipart/form-data">
               <div class="form-group">
                 <label>Nome</label>
                 <input v-model="name" >
@@ -75,7 +75,7 @@
               <div class="form-group" v-if="editable">
                 <Card :id="id" :change="variable" />
               </div>
-            </div>
+            </form>
           </div>
         </div>
         <div class="button-group">

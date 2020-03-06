@@ -15,6 +15,12 @@
       </div>
       <div class="table">
         <table>
+          <thead>
+            <th>Nome do Jogador</th>
+            <th class="td-hidden">Dia</th>
+            <th>Hora Inicial</th>
+            <th>Hora Final</th>
+          </thead>
           <tr v-for="field in filteredFields" :key="field.id" @click="$router.push(`/rented/${field.id}`)">
             <td>{{field.name}}</td>
             <td class="td-hidden">{{field.day}}</td>
@@ -48,11 +54,11 @@ export default {
   computed: {
     filteredFields () {
       return this.fields.filter((field) => {
-        return String(field.name).toUpperCase().startsWith(this.search.toUpperCase()) ||
+        return String(field.name).toUpperCase().includes(this.search.toUpperCase()) ||
         String(field.id).includes(this.search) ||
-        String(field.day).toUpperCase().startsWith(this.search.toUpperCase()) ||
-        String(field.hourIni).toUpperCase().startsWith(this.search.toUpperCase()) ||
-        String(field.hourEnd).toUpperCase().startsWith(this.search.toUpperCase())
+        String(field.day).toUpperCase().includes(this.search.toUpperCase()) ||
+        String(field.hourIni).toUpperCase().includes(this.search.toUpperCase()) ||
+        String(field.hourEnd).toUpperCase().includes(this.search.toUpperCase())
       })
     },
     ...mapState(['player'])

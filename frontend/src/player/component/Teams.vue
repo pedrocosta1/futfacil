@@ -18,6 +18,10 @@
       </div>
       <div class="table">
         <table>
+          <thead>
+            <th>Nome do Time</th>
+            <th>Nome do Capitão</th>
+          </thead>
           <tr v-for="team in filteredTeams" :key="team.id" @click="$router.push(`/team/${team.id}`)">
             <td>{{team.name}}</td>
             <td>{{team.playerName}}</td>
@@ -51,9 +55,9 @@ export default {
   computed: {
     filteredTeams () {
       return this.teams.filter((team) => {
-        return String(team.name).toUpperCase().startsWith(this.search.toUpperCase()) ||
+        return String(team.name).toUpperCase().includes(this.search.toUpperCase()) ||
         String(team.id).includes(this.search) ||
-        String(team.playerName).toUpperCase().startsWith(this.search.toUpperCase())
+        String(team.playerName).toUpperCase().includes(this.search.toUpperCase())
       })
     },
     ...mapState(['player'])

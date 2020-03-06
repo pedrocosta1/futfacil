@@ -14,6 +14,12 @@
           </div>
           <span class="menu-text">Jogadores</span>
         </div>
+        <div class="menu-item" @click="changeRoute('team')" :class="teams ? 'active' : ''">
+          <div class="menu-open-svg">
+            <IconTeam class="menu-svg" />
+          </div>
+          <span class="menu-text">Times</span>
+        </div>
         <div class="menu-item" @click="changeRoute('rent')" :class="rent ? 'active' : ''">
           <div class="menu-open-svg">
             <IconRent class="menu-svg" />
@@ -62,6 +68,7 @@ import IconLog from '../../Icons/IconLog'
 import IconRent from '../../Icons/IconRent'
 import IconRented from '../../Icons/IconRented'
 import IconHability from '../../Icons/IconHability'
+import IconTeam from '../../Icons/IconTeam'
 
 export default {
   components: {
@@ -73,7 +80,8 @@ export default {
     IconLog,
     IconRent,
     IconRented,
-    IconHability
+    IconHability,
+    IconTeam
   },
   computed: {
     ...mapState(['user']),
@@ -89,6 +97,7 @@ export default {
       dashboard: false,
       open: true,
       random: false,
+      teams: false,
       log: false,
     }
   },
@@ -106,17 +115,19 @@ export default {
       this.hability = false
       this.rented = false
       this.rent = false
+      this.teams = false
       this.$router.push('/' + route)
       this.path = this.$route.path.split('/')[1]
-      console.log(this.path)
       if (this.path === 'player') this.players = true
       else if (this.path === 'rented') this.rented = true
       else if (this.path === 'rent') this.rent = true
       else if (this.path === 'hability') this.hability = true
       else if (this.path === 'random') this.random = true
+      else if (this.path === 'team') this.teams = true
     },
     openClose (open) {
-      this.open = !open
+      if(window.innerWidth > 768) this.open = true
+      else this.open = !open
     }
   }
 }

@@ -46,7 +46,7 @@
             <span>Cancelar</span>
             <IconClose />
           </div>
-          <div class="btn-add" v-if="!edit && applications" @click="save" :disabled="edit">
+          <div class="btn-add" v-if="!edit && !apply " @click="save" :disabled="edit">
             <span>Adicionar</span>
             <IconAdd />
           </div>
@@ -117,8 +117,9 @@ export default {
           this.player.id,
           this.logo
         )
+        this.$router.push(`/team`)
       }
-      this.edit = false
+      this.edit = true
       this.loading = false
     },
     async joinTeam() {

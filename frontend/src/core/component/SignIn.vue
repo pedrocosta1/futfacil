@@ -47,7 +47,7 @@ export default {
 	},
   data () {
     return {
-      login: 'talento@aa.com.br',
+      login: 'gau@dev.com.br',
       password: '123456',
       error: [],
       open: false

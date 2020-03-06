@@ -27,8 +27,7 @@ const create = async (
   club,
   edit
 ) => {
-  if(photo) {
-    const fd = new FormData()
+  const fd = new FormData()
     fd.append('player', player)
     fd.append('pac', pac)
     fd.append('shot', shot)
@@ -42,33 +41,7 @@ const create = async (
     fd.append('nacionality', nacionality)
     fd.append('club', club)
     fd.append('edit', edit)
-    return axios.post(`${API}/hability`,
-    fd,
-      {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      }
-    ).then(res => {
-      console.log(res)
-    })
-  } else {
-    return axios.post(`${API}/hability`, {
-      player,
-      pac,
-      shot,
-      pas,
-      dri,
-      def,
-      phy,
-      photo,
-      overall,
-      name,
-      nacionality,
-      club,
-      edit
-    })
-  }
+  return axios.post(`${API}/hability`, fd, config)
 }
 
 const update = async (

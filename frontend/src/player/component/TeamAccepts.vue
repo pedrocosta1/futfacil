@@ -4,7 +4,7 @@
     <div class="main-content" v-if="!loading">
       <div class="header">
         <div class="title">
-          Lista para Entrar no {{}}
+          Lista para Entrar no {{ name }}
         </div>
         <div class="close" @click="$router.push(`/team/${id}`)">
           <IconClose/>
@@ -18,6 +18,10 @@
       </div>
       <div class="table">
         <table>
+          <thead>
+            <th>Nome do Jogador</th>
+            <th>Habilidade do Jogador</th>
+          </thead>
           <tr v-for="player in filteredTeams" :key="player.id" @click="$router.push(`/team/${id}/accept/${player.id}`)">
             <td>{{player.name}}</td>
             <td>{{player.overall}}</td>
@@ -34,6 +38,7 @@ import IconClose from '../../Icons/IconClose.vue'
 import IconSearch from '../../Icons/IconSearch.vue'
 import IconAdd from '../../Icons/IconAdd.vue'
 import { getAll } from '../api/teamAccept'
+import { get } from '../api/team'
 
 export default {
   components: {
@@ -45,6 +50,7 @@ export default {
   data () {
     return {
       players: [],
+      name,
       search: '',
       loading: true
     }
@@ -52,15 +58,16 @@ export default {
   computed: {
     filteredTeams () {
       return this.players.filter((player) => {
-        return String(player.name).toUpperCase().startsWith(this.search.toUpperCase()) ||
-        String(player.id).includes(this.search) ||
-        String(player.playerName).toUpperCase().startsWith(this.search.toUpperCase())
+        return String(player.name).toUpperCase().includes(this.search.toUpperCase()) ||
+        String(player.overall).toUpperCase().includes(this.search.toUpperCase())
       })
     },
     ...mapState(['player'])
   },
   async mounted () {
     this.players = await getAll(this.id)
+    const team = await get(this.id)
+    this.name = team.name
     this.loading = false
   }
 }
