@@ -80,19 +80,11 @@
 
 <script>
 import { mapState } from 'vuex'
-import IconClose from '../../Icons/IconClose.vue'
-import IconAdd from '../../Icons/IconAdd.vue'
-import IconAngle from '../../Icons/IconAngle.vue'
 import { get } from '../api/field'
 import { create } from '../api/rent'
 import { getAll as getList, get as getListId } from '../api/fieldList'
 
 export default {
-  components: {
-    IconClose,
-    IconAdd,
-    IconAngle,
-  },
   computed: {
     ...mapState(['player'])
   },

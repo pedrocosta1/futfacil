@@ -35,15 +35,9 @@
 
 <script>
 import { mapState } from 'vuex'
-import IconClose from '../../Icons/IconClose.vue'
-import IconSearch from '../../Icons/IconSearch.vue'
 import { getRentedListPlayer } from '../api/fieldList'
 
 export default {
-  components: {
-    IconClose,
-    IconSearch,
-  },
   data () {
     return {
       fields: [],

@@ -46,19 +46,9 @@
 </template>
 
 <script>
-import IconClose from '../../Icons/IconClose.vue'
-import IconWarning from '../../Icons/IconWarning.vue'
-import IconInfo from '../../Icons/IconInfo.vue'
 import { get } from '../api/log'
-import Loading from '../../Loading/LoadingScreen'
 
 export default {
-  components: {
-    IconClose,
-    IconWarning,
-    IconInfo,
-    Loading
-  },
   props: ['id'],
   data () {
     return {

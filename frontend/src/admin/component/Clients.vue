@@ -34,11 +34,7 @@
 </template>
 
 <script>
-import IconClose from '../../Icons/IconClose.vue'
-import IconAdd from '../../Icons/IconAdd.vue'
-import IconSearch from '../../Icons/IconSearch.vue'
 import { getAll } from '../api/client'
-import Loading from '../../Loading/LoadingScreen'
 
 export default {
   components: {

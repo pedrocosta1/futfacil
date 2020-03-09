@@ -102,11 +102,6 @@
 </template>
 
 <script>
-import IconClose from '../../Icons/IconClose.vue'
-import IconAdd from '../../Icons/IconAdd.vue'
-import IconEdit from '../../Icons/IconEdit.vue'
-import IconSearch from '../../Icons/IconSearch.vue'
-import IconAngle from '../../Icons/IconAngle.vue'
 import { get, create, update } from '../api/client'
 import { getCep } from '../api/searchCep'
 import Loading from '../../Loading/LoadingScreen'

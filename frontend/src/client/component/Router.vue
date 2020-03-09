@@ -41,22 +41,8 @@
 <script>
 import { mapState } from 'vuex'
 import { removeToken, loadModule } from '../../util'
-import IconClient from '../../Icons/IconClient'
-import IconDashboard from '../../Icons/IconDashboard'
-import IconOut from '../../Icons/IconOut'
-import IconField from '../../Icons/IconField'
-import IconRandom from '../../Icons/IconRandom'
-import IconLog from '../../Icons/IconLog'
 
 export default {
-  components: {
-    IconClient,
-    IconDashboard,
-    IconOut,
-    IconField,
-    IconRandom,
-    IconLog
-  },
   computed: {
     ...mapState(['user'])
   },

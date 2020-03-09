@@ -34,21 +34,9 @@
 </template>
 
 <script>
-import IconClose from '../../Icons/IconClose.vue'
-import IconWarning from '../../Icons/IconWarning.vue'
-import IconInfo from '../../Icons/IconInfo.vue'
-import IconSearch from '../../Icons/IconSearch.vue'
 import { getAll } from '../api/log'
-import Loading from '../../Loading/LoadingScreen'
 
 export default {
-  components: {
-    IconClose,
-    IconSearch,
-    IconInfo,
-    IconWarning,
-    Loading
-  },
   data () {
     return {
       data: [],

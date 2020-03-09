@@ -79,21 +79,11 @@
 </template>
 
 <script>
-import IconClose from '../../Icons/IconClose.vue'
-import IconAdd from '../../Icons/IconAdd.vue'
-import IconAngle from '../../Icons/IconAngle.vue'
 import { get } from '../api/field'
 import { create } from '../api/rent'
 import { getAll as getList, get as getListId, create as createList, update as updateList } from '../api/fieldList'
-import Loading from '../../Loading/LoadingScreen'
 
 export default {
-  components: {
-    IconClose,
-    IconAdd,
-    IconAngle,
-    Loading
-  },
   props: ['id', 'fieldId'],
   data () {
     return {

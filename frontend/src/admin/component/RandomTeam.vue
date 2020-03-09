@@ -89,22 +89,8 @@
 </template>
 
 <script>
-import IconClose from '../../Icons/IconClose.vue'
-import IconView from '../../Icons/IconView.vue'
-import IconEdit from '../../Icons/IconEdit.vue'
-import IconSearch from '../../Icons/IconSearch.vue'
-import IconAngle from '../../Icons/IconAngle.vue'
-import Loading from '../../Loading/LoadingScreen'
 
 export default {
-  components: {
-    IconClose,
-    IconView,
-    IconEdit,
-    IconSearch,
-    IconAngle,
-    Loading
-  },
   props: ['id'],
   data () {
     return {

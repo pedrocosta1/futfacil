@@ -31,17 +31,9 @@
 </template>
 
 <script>
-import IconClose from '../../Icons/IconClose.vue'
-import IconSearch from '../../Icons/IconSearch.vue'
 import { getFields } from '../api/field'
-import Loading from '../../Loading/LoadingScreen'
 
 export default {
-  components: {
-    IconClose,
-    IconSearch,
-    Loading
-  },
   props: ['id'],
   data () {
     return {

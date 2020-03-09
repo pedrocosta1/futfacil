@@ -53,12 +53,8 @@
 </template>
 
 <script>
-import Loading from '../../Loading/LoadingScreen.vue'
 
 export default {
-  components: {
-    Loading,
-  },
   data () {
     // Utilizar a sigla que vem do banco para mudar na variavel Nationality // 
     return {

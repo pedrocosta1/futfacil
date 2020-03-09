@@ -12,7 +12,7 @@
           <div class="menu-open-svg">
             <IconField class="menu-svg" />
           </div>
-          <span class="menu-text">Jogadores</span>
+          <span class="menu-text">Jogador</span>
         </div>
         <div class="menu-item" @click="changeRoute('team')" :class="teams ? 'active' : ''">
           <div class="menu-open-svg">
@@ -59,30 +59,8 @@
 <script>
 import { mapState } from 'vuex'
 import { removeToken, loadModule } from '../../util'
-import IconClient from '../../Icons/IconClient'
-import IconDashboard from '../../Icons/IconDashboard'
-import IconOut from '../../Icons/IconOut'
-import IconField from '../../Icons/IconField'
-import IconRandom from '../../Icons/IconRandom'
-import IconLog from '../../Icons/IconLog'
-import IconRent from '../../Icons/IconRent'
-import IconRented from '../../Icons/IconRented'
-import IconHability from '../../Icons/IconHability'
-import IconTeam from '../../Icons/IconTeam'
 
 export default {
-  components: {
-    IconClient,
-    IconDashboard,
-    IconOut,
-    IconField,
-    IconRandom,
-    IconLog,
-    IconRent,
-    IconRented,
-    IconHability,
-    IconTeam
-  },
   computed: {
     ...mapState(['user']),
     ...mapState(['player']),

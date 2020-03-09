@@ -138,22 +138,11 @@
 
 <script>
 import { mapState } from 'vuex'
-import IconClose from '../../Icons/IconClose.vue'
-import IconAdd from '../../Icons/IconAdd.vue'
-import IconEdit from '../../Icons/IconEdit.vue'
-import IconAngle from '../../Icons/IconAngle.vue'
 import { get, create, update } from '../api/field'
 import { getAll as getList, create as createList, update as updateList } from '../api/fieldList'
 import Loading from '../../Loading/LoadingScreen'
 
 export default {
-  components: {
-    IconClose,
-    IconAdd,
-    IconEdit,
-    IconAngle,
-    Loading
-  },
   props: ['id'],
   data () {
     return {

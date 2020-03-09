@@ -12,6 +12,26 @@ import infiniteScroll from 'vue-infinite-scroll'
 import Card from './admin/component/Card'
 import Random from './admin/component/RandomTeam'
 // import Chart from 'chart.js'
+// Importando Icones Globalmente
+import IconAdd from './Icons/IconAdd'
+import IconAngle from './Icons/IconAngle'
+import IconClient from './Icons/IconClient'
+import IconClose from './Icons/IconClose'
+import IconDashboard from './Icons/IconDashboard'
+import IconEdit from './Icons/IconEdit'
+import IconField from './Icons/IconField'
+import IconHability from './Icons/IconHability'
+import IconInfo from './Icons/IconInfo'
+import IconLog from './Icons/IconLog'
+import IconOut from './Icons/IconOut'
+import IconRandom from './Icons/IconRandom'
+import IconRent from './Icons/IconRent'
+import IconRented from './Icons/IconRented'
+import IconSearch from './Icons/IconSearch'
+import IconSpinner from './Icons/IconSpinner'
+import IconTeam from './Icons/IconTeam'
+import IconView from './Icons/IconView'
+import IconWarning from './Icons/IconWarning'
 
 
 import './_asset/scss/app.scss'
@@ -42,6 +62,29 @@ Vue.use(money, {
 })
 Vue.use(VueTheMask)
 // Error handler
+
+// Icon Global
+Vue.component('IconAdd', IconAdd)
+Vue.component('IconAngle', IconAngle)
+Vue.component('IconClient', IconClient)
+Vue.component('IconClose', IconClose)
+Vue.component('IconDashboard', IconDashboard)
+Vue.component('IconEdit', IconEdit)
+Vue.component('IconField', IconField)
+Vue.component('IconHability', IconHability)
+Vue.component('IconInfo', IconInfo)
+Vue.component('IconLog', IconLog)
+Vue.component('IconOut', IconOut)
+Vue.component('IconRandom', IconRandom)
+Vue.component('IconRent', IconRent)
+Vue.component('IconRented', IconRented)
+Vue.component('IconSearch', IconSearch)
+Vue.component('IconSpinner', IconSpinner)
+Vue.component('IconTeam', IconTeam)
+Vue.component('IconView', IconView)
+Vue.component('IconWarning', IconWarning)
+
+//
 Vue.config.errorHandler = (err, vm, info) => {
   logger.error(err)
 }

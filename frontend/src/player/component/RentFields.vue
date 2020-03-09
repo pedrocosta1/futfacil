@@ -19,7 +19,7 @@
       <div class="table">
         <table>
           <thead>
-            <th>Nome do Jogador</th>
+            <th>Nome do Campo</th>
             <th class="td-hidden">Tipo</th>
             <th>Maximo de Pessoas</th>
             <th>Preço</th>
@@ -37,15 +37,9 @@
 </template>
 
 <script>
-import IconClose from '../../Icons/IconClose.vue'
-import IconSearch from '../../Icons/IconSearch.vue'
 import { getFields } from '../api/field'
 
 export default {
-  components: {
-    IconClose,
-    IconSearch,
-  },
   data () {
     return {
       fields: [],

@@ -48,13 +48,9 @@
 </template>
 
 <script>
-import Loading from '../../Loading/LoadingScreen.vue'
 import { get } from '../api/hability'
 
 export default {
-  components: {
-    Loading
-  },
   props: ['id', 'change'],
   data () {
     // Utilizar a sigla que vem do banco para mudar na variavel Nationality //

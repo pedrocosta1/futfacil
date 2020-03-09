@@ -39,17 +39,9 @@
 </template>
 
 <script>
-import IconClose from '../../Icons/IconClose.vue'
-import IconSearch from '../../Icons/IconSearch.vue'
 import { getAll } from '../api/rent'
-import Loading from '../../Loading/LoadingScreen'
 
 export default {
-  components: {
-    IconClose,
-    IconSearch,
-    Loading
-  },
   props: ['id', 'rentId'],
   data () {
     return {

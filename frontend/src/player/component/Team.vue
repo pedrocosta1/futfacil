@@ -66,18 +66,10 @@
 
 <script>
 import { mapState } from 'vuex'
-import IconClose from '../../Icons/IconClose.vue'
-import IconAngle from '../../Icons/IconAngle.vue'
-import IconAdd from '../../Icons/IconAdd.vue'
 import { get, create, update } from '../api/team'
 import { create as createApplication } from '../api/teamAccept'
 
 export default {
-  components: {
-    IconClose,
-    IconAngle,
-    IconAdd
-  },
   props: ['id'],
   computed: {
     ...mapState(['player'])

@@ -34,19 +34,9 @@
 
 <script>
 import { removeToken, loadModule } from '../../util'
-import IconClose from '../../Icons/IconClose.vue'
-import IconAdd from '../../Icons/IconAdd.vue'
-import IconSearch from '../../Icons/IconSearch.vue'
 import { getAll } from '../api/field'
-import Loading from '../../Loading/LoadingScreen'
 
 export default {
-  components: {
-    IconClose,
-    IconAdd,
-    IconSearch,
-    Loading
-  },
   props: ['client'],
   data () {
     return {

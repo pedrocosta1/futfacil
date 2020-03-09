@@ -2,6 +2,13 @@ import axios from 'axios'
 
 const API = process.env.VUE_APP_API
 
+const config = {
+  headers: {
+    'Accept': '',
+    'Content-Type': 'multipart/form-data'
+  }
+}
+
 const getAll = async () => {
   const { data } = await axios.get(`${API}/hability/`)
   return data
@@ -27,7 +34,26 @@ const create = async (
   club,
   edit
 ) => {
-  const fd = new FormData()
+  const validation = "profile_" + player + ".png"
+  if(photo === validation) {
+    return axios.post(`${API}/hability`, {
+        player,
+        pac,
+        shot,
+        pas,
+        dri,
+        def,
+        phy,
+        photo,
+        overall,
+        name,
+        nacionality,
+        club,
+        edit
+      }
+    )
+  } else {
+    const fd = new FormData()
     fd.append('player', player)
     fd.append('pac', pac)
     fd.append('shot', shot)
@@ -41,7 +67,9 @@ const create = async (
     fd.append('nacionality', nacionality)
     fd.append('club', club)
     fd.append('edit', edit)
-  return axios.post(`${API}/hability`, fd, config)
+    return axios.post(`${API}/hability`, fd, config)
+  }
+  
 }
 
 const update = async (

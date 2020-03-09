@@ -4,7 +4,7 @@
     <div class="main-content" v-if="!loading">
       <div class="header">
         <div class="title">
-          player
+          Detalhes do Jogador
         </div>
         <div class="close" @click="$router.push('/players')">
           <IconClose/>
@@ -113,22 +113,10 @@
 
 <script>
 import { mapState } from 'vuex'
-import IconClose from '../../Icons/IconClose.vue'
-import IconAdd from '../../Icons/IconAdd.vue'
-import IconEdit from '../../Icons/IconEdit.vue'
-import IconSearch from '../../Icons/IconSearch.vue'
-import IconAngle from '../../Icons/IconAngle.vue'
 import { getCep } from '../api/searchCep'
 import { getData as get, update } from '../api/player'
 
 export default {
-  components: {
-    IconClose,
-    IconAdd,
-    IconEdit,
-    IconSearch,
-    IconAngle,
-  },
   computed: {
     ...mapState(['player']),
     ...mapState(['user'])

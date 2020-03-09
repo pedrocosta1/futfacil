@@ -95,22 +95,10 @@
 
 <script>
 import { mapState } from 'vuex'
-import IconClose from '../../Icons/IconClose.vue'
-import IconAdd from '../../Icons/IconAdd.vue'
-import IconEdit from '../../Icons/IconEdit.vue'
-import IconSearch from '../../Icons/IconSearch.vue'
-import IconAngle from '../../Icons/IconAngle.vue'
 import { getAll, get, create, update } from '../api/hability'
 import { getCep } from '../api/searchCep'
 
 export default {
-  components: {
-    IconClose,
-    IconAdd,
-    IconEdit,
-    IconSearch,
-    IconAngle
-  },
   computed: {
     ...mapState(['player']),
     ...mapState(['user'])
