@@ -51,6 +51,12 @@
             </div>
           </div>
         </div>
+        <div class="section" @click="$router.push(`/fields/${id}/images`)" v-if="id !== 'new'">
+          <div class="section-header">
+            <span class="title">Imagem Campo</span>
+            <IconAngle/>
+          </div>
+        </div>
         <div class="section" v-if="id !== 'new'">
           <div class="section-header" @click="recallSecond = !recallSecond">
             <span class="title">Cadastro de Horarios</span>

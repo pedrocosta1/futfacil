@@ -7,6 +7,7 @@ import Fields from './component/Fields.vue'
 import Field from './component/Field.vue'
 import RentedField from './component/RentedField.vue'
 import RentedFields from './component/RentedFields.vue'
+import FieldImages from './component/FieldImages.vue'
 
 Vue.use(Router)
 
@@ -32,6 +33,12 @@ export default new Router({
       path: '/fields',
       name: 'fields',
       component: Fields
+    },
+    {
+      path: '/fields/:id/images',
+      name: 'fieldImages',
+      component: FieldImages,
+      props: true
     },
     {
       path: '/fields/:id',
