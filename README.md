@@ -1,13 +1,13 @@
-# FutFacil
+# Projeto FutFacil
 
-# Ideia
+# Ideia do Projeto:
 ```sh 
     A ideia central do projeto é proporcinar para donos de quadras esportivas
     possibilidade de integrar e facilitar o acesso e alcance dos clientes até sua quadra de esporte.
 ```
 
 
-# Clonar Projeto?
+# Clonar Projeto:
 ```sh 
     git clone https://github.com/pedrocosta1/futfacil.git
 ```
