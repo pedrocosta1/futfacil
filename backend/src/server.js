@@ -18,6 +18,7 @@ import player from './player/routes'
 import field from './field/routes'
 import rent from './rent/routes'
 import fieldList from './fieldList/routes'
+import fieldImages from './fieldImages/routes'
 import cep from './cep/routes'
 import hability from './hability/routes'
 import team from './team/routes'
@@ -47,6 +48,7 @@ router.use('/field', field)
 router.use('/player', player)
 router.use('/rent', rent)
 router.use('/fieldList', fieldList)
+router.use('/fieldImages', fieldImages)
 router.use('/cep', cep)
 router.use('/hability', hability)
 router.use('/teamPlayers', teamPlayers)
