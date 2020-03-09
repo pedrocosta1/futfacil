@@ -1,5 +1,3 @@
-# template
+# FutFacil
 
-Projeto FutFacil
 
-Dev: Pedro Costa
