@@ -2,7 +2,8 @@
 
 # Ideia
 ```sh 
-    A ideia central do projeto é proporcinar para donos de quadras esportivas possibilidade de integrar e facilitar o acesso e alcance dos clientes até sua quadra de esporte.
+    A ideia central do projeto é proporcinar para donos de quadras esportivas
+    possibilidade de integrar e facilitar o acesso e alcance dos clientes até sua quadra de esporte.
 ```
 
 
