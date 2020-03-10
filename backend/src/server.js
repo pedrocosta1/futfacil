@@ -54,6 +54,7 @@ router.use('/hability', hability)
 router.use('/teamPlayers', teamPlayers)
 router.use('/teamAccept', teamAccept)
 router.use('/team', team)
+router.use('/challenge', challenge)
 // --------------------------------------------------------
 
 app.use('/api', router)

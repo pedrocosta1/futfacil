@@ -10,9 +10,9 @@
     "undeploy": "pm2 delete pm2.json",
     "latest": "knex migrate:latest",
     "rollback": "knex migrate:rollback",
-    "rent": "knex migrate:make fieldimage"
+    "rent": "knex migrate:make challenge"
   },
-  "author": "RI Sistemas",
+  "author": "Pedro Costa",
   "license": "ISC",
   "devDependencies": {
     "@babel/cli": "^7.1.5",
