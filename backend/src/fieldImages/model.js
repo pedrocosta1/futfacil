@@ -6,6 +6,13 @@ import knex from '../config/knex'
     .andWhere('active', true)
   }
 
+  const getCount = async ( field ) => {
+    return await knex('fieldImages')
+    .count('id as imageNumber')
+    .where('field', field)
+    .first()
+  } 
+
 
   const create = async (
     field
@@ -32,6 +39,7 @@ import knex from '../config/knex'
 
   export {
     getAll,
+    getCount,
     create,
     updatePhoto,
     remove

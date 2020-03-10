@@ -8,6 +8,7 @@ import logger from '../config/logger'
 import requireAuth from '../auth/requireAuth'
 import { getAll, create, update, updatePhoto } from './model'
 import routeClient from './routeClient'
+import routePlayer from './routePlayer'
 const router = express.Router()
 
 router.get('/:field', requireAuth('admin'), async (req, res) => {
@@ -100,4 +101,5 @@ router.put('/:id', requireAuth('admin'), upload.array('file', 4), async (req, re
 
 
 router.use('/client', routeClient)
+router.use('/player', routePlayer)
 export default router

@@ -6,7 +6,7 @@ var upload = multer({ dest: 'frontend/public/img/fields' });
 
 import logger from '../config/logger'
 import requireAuth from '../auth/requireAuth'
-import { getAll, create, update, updatePhoto } from './model'
+import { getAll, create, getCount, updatePhoto } from './model'
 const router = express.Router()
 
 router.get('/:field', requireAuth('client'), async (req, res) => {
@@ -30,7 +30,7 @@ router.get('/:field', requireAuth('client'), async (req, res) => {
   }
 })
 
-router.post('/', requireAuth('client'), upload.array('files', 4), async (req, res) => {
+router.post('/', requireAuth('client'), upload.array('files', 10), async (req, res) => {
   try {
     logger.info('POST /fieldList')
     const { value, error } = Joi.validate(
@@ -43,17 +43,31 @@ router.post('/', requireAuth('client'), upload.array('files', 4), async (req, re
       const errorFront = error.details.map(x => x.message)
       return res.status(400).send({ error: 'Validation error', fields: [errorFront] }) 
     }
-    if(req.files) {
-      for(let i = 0; i < req.files.length; i++ ){
-        const id = await create(value.field)
-        const renamePhoto = '../frontend/public/img/fields/field_' + id + '.png'
-        fs.rename(req.files[i].path, renamePhoto, function(err) {
-          if (err) throw err;
-          console.log(err)
-        })
-        const photoName = "field_" + id + '.png'
-        await updatePhoto(id, photoName)
+    const countImagesData = await getCount(value.field)
+    if(countImagesData.imageNumber < 4) {
+      if(req.files) {
+        let countImages = 0
+        if(countImagesData.imageNumber === 0) countImages = 3
+        else if( countImagesData.imageNumber === 1 ) countImages = 2
+        else if( countImagesData.imageNumber === 2 ) countImages = 1
+        else countImages = 1
+        console.log(countImages)
+        console.log(countImagesData)
+        for(let i = 0; i < countImages; i++ ){
+          const id = await create(value.field)
+          const renamePhoto = '../frontend/public/img/fields/field_' + id + '.png'
+          if(req.files[i].path){
+            fs.rename(req.files[i].path, renamePhoto, function(err) {
+              if (err) throw err;
+              console.log(err)
+            })
+            const photoName = "field_" + id + '.png'
+            await updatePhoto(id, photoName)
+          }
+        }
       }
+    } else {
+      res.send(false)
     }
     return res.send(true)
   } catch (error) {
