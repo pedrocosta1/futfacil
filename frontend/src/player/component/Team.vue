@@ -41,6 +41,18 @@
             <IconAngle/>
           </div>
         </div>
+        <div class="section" @click="$router.push(`/team/${id}/challenges`)" v-if="applications">
+          <div class="section-header">
+            <span class="title">Desafiar Times</span>
+            <IconAngle/>
+          </div>
+        </div>
+        <div class="section" @click="$router.push(`/team/${id}/challenges`)" v-if="applications">
+          <div class="section-header">
+            <span class="title">Desafios</span>
+            <IconAngle/>
+          </div>
+        </div>
         <div class="button-group">
           <div class="btn-cancel" v-if="!edit" @click="cancel">
             <span>Cancelar</span>
