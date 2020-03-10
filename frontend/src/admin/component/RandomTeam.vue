@@ -53,13 +53,13 @@
                   </div>
                   <div class="form-two-columns">
                     <table class="table">
-                      <th>Team2</th>
+                      <th>Time 2</th>
                       <tr v-for="t1 in team1" :key="t1.id">
                         <td>{{t1.name}}</td>
                       </tr>
                     </table>
                     <table class="table">
-                      <th>Team 1</th>
+                      <th>Time 1</th>
                       <tr v-for="t2 in team2" :key="t2.id">
                         <td>{{t2.name}}</td>
                       </tr>

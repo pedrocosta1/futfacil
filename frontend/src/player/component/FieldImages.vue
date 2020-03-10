@@ -6,7 +6,7 @@
         <div class="title">
           Imagem do Campo: {{name}}
         </div>
-        <div class="close" @click="$router.push(`/fields`)">
+        <div class="close" @click="$router.push(`/rent/${fieldId}`)">
           <IconClose/>
         </div>
       </div>
@@ -17,32 +17,18 @@
             <IconAngle :class="recallFirst ? 'rotate-down' : 'rotate-up'"/>
           </div>
           <div class="section-body" :class="recallFirst ? 'recall' : 'recall-body'">
-            <div class="box-header">
-              <form class="form" enctype="multipart/form-data">
-                <div class="form-group">
-                  <label>Selecione as Fotos</label>
-                  <input type="file" name="file" multiple @change="onFileChangeMultiple">
-                  <span v-if="error.indexOf('file') > -1">Ops! Ta faltando o Celular</span>
-                </div>
-                <span class="text-warn">Limite de 4 Imagens por Campo</span>
-              </form>
-            </div>
             <div class="box-body" v-if="fieldImages.length > 0">
               <div class="box-image" v-for="fieldImage in fieldImages" :key="fieldImage.id" >
                 <IconEdit class="icon"/>
                 <Loading v-if="loadingImage" />
                 <img :src="fieldImage.photo" v-if="!loadingImage">
-                <div class="box-option">
-                  <input type="file" name="file" class="input-image" @change="onFileChangeSingle">
-                  <button class="btn" @click="updatePhoto(fieldImage.id)">Editar</button>
-                </div>
               </div>
             </div>
           </div>
         </div>
         <div class="button-group">
-          <div class="btn-add" @click="save">
-            <span>Salvar</span>
+          <div class="btn-add" @click="$router.push(`/rent/${fieldId}`)">
+            <span>Voltar</span>
             <IconEdit />
           </div>
         </div>
@@ -54,10 +40,10 @@
 <script>
 import { mapState } from 'vuex'
 import { get } from '../api/field'
-import { get as getImages, create, update } from '../api/fieldImages'
+import { get as getImages } from '../api/fieldImages'
 
 export default {
-  props: ['id'],
+  props: ['fieldId'],
   data () {
     return {
       field: [],
@@ -71,7 +57,7 @@ export default {
     }
   },
   computed: {
-     ...mapState(['client']),
+     ...mapState(['player']),
   },
   async mounted () {
     if (this.id !== 'new') {
@@ -81,39 +67,11 @@ export default {
     this.loading = false    
   },
   methods: {
-    async save () {
-      try {
-        const validation = await create(
-          this.id,
-          this.photo
-        )
-        if(!validation) alert('Só poderá enviar 4 imagens')
-        else this.$router.push(`/fields/${this.id}`)
-      } catch (error) {
-        const data = error.response ? error.response.data : {}
-        if (data.error === 'Validation error') {
-          this.error = data.fields
-        }
-      }
-    },
-    async updatePhoto (id) {
-      this.loadingImage = false
-      await update(
-        id,
-        this.photo
-      )
-    },
-    async onFileChangeMultiple (event) {
-      this.photo = event.target.files
-    },
-    async onFileChangeSingle (event) {
-      this.photo = event.target.files[0]
-    },
     async getMounted () {
       this.loading = true
-      this.fieldImages = await getImages(this.id)
+      this.fieldImages = await getImages(this.fieldId)
       this.fieldImages.map(x => x.photo = "img/fields/" + x.photo)
-      const fieldDetails = await get(this.id)
+      const fieldDetails = await get(this.fieldId)
       this.name = fieldDetails.name
       this.edit = true
       this.loadingImage = false
@@ -130,4 +88,5 @@ export default {
   .button-group {
     margin-top: 60px;
   }
+
 </style>

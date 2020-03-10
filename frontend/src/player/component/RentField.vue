@@ -36,7 +36,7 @@
             </div>
           </div>
         </div>
-        <div class="section first-section">
+        <div class="section">
           <div class="section-header" @click="recallSecond = !recallSecond">
             <span class="title">Horários Disponiveis</span>
             <IconAngle :class="recallSecond ? 'rotate-down' : 'rotate-up'"/>
@@ -61,6 +61,12 @@
                 </table>
               </div>
             </div>
+          </div>
+        </div>
+        <div class="section">
+          <div class="section-header" @click="$router.push(`/rent/${fieldId}/images`)">
+            <span class="title">Images do Campo</span>
+            <IconAngle :class="recallSecond ? 'rotate-down' : 'rotate-up'"/>
           </div>
         </div>
         <div class="button-group">

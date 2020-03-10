@@ -1,0 +1,46 @@
+.box-body {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    flex-wrap: wrap;
+    .box-image {
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      border: 1px solid #fff;
+      height: 100%;
+      width: 100%;
+      .icon {
+        position: absolute;
+        width: 30px;
+        height: 30px;
+        top: 0;
+        bottom: 0;
+        opacity: 0;
+      }
+      img {
+        padding: 10px;
+        width: 100%;
+        height: 400px;
+      }
+    }
+    .box-option {
+      display: flex;
+      flex-direction: column;
+      padding: 10px;
+      .btn {
+        margin-top: 10px;
+      }
+    }
+  }
+
+  @media screen and (min-width: $width-desktop) {
+    .box-body {
+        flex-direction: row;
+        .box-image {
+            width: 50%;
+        }
+    }
+
+  }

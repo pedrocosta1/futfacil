@@ -5,6 +5,7 @@ import Main from './component/Main.vue'
 import Player from './component/Player.vue'
 import Hability from './component/Hability.vue'
 import RentField from './component/RentField.vue'
+import FieldImages from './component/FieldImages.vue'
 import RentFields from './component/RentFields.vue'
 import RentedFields from './component/RentedFields.vue'
 import RentedField from './component/RentedField.vue'
@@ -51,6 +52,12 @@ export default new Router({
       path: '/rent/:fieldId',
       name: 'rent',
       component: RentField,
+      props: true
+    },
+    {
+      path: '/rent/:fieldId/images',
+      name: 'fieldImages',
+      component: FieldImages,
       props: true
     },
     {
