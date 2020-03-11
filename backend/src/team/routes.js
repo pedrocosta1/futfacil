@@ -3,7 +3,7 @@ import Joi from 'joi'
 
 import logger from '../config/logger'
 import requireAuth from '../auth/requireAuth'
-import { getAll, get, create, update, remove } from './model'
+import { getAll, get, create, update, remove, getAllTeamChallenge } from './model'
 
 const router = express.Router()
 
@@ -12,6 +12,27 @@ router.get('/', requireAuth('player'), async (req, res) => {
     logger.info('GET /team/')
     const teams = await getAll()
     return res.json(teams)
+  } catch (error) {
+    logger.error(error)
+    return res.status(400).send({ error: 'Internal error' })
+  }
+})
+
+router.get('/challenge/:player', requireAuth('player'), async (req, res) => {
+  try {
+    logger.info('GET /team/challenge/:player')
+    const { value, error } = Joi.validate(
+      req.params,
+      Joi.object().keys({
+        player: Joi.number().integer().required()
+      })
+    )
+    if(error){
+      const errorFront = error.details.map(x => x.path)
+      return res.status(400).send({ error: 'Validation error', fields: errorFront }) 
+    }
+    const teams = await getAllTeamChallenge(value.player)
+    return res.send(teams)
   } catch (error) {
     logger.error(error)
     return res.status(400).send({ error: 'Internal error' })

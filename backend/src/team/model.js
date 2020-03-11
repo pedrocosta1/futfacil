@@ -6,6 +6,15 @@ const getAll = async () => {
     .leftJoin('player', 'player.id', 'team.player')
     .andWhere('team.active', true)
 }
+
+const getAllTeamChallenge = async (player) => {
+  return knex('team')
+    .select('team.*', 'player.name as playerName')
+    .leftJoin('player', 'player.id', 'team.player')
+    .where('team.active', true)
+    .whereNot('team.player', player)
+}
+
 const get = async (id) => {
   return await knex('team')
   .where('team.id', id)
@@ -46,6 +55,7 @@ const get = async (id) => {
 
   export {
     getAll,
+    getAllTeamChallenge,
     get,
     create,
     update,

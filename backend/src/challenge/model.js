@@ -4,7 +4,7 @@ const getAll = async (team) => {
   return await knex('challenge')
     .select(
       'challenge.id',
-      'player.name as namePlayer',
+      'player.name as playerName',
       'team.name as teamName',
       'field.name as fieldName',
       'challenge.date'
@@ -17,7 +17,7 @@ const getAll = async (team) => {
 
 const get = async (id) => {
   return await knex('challenge')
-  .select('client.*', 'field.name as fieldName', 'team.id as teamId')
+  .select('client.*', 'field.name as fieldName', 'team.id as teamId', 'team.player as playerId')
   .leftJoin('team', 'team.id', 'challenge.team1')
   .leftJoin('field', 'field.id', 'challenge.field')
   .leftJoin('client', 'client.id', 'field.client')

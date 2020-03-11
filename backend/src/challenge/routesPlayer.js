@@ -43,6 +43,7 @@ router.get('/:id', requireAuth('player'), async (req, res) => {
       return res.status(400).send({ error: 'Validation error', fields: errorFront }) 
     }
     const challenge = await get(value.id)
+    console.log(challenge)
     const players = await getAllPlayers(challenge.teamId)
     const object = [challenge, players]
     return res.send(object)

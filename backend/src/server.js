@@ -24,6 +24,7 @@ import hability from './hability/routes'
 import team from './team/routes'
 import teamAccept from './teamAccept/routes'
 import teamPlayers from './teamPlayers/routes'
+import challenge from './challenge/routes'
 // --------------------------------------------------------
 
 logger.info('Starting server...')
