@@ -15,6 +15,9 @@ import TeamPlayers from './component/TeamPlayers.vue'
 import TeamPlayer from './component/TeamPlayer.vue'
 import TeamAccepts from './component/TeamAccepts.vue'
 import TeamAccept from './component/TeamAccept.vue'
+import Challenge from './component/Challenge.vue'
+import Challenges from './component/Challenges.vue'
+import Challenged from './component/Challenged.vue'
 import RandomTeam from './component/RandomTeam.vue'
 
 
@@ -80,6 +83,24 @@ export default new Router({
       path: '/team/:id',
       name: 'team',
       component: Team,
+      props: true
+    },
+    {
+      path: '/team/:id/challenge/:idC',
+      name: 'Challenge',
+      component: Challenge,
+      props: true
+    },
+    {
+      path: '/team/:id/challenges',
+      name: 'Challenges',
+      component: Challenges,
+      props: true
+    },
+    {
+      path: '/team/:id/challenged',
+      name: 'Challenged',
+      component: Challenged,
       props: true
     },
     {

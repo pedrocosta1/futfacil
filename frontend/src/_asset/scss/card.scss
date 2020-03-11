@@ -3,8 +3,8 @@ $black-gradient-to-bottom: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0
 $black-gradient-to-top: linear-gradient(to top, rgba(0,0,0,0) 0%, rgba(0,0,0,0.90) 90%);
 .fut-player-card {
     position: relative;
-    width:300px;
-    height:485px;
+    width:100%;
+    height:100%;
     background-image: url(https://selimdoyranli.com/cdn/fut-player-card/img/card_bg.png);
     background-position: center center;
     background-size:100% 100%;
@@ -137,5 +137,12 @@ $black-gradient-to-top: linear-gradient(to top, rgba(0,0,0,0) 0%, rgba(0,0,0,0.9
                 }
             }
         }
+    }
+}
+
+@media screen and (min-width: $width-desktop) {
+    .fut-player-card {
+        width:300px;
+        height:485px;
     }
 }

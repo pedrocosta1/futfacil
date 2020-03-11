@@ -12,6 +12,11 @@ const get = async (id) => {
   return data
 }
 
+const getTeamChallenge = async (player) => {
+  const { data } = await axios.get(`${API}/team/challenge/${player}`)
+  return data
+}
+
 const create = async (
   name,
   player,
@@ -40,6 +45,7 @@ const update = async (
 export {
   getAll,
   get,
+  getTeamChallenge,
   create,
   update
 }

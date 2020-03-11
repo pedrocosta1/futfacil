@@ -47,7 +47,7 @@
             <IconAngle/>
           </div>
         </div>
-        <div class="section" @click="$router.push(`/team/${id}/challenges`)" v-if="applications">
+        <div class="section" @click="$router.push(`/team/${id}/challenged`)" v-if="applications">
           <div class="section-header">
             <span class="title">Desafios</span>
             <IconAngle/>
