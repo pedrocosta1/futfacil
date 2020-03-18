@@ -22,11 +22,13 @@
             <th>Time</th>
             <th>Capitão do Time</th>
             <th class="td-hidden">Data da Criação</th>
+            <th>Status</th>
           </thead>
-          <tr v-for="challenge in challengesFiltered" :key="challenge.id" @click="$router.push(`/team/${challenge.id}`)">
+          <tr v-for="challenge in challengesFiltered" :key="challenge.id" @click="$router.push(`/team/${id}/challenge/${challenge.id}`)">
             <td>{{challenge.teamName}}</td>
             <td>{{challenge.playerName}}</td>
-            <td class="td-hidden">{{challenge.date}}</td>
+            <td class="td-hidden">{{challenge.date}}</td> 
+            <td>{{challenge.accept ? 'Aceito' : 'Pendente'}}</td>
           </tr>
         </table>
       </div>
@@ -57,7 +59,12 @@ export default {
   },
   async mounted () {
     this.challenges = await getAll(this.id)
-    console.log(this.challenges)
+    this.challenges.map(x => {
+      x.date = x.date.split('T')[0]
+      const datasplit = x.date.split('-')
+      x.date = datasplit[2] + '-' + datasplit[1] + '-' + datasplit[0]
+      return x
+    })
     this.loading = false
   }
 }

@@ -18,13 +18,20 @@
           </div>
           <div class="section-body" :class="recallFirst ? 'recall' : 'recall-body'">
             <div class="form">
-              <div class="form-group">
-                <label>Nome do Time</label>
-                <input v-model="name" :disabled="edit">
+              <div class="group-two">
+                <div class="form-group">
+                  <label>Nome do Time</label>
+                  <input v-model="name" :disabled="edit" style="width: 97%">
+                </div>
+                <div class="box-body" v-if="id !== 'new'">
+                  <div class="box-image">
+                    <img :src="logo">
+                  </div>
+                </div>
               </div>
-              <div class="form-group">
-                <label>Logo</label>
-                <input v-model="logo" :disabled="edit">
+              <div class="form-group" v-if="!edit && !apply ">
+                <label>Foto</label>
+                <input type="file" name="logo" @change="onFileChange" >
               </div>
             </div>
           </div>
@@ -54,6 +61,10 @@
           </div>
         </div>
         <div class="button-group">
+          <div class="btn-cancel" v-if="!edit && id !== 'new'" @click="remove">
+            <span>Deletar</span>
+            <IconClose />
+          </div>
           <div class="btn-cancel" v-if="!edit" @click="cancel">
             <span>Cancelar</span>
             <IconClose />
@@ -78,7 +89,7 @@
 
 <script>
 import { mapState } from 'vuex'
-import { get, create, update } from '../api/team'
+import { get, create, update, remove } from '../api/team'
 import { create as createApplication } from '../api/teamAccept'
 
 export default {
@@ -96,7 +107,8 @@ export default {
       loading: true,
       edit: false,
       apply: false,
-      applications: false
+      applications: false,
+      photo: null
     }
   },
   async mounted () {
@@ -113,18 +125,21 @@ export default {
           this.id,
           this.name,
           this.player.id,
-          this.logo
+          this.photo
         )
       } else {
         await create(
           this.name,
           this.player.id,
-          this.logo
+          this.photo
         )
         this.$router.push(`/team`)
       }
       this.edit = true
       this.loading = false
+    },
+    async onFileChange (event) {
+      this.photo = event.target.files[0]
     },
     async joinTeam() {
       this.loading = true
@@ -136,6 +151,14 @@ export default {
       this.getMounted()
       this.loading = false
     },
+    async remove() {
+      this.loading = true
+      await remove (
+        this.id,
+        false
+      )
+      this.$router.push(`/team`)
+    },
     async getMounted () {
       this.team = await get(this.id)
       if(this.team.player === this.player.id) {
@@ -145,7 +168,12 @@ export default {
       }
       this.edit = true
       this.name = this.team.name
-      this.logo = this.team.logo
+      if(this.team.logo) { 
+        this.logo = 'img/teams/' + this.team.logo
+        this.photo = true 
+      } else {
+        this.logo = 'img/teams/team_default.png'
+      }
       this.loading = false
     },
     async cancel () {
@@ -154,3 +182,15 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+  .box-body {
+    width: 50%;
+    .box-image {
+      width: 100%;
+      img {
+        padding: 0px;
+      }
+    }
+  }
+  
+</style>

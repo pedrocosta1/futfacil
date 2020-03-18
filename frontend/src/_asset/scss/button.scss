@@ -21,6 +21,9 @@
       background: $btn-bg;
       color: #fff;
     }
+    svg {
+      color: $color-primary;
+    }
   }
   .btn-cancel {
     display: flex !important;
@@ -36,6 +39,9 @@
     cursor: pointer;
     &:hover {
       background: #a1a1a1;
+    }
+    svg {
+      color: #e1e1e1;
     }
   }
   span {

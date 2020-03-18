@@ -21,16 +21,8 @@
               <div class="form-group same-line">
                 <div class="mini-form">
                   <label>Nº Jogadores</label>
-                  <input v-model="numberPlayer" :disabled="edit" @input="generateNumbersTeams">
+                  <input v-model="numberPlayer" :disabled="edit">
                   <span v-if="error.indexOf('number') > -1">Ops! Ta faltando o nome</span>
-                </div>
-                <div class="mini-form">
-                  <label>Jogadores p/ Time</label>
-                  <input v-model="playerTeam" :disabled="edit" @input="generateNumbersTeams">
-                </div>
-                <div class="mini-form">
-                  <label>Quantidade Times</label>
-                  <input v-model="qttTeam" disabled>
                 </div>
                 <div class="btn" @click="generateInputs">
                   <span>Gerar</span>
@@ -175,13 +167,6 @@ export default {
       for(var x = 0; x < this.numberPlayer; x++) {
         const player = {'id': x, 'name': null, 'position': null, 'hability': 1}
         this.players.push(player)
-      }
-    },
-    async generateNumbersTeams () {
-      if (this.numberPlayer && this.playerTeam) {
-        if (Number(this.numberPlayer) > Number(this.playerTeam) ) {
-          this.qttTeam = Math.round(this.numberPlayer / this.playerTeam)
-        }
       }
     }
   }

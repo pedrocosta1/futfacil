@@ -36,7 +36,7 @@
           <div class="menu-open-svg">
             <IconHability class="menu-svg" />
           </div>
-          <span class="menu-text">Habilidade</span>
+          <span class="menu-text">Card</span>
         </div>
         <div class="menu-item" @click="changeRoute('random')" :class="random ? 'active' : ''">
           <div class="menu-open-svg">

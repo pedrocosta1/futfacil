@@ -3,8 +3,11 @@
     <Loading v-if="loading"/> 
     <div class="main-content" v-if="!loading">
       <div class="header">
-        <div class="title">
+        <div class="title" v-if="!accept">
           {{challenge ? 'Time para Desafiar' : 'Time que o Desafiou'}}
+        </div>
+        <div class="title" v-if="accept">
+          Time Aceito
         </div>
         <div class="close" @click="$router.push(`/team/${id}`)">
           <IconClose/>
@@ -35,10 +38,13 @@
             <IconAngle :class="recallSecond ? 'rotate-down' : 'rotate-up'"/>
           </div>
           <div class="section-body" :class="recallSecond ? 'recall' : 'recall-body'">
-            <div class="grid-card">
+            <div class="grid-card" v-if="teamPlayers">
               <div class="card" v-for="player in teamPlayers" :key="player.id">
                 <Card :id="player.id"/>
               </div>
+            </div>
+            <div class="grid-card" v-if="!teamPlayers">
+              <span>Time sem Jogadores</span>
             </div>
           </div>
         </div>
@@ -47,7 +53,7 @@
             <span class="title">Campo</span>
             <IconAngle :class="recallThird ? 'rotate-down' : 'rotate-up'"/>
           </div>
-          <div class="section-body" :class="recallThird ? 'recall' : 'recall-body'">
+          <div class="section-body" :class="recallThird ? 'recall' : 'recall-body'" v-if="challenge">
             <select v-model="field" @change="getFreeHours">
               <option v-for="list in fields" :key="list.id" :value="list.id">{{list.name}}</option>
             </select>
@@ -71,17 +77,45 @@
               </div>
             </div>
           </div>
+          <div class="section-body" :class="recallThird ? 'recall' : 'recall-body'" v-if="!challenge">
+            <div class="form">
+              <div class="form-group">
+                <label>Nome do Local</label>
+                <input v-model="nameField" disabled>
+              </div>
+              <div class="form-group">
+                <label>Celular</label>
+                <input v-model="phoneField" disabled>
+              </div>
+              <div class="form-group">
+                <label>Estado</label>
+                <input v-model="stateField" disabled>
+              </div>
+              <div class="form-group">
+                <label>Cidade</label>
+                <input v-model="cityField" disabled>
+              </div>
+              <div class="form-group">
+                <label>Rua</label>
+                <input v-model="streetField" disabled>
+              </div>
+              <div class="form-group">
+                <label>Number</label>
+                <input v-model="numberField" disabled>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="button-group">
           <div class="btn-cancel" @click="$router.push(`/team/${id}`)">
             <span>Voltar</span>
             <IconClose />
           </div>
-          <div class="btn-add" v-if="challenge" @click="createChallenge">
+          <div class="btn-add" v-if="challenge && !accept" @click="createChallenge">
             <span>Desafiar</span>
             <IconAdd />
           </div>
-          <div class="btn-add" v-if="!challenge" @click="joinTeam">
+          <div class="btn-add" v-if="!challenge && !accept" @click="acceptChallenge">
             <span>Aceitar</span>
             <IconEdit />
           </div>
@@ -93,12 +127,11 @@
 
 <script>
 import { mapState } from 'vuex'
-import { get, create } from '../api/challenge'
+import { get, create, updateAccept } from '../api/challenge'
 import { get as getTeam } from '../api/team'
 import { getAll as AllPlayers } from '../api/teamPlayers'
-import { getFields } from '../api/field'
+import { getFields, get as getField } from '../api/field'
 import { getAll as getList, get as getListId } from '../api/fieldList'
-import { get as getField } from '../api/field'
 import { create as rentField } from '../api/rent'
 
 
@@ -114,6 +147,7 @@ export default {
       teamPlayers: [],
       fieldList: [],
       fields: [],
+      accept: false,
       name: null,
       logo: null,
       field: null,
@@ -126,7 +160,13 @@ export default {
       recallThird: true,
       loading: true,
       rented: false,
-      challenge: true
+      challenge: true,
+      stateField: null,
+      cityField: null,
+      nameField: null,
+      streetField: null,
+      phoneField: null,
+      numberField: null
     }
   },
   async mounted () {
@@ -159,38 +199,53 @@ export default {
     },
     async createChallenge () {
       this.loading = true
-      this.date = Date.now()
-      await create(
-        this.id,
-        this.idC,
-        this.date,
-        this.field,
-        null,
-        null
-      )
-      this.$router.push(`/team/${this.id}`)
+      if(!this.rented) {
+        alert('selecione um campo')
+        this.loading = false
+      } else {
+        this.date = Date.now()
+        await create(
+          this.id,
+          this.idC,
+          this.date,
+          this.field,
+          null,
+          null
+        )
+        this.$router.push(`/team/${this.id}`)
+      }
     },
     async getFiltered(day) {
       this.fieldList = this.allFieldList.filter(x => x.day === day)
     },
-    async joinTeam() {
+    async acceptChallenge() {
       this.loading = true
-      await createApplication (
-        this.id,
-        this.player.id,
-        false
+      await updateAccept (
+        this.idC,
+        true
       )
       this.getMounted()
     },
     async getMounted () {
       this.fields = await getFields()
-      this.team = await getTeam(this.idC)
-      if(this.team.player === this.player.id) {
-        this.challenge = await get(this.idC)
+      const challenge = await get(this.idC)
+      // Caso volte um objeto é um desafio para aceitar
+      if(challenge) {
+        this.team = await getTeam(challenge.teamId)
+        this.teamPlayers = await AllPlayers(challenge.teamId)
+        this.nameField = challenge.name
+        this.phoneField = challenge.phone
+        this.postalField = challenge.postal
+        this.stateField = challenge.state
+        this.cityField = challenge.city
+        this.streetField = challenge.street
+        this.numberField = challenge.number
         this.challenge = false
       } else {
+        this.team = await getTeam(this.idC)
         this.teamPlayers = await AllPlayers(this.idC)
       }
+      if(challenge.accept && !challenge.happend) this.accept = true
       this.name = this.team.name
       this.logo = this.team.logo
       this.loading = false

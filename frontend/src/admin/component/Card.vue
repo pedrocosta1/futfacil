@@ -68,11 +68,6 @@ export default {
       validation: true
     }
   },
-  computed: {
-    changeCard(change) {
-      console.log('Alou')
-    }
-  },
   async mounted () {
     this.loading = true
     this.habilities = await get(this.id)
