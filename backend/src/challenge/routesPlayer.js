@@ -3,8 +3,7 @@ import Joi from 'joi'
 
 import logger from '../config/logger'
 import requireAuth from '../auth/requireAuth'
-import { getAll, get, create, update } from './model'
-import { getAll as getAllPlayers } from '../teamPlayers/model'
+import { getAll, get, create, update, updateAccept } from './model'
 
 const router = express.Router()
 
@@ -43,10 +42,7 @@ router.get('/:id', requireAuth('player'), async (req, res) => {
       return res.status(400).send({ error: 'Validation error', fields: errorFront }) 
     }
     const challenge = await get(value.id)
-    console.log(challenge)
-    const players = await getAllPlayers(challenge.teamId)
-    const object = [challenge, players]
-    return res.send(object)
+    return res.send(challenge)
   } catch (error) {
     logger.error(error)
     return res.status(400).send({ error: 'Internal error' })
@@ -109,6 +105,7 @@ router.put('/accept/:id', requireAuth('player'), async (req, res) => {
       const errorFront = body.error.details.map(x => x.message)
       return res.status(400).send({ error: 'Validation error', fields: [errorFront] }) 
     }
+    console.log(params.value.id)
     await updateAccept(
       params.value.id,
       body.value.accept

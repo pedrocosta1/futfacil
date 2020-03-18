@@ -1,9 +1,12 @@
 import express from 'express'
 import Joi from 'joi'
+import fs from 'fs'
+import multer from 'multer'
 
 import logger from '../config/logger'
 import requireAuth from '../auth/requireAuth'
-import { getAll, get, create, update, remove, getAllTeamChallenge } from './model'
+import { getAll, get, create, update, updatePhoto, remove, getAllTeamChallenge } from './model'
+var upload = multer({ dest: 'frontend/public/img/teams' });
 
 const router = express.Router()
 
@@ -60,7 +63,7 @@ router.get('/:id', requireAuth('player'), async (req, res) => {
   }
 })
 
-router.post('/', requireAuth('player'), async (req, res) => {
+router.post('/', requireAuth('player'), upload.single('logo'), async (req, res) => {
   try {
     logger.info('POST /team/')
     const { value, error } = Joi.validate(
@@ -75,11 +78,21 @@ router.post('/', requireAuth('player'), async (req, res) => {
       const errorFront = error.details.map(x => x.message)
       return res.status(400).send({ error: 'Validation error', fields: [errorFront] }) 
     }
-    await create(
+    const id = await create(
       value.name,
       value.player,
       value.logo,
     )
+    console.log(id[0])
+    if(req.file) {
+      const renamePhoto = '../frontend/public/img/teams/team_' + id + '.png'
+      fs.rename(req.file.path, renamePhoto, function(err) {
+        if (err) throw err;
+        console.log(err)
+      })
+      const photoName = "team_" + id + '.png'
+      await updatePhoto(id, photoName)
+    }
     return res.send(true)
   } catch (error) {
     logger.error(error)
@@ -87,7 +100,7 @@ router.post('/', requireAuth('player'), async (req, res) => {
   }
 })
 
-router.put('/:id', requireAuth('player'), async (req, res) => {
+router.put('/:id', requireAuth('player'), upload.single('logo'), async (req, res) => {
   try {
     logger.info('PUT /team/:id')
     const params = Joi.validate(
@@ -118,6 +131,15 @@ router.put('/:id', requireAuth('player'), async (req, res) => {
       body.value.player,
       body.value.logo,
     )
+    if(req.file) {
+      const renamePhoto = '../frontend/public/img/teams/team_' + params.value.id + '.png'
+      fs.rename(req.file.path, renamePhoto, function(err) {
+        if (err) throw err;
+        console.log(err)
+      })
+      const photoName = "team_" + params.value.id + '.png'
+      await updatePhoto(id, photoName)
+    }
     return res.send(true)
   } catch (error) {
     logger.error(error)
@@ -149,7 +171,7 @@ router.put('/delete/:id', requireAuth('player'), async (req, res) => {
       return res.status(400).send({ error: 'Validation error', fields: [errorFront] }) 
     }
     await remove(
-      params.id,
+      params.value.id,
       body.value.active
     )
     return res.send(true)

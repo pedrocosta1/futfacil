@@ -7,7 +7,8 @@ const getAll = async (team) => {
       'player.name as playerName',
       'team.name as teamName',
       'field.name as fieldName',
-      'challenge.date'
+      'challenge.date',
+      'challenge.accept'
     )
     .leftJoin('team', 'team.id', 'challenge.team1')
     .leftJoin('player', 'player.id', 'team.player')
@@ -17,11 +18,12 @@ const getAll = async (team) => {
 
 const get = async (id) => {
   return await knex('challenge')
-  .select('client.*', 'field.name as fieldName', 'team.id as teamId', 'team.player as playerId')
+  .select('client.*', 'field.name as fieldName', 'team.id as teamId', 'team.player as playerId', 'challenge.accept','challenge.happend','challenge.victory')
   .leftJoin('team', 'team.id', 'challenge.team1')
   .leftJoin('field', 'field.id', 'challenge.field')
   .leftJoin('client', 'client.id', 'field.client')
   .where('challenge.id', id)
+  .andWhere('challenge.happend', false)
   .first()
 }
 

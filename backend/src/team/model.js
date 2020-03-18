@@ -27,11 +27,11 @@ const get = async (id) => {
     player,
     logo
   ) => {
-    await knex('team').insert({
+    return await knex('team').insert({
       name,
       player,
       logo
-    })
+    }).returning('id')
   }
 
   const update = async (
@@ -43,6 +43,15 @@ const get = async (id) => {
     await knex('team').where('id', id).update({
       name,
       player,
+      logo
+    })
+  }
+
+  const updatePhoto = async (
+    id,
+    logo
+  ) => {
+    await knex('team').where('id', id).update({
       logo
     })
   }
@@ -59,5 +68,6 @@ const get = async (id) => {
     get,
     create,
     update,
+    updatePhoto,
     remove
   }
