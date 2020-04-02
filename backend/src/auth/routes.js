@@ -20,8 +20,7 @@ router.post('/exist', async (req, res) => {
       })
     )
     if(error) {
-      const errorFront = error.details.map(x => x.path)
-      return res.status(400).send({ error: 'Validation error', fields: errorFront }) 
+      return res.status(400).send({ error: 'Validation error', fields: [...new Set(...error.details.map(x => x.path))] }) 
     }
     // Check if login exists
     const exists = await exist(value.login)
@@ -45,8 +44,7 @@ router.post('/signin', async (req, res) => {
       })
     )
     if(error) {
-      const errorFront = error.details.map(x => x.path)
-      return res.status(400).send({ error: 'Validation error', fields: errorFront }) 
+      return res.status(400).send({ error: 'Validation error', fields: [...new Set(...error.details.map(x => x.path))] }) 
     }
     // Validate user
     const user = await validate(value.login, value.password)
@@ -77,8 +75,7 @@ router.post('/signon', async (req, res) => {
       })
     )
     if(error) {
-      const errorFront = error.details.map(x => x.path)
-      return res.status(400).send({ error: 'Validation error', fields: errorFront }) 
+      return res.status(400).send({ error: 'Validation error', fields: [...new Set(...error.details.map(x => x.path))] }) 
     }
     const check = await exist(value.login)
     if (check) { return res.status(400).send({ error: 'User already exists' }) }
@@ -104,8 +101,7 @@ router.post('/register', async (req, res) => {
       })
     )
     if(error) {
-      const errorFront = error.details.map(x => x.path)
-      return res.status(400).send({ error: 'Validation error', fields: errorFront }) 
+      return res.status(400).send({ error: 'Validation error', fields: [...new Set(...error.details.map(x => x.path))] }) 
     }
     let player = false
     if(value.role === 'player') player = true

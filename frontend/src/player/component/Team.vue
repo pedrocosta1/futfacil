@@ -13,7 +13,7 @@
       <div class="content">
         <div class="section first-section">
           <div class="section-header" @click="recallFirst = !recallFirst">
-            <span class="title">Infomações do Aluguel</span>
+            <span class="title">Infomações do Time</span>
             <IconAngle :class="recallFirst ? 'rotate-down' : 'rotate-up'"/>
           </div>
           <div class="section-body" :class="recallFirst ? 'recall' : 'recall-body'">
@@ -21,9 +21,10 @@
               <div class="group-two">
                 <div class="form-group">
                   <label>Nome do Time</label>
-                  <input v-model="name" :disabled="edit" style="width: 97%">
+                  <input v-model="name" :disabled="edit" style="width: 97%" :class="error.indexOf('name') > -1 ? 'input-error' : ''">
+                  <span class="span-error" v-if="error.indexOf('name') > -1">Ops! Ta faltando o Nome.</span>
                 </div>
-                <div class="box-body" v-if="id !== 'new'">
+                <div class="box-body image-team" v-if="id !== 'new'">
                   <div class="box-image">
                     <img :src="logo">
                   </div>
@@ -120,22 +121,31 @@ export default {
   methods: {
     async save () {
       this.loading = true
-      if (this.id !== 'new') {
-        await update(
-          this.id,
-          this.name,
-          this.player.id,
-          this.photo
-        )
-      } else {
-        await create(
-          this.name,
-          this.player.id,
-          this.photo
-        )
-        this.$router.push(`/team`)
+      try {
+        this.error = []
+        if (this.id !== 'new') {
+          await update(
+            this.id,
+            this.name,
+            this.player.id,
+            this.photo
+          )
+          this.edit = true
+        } else {
+          await create(
+            this.name,
+            this.player.id,
+            this.photo
+          )
+          this.$router.push(`/team`)
+        }
+      } catch (error) {
+        const data = error.response ? error.response.data : {}
+        console.log(data)
+        if (data.error === 'Validation error') {
+          this.error = data.fields
+        }
       }
-      this.edit = true
       this.loading = false
     },
     async onFileChange (event) {

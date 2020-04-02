@@ -21,8 +21,7 @@ router.get('/:field', requireAuth('admin'), async (req, res) => {
       })
     )
     if(error){
-      const errorFront = error.details.map(x => x.path)
-      return res.status(400).send({ error: 'Validation error', fields: errorFront }) 
+      return res.status(400).send({ error: 'Validation error', fields: [...new Set(...error.details.map(x => x.path))] }) 
     }
     const fieldLists = await getAll(value.field)
     return res.send(fieldLists)
@@ -74,8 +73,7 @@ router.put('/:id', requireAuth('admin'), upload.array('file', 4), async (req, re
       })
     )
     if (params.error) { 
-      const errorFront = error.details.map(x => x.path)
-      return res.status(400).send({ error: 'Validation error', fields: errorFront }) 
+      return res.status(400).send({ error: 'Validation error', fields: [...new Set(...error.details.map(x => x.path))] }) 
     }
     const body = Joi.validate(
       req.body,

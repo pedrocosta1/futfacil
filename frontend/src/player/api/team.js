@@ -34,10 +34,10 @@ const create = async (
       fd.append('name', name)
       fd.append('player', player)
       fd.append('logo', logo)
-    return axios.post(`${API}/team`, fd, config)  
+    return await axios.post(`${API}/team`, fd, config)  
   }
   else {
-    return axios.post(`${API}/team`, {
+    return await axios.post(`${API}/team`, {
       name,
       player,
       logo,
