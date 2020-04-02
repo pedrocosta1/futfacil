@@ -39,8 +39,7 @@ router.post('/', requireAuth('client'), upload.array('files', 10), async (req, r
       }),
     )
     if (error) { 
-      const errorFront = error.details.map(x => x.message)
-      return res.status(400).send({ error: 'Validation error', fields: [errorFront] }) 
+      return res.status(400).send({ error: 'Validation error', fields: [...new Set(...error.details.map(x => x.path))] }) 
     }
     const countImagesData = await getCount(value.field)
     if(countImagesData.imageNumber < 4) {
@@ -85,8 +84,7 @@ router.post('/edit', requireAuth('client'), upload.single('file'), async (req, r
       }),
     )
     if (error) {
-      const errorFront = body.error.details.map(x => x.message)
-      return res.status(400).send({ error: 'Validation error', fields: [errorFront] }) 
+      return res.status(400).send({ error: 'Validation error', fields: [...new Set(...error.details.map(x => x.path))] }) 
     }
     if(req.file) {
       const renamePhoto = '../frontend/public/img/fields/field_' + value.id + '.png'

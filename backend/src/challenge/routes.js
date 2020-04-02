@@ -67,8 +67,7 @@ router.post('/', requireAuth('admin'), async (req, res) => {
       }),
     )
     if (error) { 
-      const errorFront = error.details.map(x => x.message)
-      return res.status(400).send({ error: 'Validation error', fields: [errorFront] }) 
+      return res.status(400).send({ error: 'Validation error', fields: [...new Set(...error.details.map(x => x.path))] }) 
     }
     await create(
       value.team1,
@@ -104,8 +103,7 @@ router.put('/accept/:id', requireAuth('admin'), async (req, res) => {
       })
     )
     if (body.error) {
-      const errorFront = body.error.details.map(x => x.message)
-      return res.status(400).send({ error: 'Validation error', fields: [errorFront] }) 
+      return res.status(400).send({ error: 'Validation error', fields: [...new Set(...error.details.map(x => x.path))] }) 
     }
     await updateAccept(
       params.value.id,
@@ -137,8 +135,7 @@ router.put('/victory/:id', requireAuth('admin'), async (req, res) => {
       })
     )
     if (body.error) {
-      const errorFront = body.error.details.map(x => x.message)
-      return res.status(400).send({ error: 'Validation error', fields: [errorFront] }) 
+      return res.status(400).send({ error: 'Validation error', fields: [...new Set(...error.details.map(x => x.path))] }) 
     }
     await updateChallenge(
       params.value.id,

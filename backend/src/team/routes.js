@@ -117,8 +117,7 @@ router.put('/:id', requireAuth('player'), upload.single('logo'), async (req, res
       })
     )
     if (body.error) {
-      const errorFront = body.error.details.map(x => x.message)
-      return res.status(400).send({ error: 'Validation error', fields: [errorFront] }) 
+      return res.status(400).send({ error: 'Validation error', fields: [...new Set(...error.details.map(x => x.path))] }) 
     }
     await update(
       params.value.id,
@@ -161,8 +160,7 @@ router.put('/delete/:id', requireAuth('player'), async (req, res) => {
       })
     )
     if (body.error) {
-      const errorFront = body.error.details.map(x => x.message)
-      return res.status(400).send({ error: 'Validation error', fields: [errorFront] }) 
+      return res.status(400).send({ error: 'Validation error', fields: [...new Set(...error.details.map(x => x.path))] })  
     }
     await remove(
       params.value.id,

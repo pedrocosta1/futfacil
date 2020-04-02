@@ -17,8 +17,7 @@ router.get('/:cep', async (req, res) => {
     )
     value.cep = value.cep.replace('-','')
     if (error) { 
-      const errorFront = error.details.map(x => x.message)
-      return res.status(400).send({ error: 'Validation error', fields: [errorFront] }) 
+      return res.status(400).send({ error: 'Validation error', fields: [...new Set(...error.details.map(x => x.path))] }) 
     }
     const { data } = await axios.get(`https://viacep.com.br/ws/${value.cep}/json/`)
     return res.send(data)

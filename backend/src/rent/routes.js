@@ -63,8 +63,7 @@ router.post('/', requireAuth(''), async (req, res) => {
       }),
     )
     if (error) { 
-      const errorFront = error.details.map(x => x.message)
-      return res.status(400).send({ error: 'Validation error', fields: [errorFront] }) 
+      return res.status(400).send({ error: 'Validation error', fields: [...new Set(...error.details.map(x => x.path))] })  
     }
     await create(
       value.player,
@@ -107,8 +106,7 @@ router.put('/:id', requireAuth('admin'), async (req, res) => {
       })
     )
     if (body.error) {
-      const errorFront = body.error.details.map(x => x.message)
-      return res.status(400).send({ error: 'Validation error', fields: [errorFront] }) 
+      return res.status(400).send({ error: 'Validation error', fields: [...new Set(...error.details.map(x => x.path))] })  
     }
     await update(
       params.value.id,

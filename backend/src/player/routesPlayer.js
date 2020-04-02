@@ -17,7 +17,7 @@ router.get('/:id', requireAuth('player'), async (req, res) => {
       })
     )
     if(error) {
-      return res.status(400).send({ error: 'Validation error', fields: [...new Set(...error.details.map(x => x.path))] }) 
+      return res.status(400).send({ error: 'Validation error', fields: [...new Set(...error.details.map(x => x.path))] })    
     }
     const player = await getPlayer(value.id)
     return res.send(player)
@@ -37,8 +37,7 @@ router.get('/data/:id', requireAuth('player'), async (req, res) => {
         })
       )
       if(error) {
-        const errorFront = error.details.map(x => x.path)
-        return res.status(400).send({ error: 'Validation error', fields: errorFront }) 
+        return res.status(400).send({ error: 'Validation error', fields: [...new Set(...error.details.map(x => x.path))] }) 
       }
       const player = await get(value.id)
       return res.send(player)
@@ -58,7 +57,7 @@ router.put('/:id', requireAuth('player'), async (req, res) => {
       })
     )
     if (params.error) { 
-      return res.status(400).send({ error: 'Validation error', fields: [...new Set(...error.details.map(x => x.path))] }) 
+      return res.status(400).send({ error: 'Validation error', fields: [...new Set(...error.details.map(x => x.path))] })    
     }
     const body = Joi.validate(
       req.body,
@@ -75,8 +74,7 @@ router.put('/:id', requireAuth('player'), async (req, res) => {
       })
     )
     if (body.error) {
-      const errorFront = body.error.details.map(x => x.message)
-      return res.status(400).send({ error: 'Validation error', fields: [errorFront] }) 
+      return res.status(400).send({ error: 'Validation error', fields: [...new Set(...error.details.map(x => x.path))] })    
     }
     await update(
       params.value.id,
