@@ -141,7 +141,6 @@ export default {
         }
       } catch (error) {
         const data = error.response ? error.response.data : {}
-        console.log(data)
         if (data.error === 'Validation error') {
           this.error = data.fields
         }

@@ -20,50 +20,50 @@
             <div class="form">
               <div class="form-group">
                 <label>Nome</label>
-                <input v-model="name">
+                <input v-model="name" :class="error.indexOf('name') > -1 ? 'input-error' : ''">
                 <span v-if="error.indexOf('name') > -1">Ops! Ta faltando o nome</span>
               </div>
               <div class="form-group">
                 <label>Telefone</label>
-                <input v-model="phone" v-mask="['(##) ####-####', '(##) #####-####']">
+                <input v-model="phone" v-mask="['(##) ####-####', '(##) #####-####']" :class="error.indexOf('phone') > -1 ? 'input-error' : ''">
                 <span v-if="error.indexOf('phone') > -1">Ops! Ta faltando o Celular</span>
               </div>
               <div class="form-group">
                 <label>CEP</label>
                 <div class="search">
-                  <input type="text" v-mask="['#####-###']" v-model="postal" @blur="searchCep">
+                  <input type="text" v-mask="['#####-###']" v-model="postal" @blur="searchCep" :class="error.indexOf('postal') > -1 ? 'input-error' : ''">
                   <IconSearch class="svg-search"/>
                 </div>
                 <span v-if="error.indexOf('postal') > -1">Ops! Ta faltando o CEP</span>
               </div>
               <div class="form-group">
                 <label>Estado</label>
-                <input v-model="state">
+                <input v-model="state" :class="error.indexOf('state') > -1 ? 'input-error' : ''">
                 <span v-if="error.indexOf('state') > -1">Ops! Ta faltando o Estado</span>
               </div>
               <div class="form-group">
                 <label>Cidade</label>
-                <input v-model="city">
+                <input v-model="city" :class="error.indexOf('city') > -1 ? 'input-error' : ''">
                 <span v-if="error.indexOf('city') > -1">Ops! Ta faltando o Cidade</span>
               </div>
               <div class="form-group">
                 <label>Bairro</label>
-                <input v-model="neighborhood">
+                <input v-model="neighborhood" :class="error.indexOf('neighborhood') > -1 ? 'input-error' : ''">
                 <span v-if="error.indexOf('neighborhood') > -1">Ops! Ta faltando o Bairro</span>
               </div>
               <div class="form-group">
                 <label>Rua</label>
-                <input v-model="street">
+                <input v-model="street" :class="error.indexOf('street') > -1 ? 'input-error' : ''">
                 <span v-if="error.indexOf('street') > -1">Ops! Ta faltando o Rua</span>
               </div>
               <div class="form-group">
                 <label>Numero</label>
-                <input v-model="number">
+                <input v-model="number" :class="error.indexOf('number') > -1 ? 'input-error' : ''">
                 <span v-if="error.indexOf('number') > -1">Ops! Ta faltando o Numero</span>
               </div>
               <div class="form-group">
                 <label>Complemento</label>
-                <input v-model="description">
+                <input v-model="description" :class="error.indexOf('description') > -1 ? 'input-error' : ''">
                 <span v-if="error.indexOf('description') > -1">Ops! Ta faltando o Complemento</span>
               </div>
             </div>
@@ -166,6 +166,7 @@ export default {
           )
           await this.getMounted()
       } catch (error) {
+        this.loading = false
         const data = error.response ? error.response.data : {}
         if (data.error === 'Validation error') {
           this.error = data.fields

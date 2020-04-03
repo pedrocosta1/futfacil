@@ -12,16 +12,16 @@
         </div>
       </div>
       <div class="login-body">
-        <div class="box" :class="{ 'error' : error.indexOf('login') > -1 || error.indexOf('disabled') > -1 || error.indexOf('invalid') > -1 }">
+        <div class="box">
           <label>Login</label>
-          <input v-model="login" type="text" placeholder="Informe o login" />
+          <input v-model="login" type="text" placeholder="Informe o login" :class="{ 'input-error' : error.indexOf('login') > -1 || error.indexOf('disabled') > -1 || error.indexOf('invalid') > -1 }"/>
           <span v-if="error.indexOf('login') > -1">Ops! Ta faltando o login.</span>
           <span v-if="error.indexOf('disabled') > -1">Usuário desativado! Por favor entrar em contato.</span>
           <span v-if="error.indexOf('invalid') > -1"></span>
         </div>
-        <div class="box" :class="{'error' : error.indexOf('password') > -1 || error.indexOf('invalid') > -1 }" >
+        <div class="box"  >
           <label>Senha</label>
-          <input v-model="password" type="password" placeholder="Informe a sua senha" />
+          <input v-model="password" type="password" placeholder="Informe a sua senha" :class="{'input-error' : error.indexOf('password') > -1 || error.indexOf('invalid') > -1 }"/>
           <span v-if="error.indexOf('password') > -1">Ops! Ta faltando a senha.</span>
           <span v-if="error.indexOf('invalid') > -1"> Login ou senha invalido!</span>
         </div>
@@ -76,6 +76,7 @@ export default {
         // Validation Error
         if (data.error === 'Validation error') {
           this.error = data.fields
+          console.log(this.error)
         // Invalid login or password
         } else if (data.error === 'Invalid login or password') {
           this.error = ['invalid']

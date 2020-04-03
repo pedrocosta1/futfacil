@@ -4,6 +4,7 @@
   position: fixed;
   bottom: $padding-mobile-y;
   right: $padding-mobile-x;
+  z-index: 999;
   .btn-add {
     display: flex !important;
     justify-content: center;

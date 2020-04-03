@@ -55,21 +55,21 @@
               </div>
               <div class="form-group">
                 <label>Nacionalidade</label>
-                <select v-model="nacionality" >
+                <select v-model="nacionality" class="input-search" >
                   <option v-for="nacio in nacionalities" :key="nacio.code" :value="nacio.code">{{nacio.name}}</option>
                 </select>
                 <span v-if="error.indexOf('nacionality') > -1">Ops! Ta faltando o Celular</span>
               </div>
               <div class="form-group">
                 <label>Time</label>
-                <select v-model="club" >
+                <select v-model="club" class="input-search" >
                   <option v-for="team in teams" :key="team.id" :value="team.idApi">{{team.name}}</option>
                 </select>
                 <span v-if="error.indexOf('club') > -1">Ops! Ta faltando o Celular</span>
               </div>
               <div class="form-group">
                 <label>Foto</label>
-                <input  type="file" name="file" @change="onFileChange">
+                <input type="file" name="file" @change="onFileChange" class="input-medium">
                 <span v-if="error.indexOf('club') > -1">Ops! Ta faltando o Celular</span>
               </div>
               <div class="form-group" v-if="editable">
@@ -134,6 +134,7 @@ export default {
   methods: {
     async save () {
       try {
+        this.loading = true
         this.overall = parseFloat(Math.floor((
           Number(this.pac) + 
           Number(this.shot) + 
@@ -164,6 +165,7 @@ export default {
         if (data.error === 'Validation error') {
           this.error = data.fields
         }
+        this.loading = false
       }
     },
     async onFileChange (event) {
@@ -200,22 +202,22 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "../../_asset/scss/_variables.scss";
   .svg-search {
     width: 50px;
   }
 
-  .search {
-    input {
-      &:focus {
-        border: none;
-      }
-      padding: 5px 10px;
-      &:disabled {
-        background: none
-      }
-    }
+  .input-search {
+    width: 100%;
   }
   .disabled {
     background: #ebebe4;
   }
+
+  @media screen and (min-width: $width-desktop) {
+    .input-search {
+      width: 50%;
+    }
+  }
+
 </style>
