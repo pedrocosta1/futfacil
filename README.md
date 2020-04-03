@@ -14,12 +14,13 @@
 
 # Como rodar?
 ```sh 
-    Estando na pasta frontend e backend execute o seguinte comando:
+    Estando na pasta frontend e backend execute o seguintes comandos:
     
     $ npm install
     $ npm run dev
     
-    Obs: Precisará importar no BD uma planilha para conseguir acessar. 
+    Precisa importar no BD essa planilha.
+    -> https://drive.google.com/drive/folders/1Omg9zXg2XCcWLYe2GLCMylTekQmiwl5f
 ```
 
 
