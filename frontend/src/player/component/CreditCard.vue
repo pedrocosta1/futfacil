@@ -12,31 +12,38 @@
       </div>
       <div class="content">
         <div class="credit-body">
-          <div class="credit-two-box">
-            <div class="credit-box-card">
+          <div class="credit-two-box card-display">
+            <div class="credit-box-card" v-for="card in creditCard" :key="card.id" @click="fullUpdate(card.id)">
               <div class="header">
                 <div class="title">
                     Cartão de Crédito
                 </div>
-                <div class="close" @click="$router.push('/players')">
+                <div class="close" @click="removeCard(card.id)">
                   <IconClose/>
                 </div>
               </div>
               <div class="body">
-                <div class="number">
-                  <label>{{name}}</label>
+                <div class="double-box">
+                    <div class="number">
+                      <label>{{card.name}}</label>
+                    </div>
+                    <div class="img">
+                      <img src="../../_asset/image/mastercard.png">
+                    </div>
                 </div>
                 <div class="number">
-                  <label>Numero:</label>
-                  <label>{{number}}</label>
+                  <label>{{card.numberCard}}</label>
                 </div>
                 <hr>
                 <div class="footer">
-                  <div class="badge">
+                  <div class="badge" v-if="card.default">
                     Padrão
                   </div>
                 </div>
               </div>
+            </div>
+            <div class="btn-add-new" @click="getMounted()">
+              Novo Cartão
             </div>
           </div>
           <div class="credit-two-box">
@@ -47,33 +54,33 @@
               <div class="body">
                 <div class="group">
                   <label>Identificação</label>
-                  <input class="input" placeholder="Visa, MasterCard">
+                  <input class="input" placeholder="Visa, MasterCard" v-model="flag">
                 </div>
                 <div class="group">
                   <label>Numero do Cartão</label>
-                  <input class="input" v-mask="['#### #### #### ####']" placeholder="____ ____ ____ ____">
+                  <input class="input" v-mask="['#### #### #### ####']" placeholder="____ ____ ____ ____" v-model="numberCard">
                 </div>
                 <div class="group-two">
                   <div class="group-input">
                     <label>Vencimento do Cartão</label>
-                    <input v-mask="['##/##']" placeholder="__/__">
+                    <input v-mask="['##/##']" placeholder="__/__" v-model="validation">
                   </div>
                   <div class="group-input">
                     <label>CCV</label>
-                    <input v-mask="['###']" placeholder="___">
+                    <input v-mask="['###']" placeholder="___" v-model="ccv">
                   </div>
                 </div>
                 <div class="group">
                   <label>Nome Impresso do Cartão</label>
-                  <input class="input">
+                  <input class="input" v-model="name">
                 </div>
                 <div class="group-check">
-                  <input type="checkbox" class="input" name="padrao">
-                   <label for="padrao">Definir como Padrão</label>
+                  <input type="checkbox" class="input" name="padrao" v-model="checked">
+                  <label for="padrao">Definir como Padrão</label>
                 </div>
                 <div class="button-group">
                   <div class="btn-save" @click="save">
-                    {{edit ? 'Editar' : 'Salvar'}}
+                    {{id !== null ? 'Editar' : 'Salvar'}}
                   </div>
                 </div>
               </div>
@@ -102,11 +109,12 @@ export default {
       edit: false,
       accept: false,
       name: null,
-      number: null,
+      numberCard: null,
       ccv: null,
       flag: null,
       validation: null,
-      loading: true
+      loading: true,
+      checked: false
     }
   },
   async mounted () {
@@ -119,22 +127,25 @@ export default {
         if(this.id !== null) {
           await update(
             this.id,
-            flag,
-            numberCard,
-            validation,
-            ccv,
-            name
+            this.flag,
+            this.numberCard,
+            this.validation,
+            this.ccv,
+            this.name,
+            this.checked
           )
         } else {
           await create (
-            flag,
-            numberCard,
-            validation,
-            ccv,
-            name,
-            player
+            this.flag,
+            this.numberCard,
+            this.validation,
+            this.ccv,
+            this.name,
+            this.checked,
+            this.player.id
           )
         }
+        this.getMounted()
         this.loading = false
       } catch (error) {
         const data = error.response ? error.response.data : {}
@@ -145,10 +156,32 @@ export default {
       }
     },
     async getMounted () {
+      this.loading = true
       this.creditCard = await getAll(this.player.id)
+      this.flag = null,
+      this.numberCard = null,
+      this.validation = null,
+      this.ccv = null,
+      this.name = null,
+      this.checked = false,
       this.loading = false
-      // this.fields = await getFields()
     },
+    async fullUpdate ( id ) {
+      this.loading = true
+      this.id = id
+      const creditCardUpdate = await get(this.id)
+      this.flag = creditCardUpdate.flag,
+      this.numberCard = creditCardUpdate.numberCard,
+      this.validation = creditCardUpdate.validation,
+      this.ccv = creditCardUpdate.ccv,
+      this.name = creditCardUpdate.name,
+      this.checked = creditCardUpdate.default,
+      this.loading = false
+    },
+    async removeCard( id ) {
+      const validation = await remove(id)
+      this.getMounted()
+    }
   }
 }
 </script>
@@ -159,12 +192,29 @@ export default {
     flex-direction: row;
     width: 100%;
     height: 100%;
+    .btn-add-new {
+      width: 400px;
+      border-radius: 25px;
+      padding: 10px;
+      text-align: center;
+      background: #252439;
+      cursor: pointer;
+      opacity: .8;
+      &:hover {
+        opacity: 1;
+      }
+    }
+    .card-display {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
     .credit-two-box {
       width: 50%;
       .form {
         display: flex;
         flex-direction: column;
-        border-radius: 5px;
+        border-radius: 15px;
         padding: 10px;
         background: #252439;
         border: 1px solid #f1f1f1;
@@ -235,7 +285,7 @@ export default {
         margin-bottom: 20px;
         margin-right: 10px;
         flex-direction: column;
-        height: 200px;
+        width: 400px;
         .header {
           margin: 10px;
           display: flex;
@@ -267,6 +317,24 @@ export default {
           margin: 10px;
           flex-grow: 1;
           flex-direction: column;
+          .double-box {
+            display: flex;
+            flex-direction: row;
+            .img {
+              display: flex;
+              width: 50%;
+              padding: 15px;
+              justify-content: flex-end;
+              img {
+                width: 45px;
+              }
+            }
+            .number {
+              width: 50%;
+              padding: 15px;
+              flex-direction: row;
+            }
+          }
           .number {
             display: flex;
             padding: 15px;
@@ -275,7 +343,7 @@ export default {
           .footer {
             display: flex;
             flex-grow: 1;
-            padding-top: 10px;
+            padding: 10px 0px;
             justify-content: flex-end;
             align-items: center;
             .badge {

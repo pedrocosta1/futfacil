@@ -18,15 +18,16 @@ const create = async (
   validation,
   ccv,
   name,
+  checked,
   player
 ) => {
-  console.log('alou')
   return await axios.post(`${API}/creditCard`, {
     flag,
     numberCard,
     validation,
     ccv,
     name,
+    checked,
     player
   })
 }
@@ -37,14 +38,16 @@ const update = async (
   numberCard,
   validation,
   ccv,
-  name
+  name,
+  checked
 ) => {
   return await axios.put(`${API}/creditCard/${id}`, {
     flag,
     numberCard,
     validation,
     ccv,
-    name
+    name,
+    checked
   })
 }
 

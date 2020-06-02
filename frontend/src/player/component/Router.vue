@@ -38,9 +38,9 @@
           </div>
           <span class="menu-text">Card</span>
         </div>
-        <div class="menu-item" @click="changeRoute('credit-card')" :class="random ? 'active' : ''">
+        <div class="menu-item" @click="changeRoute('credit-card')" :class="creditCard ? 'active' : ''">
           <div class="menu-open-svg">
-            <IconRandom class="menu-svg" />
+            <IconCreditCard class="menu-svg" />
           </div>
           <span class="menu-text">Cartão de Crédito</span>
         </div>

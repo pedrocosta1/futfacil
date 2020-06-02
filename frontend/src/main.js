@@ -14,6 +14,7 @@ import Random from './admin/component/RandomTeam'
 // import Chart from 'chart.js'
 // Importando Icones Globalmente
 import IconAdd from './Icons/IconAdd'
+import IconCreditCard from './Icons/IconCreditCard'
 import IconAngle from './Icons/IconAngle'
 import IconClient from './Icons/IconClient'
 import IconClose from './Icons/IconClose'
@@ -83,6 +84,7 @@ Vue.component('IconSpinner', IconSpinner)
 Vue.component('IconTeam', IconTeam)
 Vue.component('IconView', IconView)
 Vue.component('IconWarning', IconWarning)
+Vue.component('IconCreditCard', IconCreditCard)
 
 //
 Vue.config.errorHandler = (err, vm, info) => {
