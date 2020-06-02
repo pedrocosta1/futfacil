@@ -35,14 +35,17 @@
 
 <script>
 import { mapState } from 'vuex'
-import { getRentedListPlayer } from '../api/fieldList'
+import { getRentedListPlayer,  } from '../api/fieldList'
+import { updateRent } from '../api/rent'
 
 export default {
   data () {
     return {
       fields: [],
       search: '',
-      loading: true
+      loading: true,
+      today: '',
+      days: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta']
     }
   },
   computed: {
@@ -58,7 +61,18 @@ export default {
     ...mapState(['player'])
   },
   async mounted () {
+    const data = new Date()
+    const today = this.days[data.getDay()]
     this.fields = await getRentedListPlayer(this.player.id)
+    this.fields.map(y => {
+      if(today === 'Terça') if(y.day === 'Segunda') this.updateRentWrapper(y.id)
+      else if(today === 'Quarta') if(y.day === 'Terca') this.updateRentWrapper(y.id)
+      else if(today === 'Quinta') if(y.day === 'Quarta') this.updateRentWrapper(y.id)
+      else if(today === 'Sexta') if(y.day === 'Quinta') this.updateRentWrapper(y.id)
+      else if(today === 'Sabado') if(y.day === 'Sexta') this.updateRentWrapper(y.id)
+      else if(today === 'Domingo') if(y.day === 'Sabado') this.updateRentWrapper(y.id)
+      else { if(y.day === 'Domingo') this.updateRentWrapper(y.id) }
+    })
     this.fields.map(x => {
       x.hourIni = x.hourIni.split('T')[1]
       x.hourIni = x.hourIni.split(':')[0] + ':' + x.hourIni.split(':')[1]
@@ -67,6 +81,15 @@ export default {
       return x
     })
     this.loading = false
+  },
+  methods: {
+    async updateRentWrapper (id) {
+      this.loading = true
+      await this.updateRentWrap(id)
+    },
+    async updateRentWrap(id) {
+      await updateRent(id)
+    }
   }
 }
 </script>

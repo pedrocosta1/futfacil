@@ -107,14 +107,6 @@ import { getCep } from '../api/searchCep'
 import Loading from '../../Loading/LoadingScreen'
 
 export default {
-  components: {
-    IconClose,
-    IconAdd,
-    IconEdit,
-    IconSearch,
-    IconAngle,
-    Loading
-  },
   props: ['id'],
   data () {
     return {

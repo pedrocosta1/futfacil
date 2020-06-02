@@ -23,35 +23,41 @@
                 <input v-model="name" >
                 <span v-if="error.indexOf('name') > -1">Ops! Ta faltando o nome</span>
               </div>
-              <div class="form-group">
-                <label>Velocide / Ritmo</label>
-                <input v-model="pac" v-mask="['##']" >
-                <span v-if="error.indexOf('pac') > -1">Ops! Ta faltando o Celular</span>
+              <div class="form-double">
+                <div class="one">
+                  <label>Velocide / Ritmo</label>
+                  <input v-model="pac" v-mask="['##']" >
+                  <span v-if="error.indexOf('pac') > -1">Ops! Ta faltando o Celular</span>
+                </div>
+                <div class="two">
+                  <label>Chute</label>
+                  <input v-model="shot" v-mask="['##']" >
+                  <span v-if="error.indexOf('shot') > -1">Ops! Ta faltando o Celular</span>
+                </div>
               </div>
-              <div class="form-group">
-                <label>Chute</label>
-                <input v-model="shot" v-mask="['##']" >
-                <span v-if="error.indexOf('shot') > -1">Ops! Ta faltando o Celular</span>
+              <div class="form-double">
+                <div class="one">
+                  <label>Passe</label>
+                  <input v-model="pas" v-mask="['##']" >
+                  <span v-if="error.indexOf('pas') > -1">Ops! Ta faltando o Celular</span>
+                </div>
+                <div class="two">
+                  <label>Drible</label>
+                  <input v-model="dri" v-mask="['##']" >
+                  <span v-if="error.indexOf('dri') > -1">Ops! Ta faltando o Celular</span>
+                </div>
               </div>
-              <div class="form-group">
-                <label>Passe</label>
-                <input v-model="pas" v-mask="['##']" >
-                <span v-if="error.indexOf('pas') > -1">Ops! Ta faltando o Celular</span>
-              </div>
-              <div class="form-group">
-                <label>Drible</label>
-                <input v-model="dri" v-mask="['##']" >
-                <span v-if="error.indexOf('dri') > -1">Ops! Ta faltando o Celular</span>
-              </div>
-              <div class="form-group">
-                <label>Defesa</label>
-                <input v-model="def" v-mask="['##']" >
-                <span v-if="error.indexOf('def') > -1">Ops! Ta faltando o Celular</span>
-              </div>
-              <div class="form-group">
-                <label>Fisico</label>
-                <input v-model="phy" v-mask="['##']" >
-                <span v-if="error.indexOf('phy') > -1">Ops! Ta faltando o Celular</span>
+              <div class="form-double">
+                <div class="one">
+                  <label>Defesa</label>
+                  <input v-model="def" v-mask="['##']" >
+                  <span v-if="error.indexOf('def') > -1">Ops! Ta faltando o Celular</span>
+                </div>
+                <div class="two">
+                  <label>Fisico</label>
+                  <input v-model="phy" v-mask="['##']" >
+                  <span v-if="error.indexOf('phy') > -1">Ops! Ta faltando o Celular</span>
+                </div>
               </div>
               <div class="form-group">
                 <label>Nacionalidade</label>
@@ -84,7 +90,7 @@
             <IconClose />
           </div>
           <div class="btn-add" @click="save">
-            <span>Editar</span>
+            <span>Salvar</span>
             <IconEdit />
           </div>
         </div>
@@ -206,7 +212,15 @@ export default {
   .svg-search {
     width: 50px;
   }
-
+  .form-double {
+    display: flex;
+    flex-direction: column;
+    .one, .two {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+    }
+  }
   .input-search {
     width: 100%;
   }
@@ -217,6 +231,12 @@ export default {
   @media screen and (min-width: $width-desktop) {
     .input-search {
       width: 50%;
+    }
+    .form-double { 
+      flex-direction: row;
+      .one, .two {
+        width: 23%;
+      }
     }
   }
 

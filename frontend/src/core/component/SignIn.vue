@@ -76,7 +76,6 @@ export default {
         // Validation Error
         if (data.error === 'Validation error') {
           this.error = data.fields
-          console.log(this.error)
         // Invalid login or password
         } else if (data.error === 'Invalid login or password') {
           this.error = ['invalid']

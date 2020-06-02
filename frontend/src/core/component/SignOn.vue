@@ -124,4 +124,11 @@ export default {
   }
 }
 </script>
-
+<style lang="scss" scoped>
+  .all-page {
+    height: auto;
+  }
+  .login-footer {
+    margin: 20px 0px;
+  }
+</style>

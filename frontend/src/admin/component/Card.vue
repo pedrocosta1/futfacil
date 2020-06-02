@@ -80,11 +80,12 @@ export default {
       this.nationality = `https://www.countryflags.io/${this.habilities.nacionality}/flat/64.png`
       await this.mountColumns(this.habilities)
     } else {
-      this.loading = false
+      this.loading = true
     }
     if (!this.validation) {
       this.loading = false
     }
+    console.log(this.loading)
   },
   methods: {
     async mountColumns (habilities) {
@@ -105,4 +106,6 @@ export default {
     width: 100%;
     height: 100%;
   }
+
+
 </style>

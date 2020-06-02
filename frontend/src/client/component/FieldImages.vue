@@ -6,7 +6,7 @@
         <div class="title">
           Imagem do Campo: {{name}}
         </div>
-        <div class="close" @click="$router.push(`/fields`)">
+        <div class="close" @click="$router.push(`/fields/${id}`)">
           <IconClose/>
         </div>
       </div>
@@ -19,7 +19,7 @@
           <div class="section-body" :class="recallFirst ? 'recall' : 'recall-body'">
             <div class="box-header">
               <form class="form" enctype="multipart/form-data">
-                <div class="form-group">
+                <div class="form-group" v-if="!newImages">
                   <label>Selecione as Fotos</label>
                   <input type="file" name="file" multiple @change="onFileChangeMultiple">
                   <span v-if="error.indexOf('file') > -1">Ops! Ta faltando o Celular</span>
@@ -67,7 +67,8 @@ export default {
       loading: true,
       recallFirst: false,
       editable: false,
-      loadingImage: true
+      loadingImage: true,
+      newImages: false
     }
   },
   computed: {
@@ -114,9 +115,10 @@ export default {
       this.fieldImages = await getImages(this.id)
       this.fieldImages.map(x => x.photo = "img/fields/" + x.photo)
       const fieldDetails = await get(this.id)
-      this.name = fieldDetails.name
+      this.name = fieldDetails.fieldName
       this.edit = true
       this.loadingImage = false
+      if(this.fieldImages.length === 4) this.newImages = true
       this.loading = false
     },
     async cancel () {

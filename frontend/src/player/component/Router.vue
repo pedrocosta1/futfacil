@@ -38,6 +38,12 @@
           </div>
           <span class="menu-text">Card</span>
         </div>
+        <div class="menu-item" @click="changeRoute('credit-card')" :class="random ? 'active' : ''">
+          <div class="menu-open-svg">
+            <IconRandom class="menu-svg" />
+          </div>
+          <span class="menu-text">Cartão de Crédito</span>
+        </div>
         <div class="menu-item" @click="changeRoute('random')" :class="random ? 'active' : ''">
           <div class="menu-open-svg">
             <IconRandom class="menu-svg" />
@@ -76,6 +82,7 @@ export default {
       open: true,
       random: false,
       teams: false,
+      creditCard: false,
       log: false,
     }
   },
@@ -94,6 +101,7 @@ export default {
       this.rented = false
       this.rent = false
       this.teams = false
+      this.creditCard = false
       this.$router.push('/' + route)
       this.path = this.$route.path.split('/')[1]
       if (this.path === 'player') this.players = true
@@ -102,6 +110,7 @@ export default {
       else if (this.path === 'hability') this.hability = true
       else if (this.path === 'random') this.random = true
       else if (this.path === 'team') this.teams = true
+      else if (this.path === 'credit-card') this.creditCard = true
     },
     openClose (open) {
       if(window.innerWidth > 768) this.open = true

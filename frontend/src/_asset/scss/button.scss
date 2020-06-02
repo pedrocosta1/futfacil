@@ -13,14 +13,13 @@
     height: 40px;
     align-items: center;
     border-radius: 50%;
-    border: 1px solid $btn-bg;
-    background: #fff;
+    background: $btn-bg;
     cursor: pointer;
     margin-left: 5px;
-    color: #000;
+    color: #fff;
     &:hover {
-      background: $btn-bg;
-      color: #fff;
+      background: #fff;
+      color: $btn-bg;
     }
     svg {
       color: $color-primary;

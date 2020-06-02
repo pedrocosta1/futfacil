@@ -7,7 +7,7 @@
           Client
         </div>
         <div class="close" @click="$router.push('/')">
-          <IconClose/>
+           <IconClose/>
         </div>
       </div>
       <div class="header-search">
@@ -37,12 +37,6 @@
 import { getAll } from '../api/client'
 
 export default {
-  components: {
-    IconClose,
-    IconAdd,
-    IconSearch,
-    Loading
-  },
   data () {
     return {
       clients: [],

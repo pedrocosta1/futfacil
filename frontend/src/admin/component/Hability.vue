@@ -222,4 +222,12 @@ export default {
   .disabled {
     background: #ebebe4;
   }
+
+  .form-double { 
+    display: flex;
+    flex-direction: row;
+    input {
+      width: 47%;
+    }
+  }
 </style>

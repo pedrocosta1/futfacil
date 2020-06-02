@@ -77,7 +77,8 @@ export default {
       else if (this.path === 'logs') this.log = true
     },
     openClose (open) {
-      this.open = !open
+      if(window.innerWidth > 768) this.open = true
+      else this.open = !open
     }
   }
 }

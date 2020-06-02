@@ -19,7 +19,7 @@ const router = new Router({
     {
       path: '/',
       name: 'main',
-      component: FrontPage
+      component: SignIn
     },
     {
       path: '/signin',

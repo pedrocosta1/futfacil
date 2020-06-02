@@ -19,6 +19,7 @@ import Challenge from './component/Challenge.vue'
 import Challenges from './component/Challenges.vue'
 import Challenged from './component/Challenged.vue'
 import RandomTeam from './component/RandomTeam.vue'
+import CreditCard from './component/CreditCard.vue'
 
 
 Vue.use(Router)
@@ -131,6 +132,11 @@ export default new Router({
       path: '/random',
       name: 'RandomTeam',
       component: RandomTeam,
+    },
+    {
+      path: '/credit-card',
+      name: 'CreditCard',
+      component: CreditCard,
     }
   ]
 })

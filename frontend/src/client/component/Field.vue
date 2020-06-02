@@ -72,7 +72,7 @@
               <div v-if="manual">
                 <div class="form-group">
                   <label>Dia</label>
-                  <input v-model="date" :disabled="edit">
+                  <input type="date" v-model="date" :disabled="edit">
                 </div>
                 <div class="form-group">
                   <label>Hora Inicial</label>

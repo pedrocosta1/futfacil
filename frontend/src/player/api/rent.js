@@ -22,6 +22,13 @@ const create = async (
   })
 }
 
+const updateRent = async (
+  id
+) => {
+  return axios.put(`${API}/rent/desactive/${id}`)
+}
+
 export {
-  create
+  create,
+  updateRent
 }
