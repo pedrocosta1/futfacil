@@ -16,6 +16,7 @@ const get = async (id) => {
     validation,
     ccv,
     name,
+    checked,
     player
   ) => {
     await knex('creditCard').insert({
@@ -24,6 +25,7 @@ const get = async (id) => {
       validation,
       ccv,
       name,
+      default : checked,
       player
     })
   }
@@ -34,19 +36,21 @@ const get = async (id) => {
     numberCard,
     validation,
     ccv,
-    name
+    name,
+    checked
   ) => {
     await knex('creditCard').where('id', id).update({
       flag,
       numberCard,
       validation,
       ccv,
-      name
+      name,
+      default : checked
     })
   }
 
   const remove = (id) => {
-    return knex('creditCard').del('id', id)
+    return knex('creditCard').where('id', id).del()
   }
 
   export {

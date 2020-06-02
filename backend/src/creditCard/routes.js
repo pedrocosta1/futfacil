@@ -58,6 +58,7 @@ router.post('/', requireAuth('player'), async (req, res) => {
         validation: Joi.string().required(),
         ccv: Joi.string().required(),
         name: Joi.string().required(),
+        checked: Joi.boolean().required(),
         player: Joi.number().integer().required()
       }),
     )
@@ -71,6 +72,7 @@ router.post('/', requireAuth('player'), async (req, res) => {
       value.validation,
       value.ccv,
       value.name,
+      value.checked,
       value.player
     )
     return res.send(true)
@@ -100,6 +102,7 @@ router.put('/:id', requireAuth('player'), async (req, res) => {
         validation: Joi.string().required(),
         ccv: Joi.string().required(),
         name: Joi.string().required(),
+        checked: Joi.boolean().required(),
       })
     )
     if (body.error) {
@@ -113,6 +116,7 @@ router.put('/:id', requireAuth('player'), async (req, res) => {
       body.value.validation,
       body.value.ccv,
       body.value.name,
+      body.value.checked
     )
     return res.send(true)
   } catch (error) {
@@ -133,8 +137,9 @@ router.delete('/:id', requireAuth('player'), async (req, res) => {
     if(error){
       return res.status(400).send({ error: 'Validation error', creditCards: [...new Set(...error.details.map(x => x.path))] }) 
     }
+    console.log(value.id)
     const creditCard = await remove(value.id)
-    return res.send(creditCard)
+    return res.send(true)
   } catch (error) {
     logger.error(error)
     return res.status(400).send({ error: 'Internal error' })

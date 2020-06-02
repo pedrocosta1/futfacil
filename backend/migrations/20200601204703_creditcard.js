@@ -7,7 +7,8 @@ exports.up = function(knex, Promise) {
             table.string('name'),
             table.string('ccv'),
             table.string('validation'),
-            table.string('number'),
+            table.string('number_card'),
+            table.boolean('default').defaultTo(false),
             table.integer('player').unsigned(),
             table.foreign('player').references('player.id').onDelete('cascade')
         })
@@ -16,6 +17,6 @@ exports.up = function(knex, Promise) {
 
 exports.down = function(knex, Promise) {
     return Promise.all([
-        knex.schema.dropTableIfExists('player_hability'),
+        knex.schema.dropTableIfExists('credit_card'),
       ])
 };
