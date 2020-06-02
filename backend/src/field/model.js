@@ -14,7 +14,8 @@ const get = async (id) => {
       'field.maxPerson',
       'field.price',
       'field.hourPrice',
-      'client.name'
+      'client.name',
+      'field.name as fieldName'
   )
   .leftJoin('client', 'client.id', 'field.client')
   .where('field.id', id)

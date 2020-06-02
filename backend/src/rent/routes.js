@@ -3,7 +3,7 @@ import Joi from 'joi'
 
 import logger from '../config/logger'
 import requireAuth from '../auth/requireAuth'
-import { getAll, get, create, update, remove } from './model'
+import { getAll, get, create, update, updateRent, remove } from './model'
 
 const router = express.Router()
 
@@ -119,6 +119,28 @@ router.put('/:id', requireAuth('admin'), async (req, res) => {
       body.value.day
     )
     return res.send(true)
+  } catch (error) {
+    logger.error(error)
+    return res.status(400).send({ error: 'Internal error' })
+  }
+})
+
+
+
+router.put('/desactive/:id', requireAuth(''), async (req, res) => {
+  try {
+    logger.info('PUT /rent/desactive/:id')
+    const { value, error } = Joi.validate(
+      req.params,
+      Joi.object().keys({
+        id: Joi.number().integer().required()
+      })
+    )
+    if(error) {
+      return res.status(400).send({ error: 'Validation error', fields: [...new Set(...error.details.map(x => x.path))] }) 
+    }
+    console.log(value.id)
+    await updateRent(value.id, true)
   } catch (error) {
     logger.error(error)
     return res.status(400).send({ error: 'Internal error' })

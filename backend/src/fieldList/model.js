@@ -32,6 +32,7 @@ import knex from '../config/knex'
     .select('rent.*', 'field.name', 'rent.day')
     .leftJoin('field', 'field.id', 'rent.field')
     .where('rent.player', player)
+    .andWhere('rent.active', false)
   }
 
   const getRentedDetails = async (id) => {

@@ -3,7 +3,7 @@ import Joi from 'joi'
 
 import logger from '../config/logger'
 import requireAuth from '../auth/requireAuth'
-import { getAll, get, getRentedFields, create, update, getRentedDetails, getRentedFieldsPlayer, getRentedDetailsPlayer } from './model'
+import { getAll, create, update, getRentedDetails } from './model'
 const router = express.Router()
 
 router.get('/details/:id', requireAuth('client'), async (req, res) => {

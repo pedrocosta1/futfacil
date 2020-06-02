@@ -75,6 +75,11 @@ const get = async (id) => {
     })
   }
 
+  const updateRent = (id, active) => {
+    return knex('rent').where('id', id).update({
+      active
+    })
+  }
   const remove = (id) => {
     return knex('rent').del('id', id)
   }
@@ -84,5 +89,6 @@ const get = async (id) => {
     get,
     create,
     update,
+    updateRent,
     remove
   }
