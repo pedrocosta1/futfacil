@@ -26,6 +26,7 @@ import teamAccept from './teamAccept/routes'
 import teamPlayers from './teamPlayers/routes'
 import challenge from './challenge/routes'
 import creditCard from './creditCard/routes'
+import dashboard from './dashboard/routes'
 // --------------------------------------------------------
 
 logger.info('Starting server...')
@@ -58,6 +59,7 @@ router.use('/teamAccept', teamAccept)
 router.use('/team', team)
 router.use('/challenge', challenge)
 router.use('/creditCard', creditCard)
+router.use('/dashboard', dashboard)
 // --------------------------------------------------------
 
 app.use('/api', router)
