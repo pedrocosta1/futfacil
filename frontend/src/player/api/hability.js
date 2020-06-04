@@ -35,7 +35,7 @@ const create = async (
   edit
 ) => {
   const validation = "profile_" + player + ".png"
-  if(photo === validation) {
+  if(photo !== validation) {
     return axios.post(`${API}/hability`, {
         player,
         pac,

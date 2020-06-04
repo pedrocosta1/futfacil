@@ -141,6 +141,7 @@ export default {
     async save () {
       try {
         this.loading = true
+        console.log('alou')
         this.overall = parseFloat(Math.floor((
           Number(this.pac) + 
           Number(this.shot) + 
@@ -148,6 +149,7 @@ export default {
           Number(this.dri) + 
           Number(this.def) + 
           Number(this.phy)) / 6).toFixed(2))
+          console.log('alou2')
         await create(
             this.id,
             this.pac,
