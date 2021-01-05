@@ -12,7 +12,7 @@
     "build-ios": "vue-cli-service cordova-build-ios"
   },
   "dependencies": {
-    "axios": "^0.18.1",
+    "axios": "^0.21.1",
     "chart.js": "^2.9.3",
     "chartjs-plugin-piechart-outlabels": "^0.1.4",
     "node-noop": "^1.0.0",
